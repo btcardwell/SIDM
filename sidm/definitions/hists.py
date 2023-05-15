@@ -146,63 +146,65 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolation05",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfIsolation05),
+                   lambda objs, mask: objs["ljs"].pfIsolation05),
         ],
     ),
     "lj0_pfIsolation05": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolation05",
                                      label="Leading lepton jet isolation"),
-                   lambda objs: objs["ljs"][ak.num(objs["ljs"]) > 1, 0].pfIsolation05),
+                   lambda objs, mask: objs["ljs"][mask, 0].pfIsolation05),
         ],
+        evt_mask=lambda objs: ak.num(objs["ljs"]) > 0,
     ),
     "lj1_pfIsolation05": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolation05",
                                      label="Subleading lepton jet isolation"),
-                   lambda objs: objs["ljs"][ak.num(objs["ljs"]) > 1, 1].pfIsolation05),
+                   lambda objs, mask: objs["ljs"][mask, 1].pfIsolation05),
         ],
+        evt_mask=lambda objs: ak.num(objs["ljs"]) > 1,
     ),
     "lj_pfIsolationPtNoPU05": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolationPtNoPU05",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfIsolationPtNoPU05),
+                   lambda objs, mask: objs["ljs"].pfIsolationPtNoPU05),
         ],
     ),
     "lj_pfIsolationPt05": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolationPt05",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfIsolationPt05),
+                   lambda objs, mask: objs["ljs"].pfIsolationPt05),
         ],
     ),
     "lj_pfIsolation07": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolation07",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfIsolation07),
+                   lambda objs, mask: objs["ljs"].pfIsolation07),
         ],
     ),
     "lj_pfIsolationPtNoPU07": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolationPtNoPU07",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfIsolationPtNoPU07),
+                   lambda objs, mask: objs["ljs"].pfIsolationPtNoPU07),
         ],
     ),
     "lj_pfIsolationPt07": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolationPt07",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfIsolationPt07),
+                   lambda objs, mask: objs["ljs"].pfIsolationPt07),
         ],
     ),
     "lj_pfiso": h.Histogram(
         [
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfiso",
                                      label="Lepton jet isolation"),
-                   lambda objs: objs["ljs"].pfiso),
+                   lambda objs, mask: objs["ljs"].pfiso),
         ],
     ),
     "lj0_pt": h.Histogram(
@@ -225,14 +227,14 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(350, 0, 700, name="lj_e",
                                      label="Leading lepton jet E [GeV]"),
-                   lambda objs: objs["ljs"][ak.num(objs["ljs"]) > 1, 0].p4.energy),
+                   lambda objs, mask: objs["ljs"][ak.num(objs["ljs"]) > 1, 0].p4.energy),
         ],
     ),
     "lj1_e": h.Histogram(
         [
             h.Axis(hist.axis.Regular(350, 0, 700, name="lj_e",
                                      label="Subleading lepton jet E [GeV]"),
-                   lambda objs: objs["ljs"][ak.num(objs["ljs"]) > 1, 1].p4.energy),
+                   lambda objs, mask: objs["ljs"][ak.num(objs["ljs"]) > 1, 1].p4.energy),
         ],
     ),
     "lj_eta_phi": h.Histogram(
@@ -410,12 +412,12 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(200, 0, 2*math.pi, name="ljlj_absdphi",
                                      label=fr"Lepton jet pair |$\Delta\phi$|"),
-                   lambda objs: abs(objs["ljs"][ak.num(objs["ljs"]) > 1, 1].p4.phi
-                                    - objs["ljs"][ak.num(objs["ljs"]) > 1, 0].p4.phi)),
+                   lambda objs, mask: abs(objs["ljs"][mask, 1].p4.phi - objs["ljs"][:, 0].p4.phi)),
             h.Axis(hist.axis.Regular(80, 0, 0.8, name="lj_pfIsolationPt05",
                                      label="Leading lepton jet isolation"),
-                   lambda objs: objs["ljs"][ak.num(objs["ljs"]) > 1, 0].pfIsolationPt05),
+                   lambda objs, mask: objs["ljs"][mask, 0].pfIsolationPt05),
         ],
+        evt_mask=lambda objs: ak.num(objs["ljs"]) > 1,
     ),
     # gen
     "gen_abspid": h.Histogram(
@@ -464,7 +466,7 @@ hist_defs = {
         [
             # dR(subleading gen E, leading gen E)
             h.Axis(hist.axis.Regular(50, 0, 1.0, name="genE_genE_dR"),
-                   lambda objs, mask: objs[mask, 1].p4.delta_r(objs["genEs"][mask, 0].p4)),
+                   lambda objs, mask: objs["genEs"][mask, 1].p4.delta_r(objs["genEs"][mask, 0].p4)),
         ],
         evt_mask=lambda objs: ak.num(objs["genEs"]) > 1,
     ),
