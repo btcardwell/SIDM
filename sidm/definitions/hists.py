@@ -503,14 +503,14 @@ hist_defs = {
             h.Axis(hist.axis.Regular(100, 0, 1000, name="genMu0_pt"),
                    lambda objs, mask: objs["genMus"][mask, 0].p4.pt),
         ],
-        evt_mask=lambda objs: ak.num(objs["genMus"]) > 0, 
+        evt_mask=lambda objs: ak.num(objs["genMus"]) > 0,
     ),
     "genMu1_pt_highRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 1000, name="genMu1_pt"),
                    lambda objs, mask: objs["genMus"][mask, 1].p4.pt),
         ],
-        evt_mask=lambda objs: ak.num(objs["genMus"]) > 1, 
+        evt_mask=lambda objs: ak.num(objs["genMus"]) > 1,
     ),
     # genmuon-genmuon
     "genMu_genMu_dR": h.Histogram(
