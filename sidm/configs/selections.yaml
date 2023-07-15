@@ -5,6 +5,7 @@
 
 
 # basic analysis selections
+#Do we want to add the ljsource cuts to the base selection? For now not included.
 base: &base
   obj_cuts: &obj_base
     pvs: &pv_base
@@ -18,15 +19,43 @@ base: &base
     - "PV filter"
     - "Cosmic veto"
     - ">=2 LJs"
+    
+ljsource_cuts: &ljsource_cuts
+    obj_cuts: &obj_ljsource_cuts
+      electrons: 
+        - "pT > 10 GeV"
+        - "|eta| < 2.4"
+        - "looseID"
+      muons: 
+        - "looseID"
+        - "pT > 5 GeV"
+        - "|eta| < 2.4"
+      photons:
+        - "pT > 20 GeV"
+        - "|eta| < 2.5"
+        - "looseID"
+      dsamuons: 
+        - "pT > 10 GeV"
+        - "|eta| < 2.4"
+        - "ifcsczero"
+        - "segOverlap < 0.66"
+        - "extrapolatedDr > 0.2" 
+        - "isSubsetAnyPFMuon False"
+        - "normChi2 < 4"
+        - "DT + CSC hits > 12"
+        - "DT + CSC stations >= 2"
+        - "ptErrorOverPT < 1"
 
 4mu: &4mu
   << : *base
+  << : *ljsource_cuts
   evt_cuts: &evt_4mu
     - *evt_base
     - "4mu"
 
 2mu2e: &2mu2e
   << : *base
+  << : *ljsource_cuts
   evt_cuts: &evt_2mu2e
     - *evt_base
     - "2mu2e"
