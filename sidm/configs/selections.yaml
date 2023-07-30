@@ -33,7 +33,6 @@ ljsource_cuts: &ljsource_cuts
 
 # basic analysis selections
 baseNoLj: &baseNoLj
-  << : *ljsource_cuts
   obj_cuts: &obj_baseNoLj
     << : *obj_ljsource_cuts
     pvs: &pv_baseNoLj
@@ -45,7 +44,6 @@ baseNoLj: &baseNoLj
     - "Cosmic veto"
 
 base: &base
-  << : *ljsource_cuts
   obj_cuts: &obj_base
     <<: *obj_baseNoLj
     ljs: &lj_base
