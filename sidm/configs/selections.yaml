@@ -35,6 +35,7 @@ ljsource_cuts: &ljsource_cuts
 baseNoLj: &baseNoLj
   << : *ljsource_cuts
   obj_cuts: &obj_baseNoLj
+    << : *obj_ljsource_cuts
     pvs: &pv_baseNoLj
       - "ndof > 4"
       - "|z| < 24 cm"
