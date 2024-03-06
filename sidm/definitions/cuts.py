@@ -62,6 +62,7 @@ obj_cut_defs = {
 }
 
 evt_cut_defs = {
+    ">=1 muon": lambda objs: ak.num(objs["muons"]) >= 1,
     "PV filter": lambda objs: ak.num(objs["pvs"]) >= 1,
     "Cosmic veto": lambda objs: objs["cosmicveto"].result,
     ">=2 LJs": lambda objs: ak.num(objs["ljs"]) >= 2,
