@@ -9,6 +9,24 @@ pv_base: &pv_base
   - "pv_z"
   - "pv_rho"
   
+electron_extra: &electron_extra
+  - "electron_GsfEleDEtaInSeedCut"
+  - "electron_GsfEleDPhiInCut"
+  - "electron_GsfEleEInverseMinusPInverseCut"
+  - "electron_GsfEleFull5x5SigmaIEtaIEtaCut"
+  - "electron_GsfEleRelPFIsoScaledCut" 
+  - "electron_GsfEleConversionVetoCut"
+  - "electron_GsfEleHadronicOverEMEnergyScaledCut"
+  - "electron_GsfEleMissingHitsCut"
+  - "electron_GsfEleDEtaInSeedCut2d"
+  - "electron_GsfEleDPhiInCut2d"
+  - "electron_GsfEleEInverseMinusPInverseCut2d"
+  - "electron_GsfEleRelPFIsoScaledCut2d"
+  - "electron_GsfEleFull5x5SigmaIEtaIEtaCut2d"
+  - "electron_GsfEleConversionVetoCut2d"
+  - "electron_GsfEleHadronicOverEMEnergyScaledCut2d"
+  - "electron_GsfEleMissingHitsCut2d"
+  
 electron_base: &electron_base
   - "electron_n"
   - "electron_pt"
