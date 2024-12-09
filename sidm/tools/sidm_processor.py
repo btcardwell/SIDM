@@ -70,6 +70,10 @@ class SidmProcessor(processor.ProcessorABC):
             if hasattr(obj, "children"):
                 objs[obj_name]["lxy"] = utilities.lxy(objs[obj_name])
 
+            # add dxy wrt beamspot for all objs that don't already have it
+            if hasattr(obj, "vx") and not hasattr(obj, "dxy") and "bs" in objs:
+                objs[obj_name]["dxy"] = utilities.dxy(objs[obj_name], ref=objs["bs"])
+
             # add dimension to one-per-event objects to allow independent obj and evt cuts
             # skip objects with no fields
             if objs[obj_name].ndim == 1 and "x" in obj.fields:
