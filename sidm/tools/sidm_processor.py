@@ -45,7 +45,7 @@ class SidmProcessor(processor.ProcessorABC):
         self.unweighted_hist = unweighted_hist
         self.obj_defs = preLj_objs
         self.verbose = verbose
-        print(f"initializing SidmProcessor: {histograms_cfg}")
+        print(f"initializing SidmProcessor: {self.histograms_cfg}")
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
@@ -85,7 +85,7 @@ class SidmProcessor(processor.ProcessorABC):
         cutflows = {}
         counters = {}
 
-        print(f"SidmProcessor.process: {histograms_cfg}")
+        print(f"SidmProcessor.process: {self.histograms_cfg}")
 
         # define histograms
         hists = self.build_histograms()
