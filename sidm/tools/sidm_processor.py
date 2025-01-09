@@ -4,7 +4,6 @@
 import copy
 import os
 import numpy as np
-from dask.distributed import print
 # columnar analysis
 from coffea import processor
 from coffea.nanoevents.methods import nanoaod
@@ -45,7 +44,6 @@ class SidmProcessor(processor.ProcessorABC):
         self.unweighted_hist = unweighted_hist
         self.obj_defs = preLj_objs
         self.verbose = verbose
-        print(f"initializing SidmProcessor: {self.histograms_cfg}")
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
@@ -84,8 +82,6 @@ class SidmProcessor(processor.ProcessorABC):
 
         cutflows = {}
         counters = {}
-
-        print(f"SidmProcessor.process: {self.histograms_cfg}")
 
         # define histograms
         hists = self.build_histograms()
