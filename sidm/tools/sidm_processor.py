@@ -2,7 +2,9 @@
 
 # python
 import copy
+import os
 import numpy as np
+import dask
 # columnar analysis
 from coffea import processor
 from coffea.nanoevents.methods import nanoaod
@@ -16,6 +18,8 @@ from sidm.tools import selection, cutflow, utilities
 from sidm.definitions.hists import hist_defs, counter_defs
 from sidm.definitions.objects import preLj_objs, postLj_objs
 
+print(BASE_DIR)
+print(os.path.dirname(os.path.realpath(__file__)))
 
 class SidmProcessor(processor.ProcessorABC):
     """Class to apply selections, make histograms, and make cutflows
@@ -82,6 +86,11 @@ class SidmProcessor(processor.ProcessorABC):
 
         cutflows = {}
         counters = {}
+
+        print(os.path.dirname(os.path.realpath(__file__)))
+        print("HELLO")
+        dask.distributed.print("Hello from worker!")
+        dask.distributed.print(BASE_DIR)
 
         # define histograms
         hists = self.build_histograms()
