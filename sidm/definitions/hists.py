@@ -263,6 +263,14 @@ hist_defs = {
                    lambda objs, mask: dR(objs["electrons"], objs["genEs"]))
         ],
     ),
+    #pfelectron-pfphoton
+    "electron_photon_dR": h.Histogram(
+        [
+            # dR(e, nearest gen e)
+            h.Axis(hist.axis.Regular(50, 0, 0.1, name="electron_photon_dR"),
+                   lambda objs, mask: dR(objs["electrons"], objs["photons"]))
+        ],
+    ),
     # pfphoton
     "photon_n": obj_attr("photons", "n"),
     "photon_pt":obj_attr("photons", "pt"),
