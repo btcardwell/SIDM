@@ -723,6 +723,12 @@ hist_defs = {
         evt_mask=lambda objs: ak.num(objs["genEs"]) > 1,
     ),
     "genE_eta_phi": obj_eta_phi("genEs"),
+    "genE_parent_absPdgId": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 50, name="genE_parent_absPdgId"),
+                   lambda objs, mask: abs(objs["genEs"].parent.pdgId)),
+        ],
+    ),
     # genelectron-genelectron
     "genE_genE_dR": h.Histogram(
         [
@@ -814,6 +820,12 @@ hist_defs = {
         evt_mask=lambda objs: ak.num(objs["genMus"]) > 1,
     ),
     "genMu_eta_phi": obj_eta_phi("genMus"),
+    "genMu_parent_absPdgId": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 50, name="genMu_parent_absPdgId"),
+                   lambda objs, mask: abs(objs["genMus"].parent.pdgId)),
+        ],
+    ),
     # genmuon-genmuon
     "genMu_genMu_dR": h.Histogram(
         [
@@ -1541,11 +1553,11 @@ hist_defs = {
         evt_mask=lambda objs: ak.num(objs["genMus"]) > 1,
     ),
     # genA-genA
-    "genAs_genAs_dphi": h.Histogram(
+    "genAs_genAs_absdphi": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, math.pi, name="genAs_genAs_dphi",
-                                     label=r"$\Delta\phi$ between $Z_d$"),
-                   lambda objs, mask: objs["genAs"][mask, 1].delta_phi(objs["genAs"][mask, 0])),
+            h.Axis(hist.axis.Regular(100, 0, math.pi, name="genAs_genAs_absdphi",
+                                     label=r"|$\Delta\phi$ between $Z_d$|"),
+                   lambda objs, mask: abs(objs["genAs"][mask, 1].delta_phi(objs["genAs"][mask, 0]))),
         ],
         evt_mask=lambda objs: ak.num(objs["genAs"]) > 1,
     ),
