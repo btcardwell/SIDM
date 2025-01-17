@@ -33,6 +33,7 @@ electron_base: &electron_base
   - "electron_n"
   - "electron_pt"
   - "electron_eta_phi"
+  - "electron_photon_dR"
 
 photon_base: &photon_base
   - "photon_n"
@@ -164,7 +165,6 @@ genMu_base: &genMu_base
 genA_base: &genA_base
   - "genAs_n"
   - "genAs_pt"
-  - "genAs_pt_highRange"
   - "genAs_eta_phi"
   - "genAs_x_y"
   - "genAs_children_x_y"
@@ -183,6 +183,7 @@ genA_base: &genA_base
   - "genAs_matched_muLj_lxy"
   - "genAs_matched_egmLj_lxy"
   - "genAs_matched_lj_n"
+  - "genA_egmLj_ptRatio"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"
@@ -249,7 +250,6 @@ genA_ratio: &genA_ratio
   - "genA_muLj_lxyRatio"
 
 lepton_genA_base: &lepton_genA_base
-  - "dsamuon_absd0_genAs_tomu_lxy"
   - "electron_nearGenA_n"
   - "electron_nearGenA_n_genA_lxy"
   - "photon_nearGenA_n"

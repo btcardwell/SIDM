@@ -16,7 +16,6 @@ from sidm.tools import selection, cutflow, utilities
 from sidm.definitions.hists import hist_defs, counter_defs
 from sidm.definitions.objects import preLj_objs, postLj_objs
 
-
 class SidmProcessor(processor.ProcessorABC):
     """Class to apply selections, make histograms, and make cutflows
 
@@ -31,8 +30,8 @@ class SidmProcessor(processor.ProcessorABC):
         channel_names,
         hist_collection_names,
         lj_reco_choices=["0.4"],
-        selections_cfg=f"{BASE_DIR}/configs/selections.yaml",
-        histograms_cfg=f"{BASE_DIR}/configs/hist_collections.yaml",
+        selections_cfg="configs/selections.yaml",
+        histograms_cfg="configs/hist_collections.yaml",
         unweighted_hist=False,
         verbose=False,
     ):
@@ -166,18 +165,25 @@ class SidmProcessor(processor.ProcessorABC):
 
         return {events.metadata["dataset"]: out}
 
-    def make_vector(self, objs, collection, fields,  type_id=None, mass=None, charge=None,):
+    def make_vector(self, objs, collection, fields, type_id=None, mass=None, charge=None,):
         shape = ak.ones_like(objs[collection].pt)
-        #to pass nan to the fields not available for a collection
+        # all objects must have the same fields to later concatenate and cluster them
+        # set fields that aren't available for a given object to be None
+        # these additional fields will be removed after clustering
         nan = ak.full_like(shape, None)
         forms = {f: objs[collection][f] if f in objs[collection].fields else nan for f in fields}
         forms["part_type"] = objs[collection]["type"] if type_id is None else type_id*shape
         forms["mass"] = objs[collection]["mass"] if mass is None else mass*shape
         return vector.zip(forms)
+    
+    def make_constituent(self, consts, type_ids, name, fields):
+        """Return array of particles of given type_ids, name, and only specified fields"""
+        relevant_consts = consts[ak.any((consts.part_type == x for x in type_ids), axis=0)]
+        forms = {f: relevant_consts.__getattr__(f) for f in fields}
+        return ak.zip(forms, with_name=name, behavior=nanoaod.behavior)
 
     def build_lepton_jets(self, objs, lj_reco):
         """Reconstruct lepton jets according to defintion given by lj_reco"""
-        # fixme: can define other LJ variables
 
         # take lepton jets directly from ntuples
         if lj_reco == 0:
@@ -189,12 +195,13 @@ class SidmProcessor(processor.ProcessorABC):
                 lj_inputs = self.make_vector(objs, "ljsources")
 
             else: #Use electron/muon/photon/dsamuon collections with a custom distance parameter
-                collections = ["muons","dsaMuons", "electrons", "photons"]
-                fields = list(set().union(*[objs[c].fields for c in collections]))
-                muon_inputs = self.make_vector(objs, "muons", fields,  type_id=3)
-                dsa_inputs = self.make_vector(objs, "dsaMuons", fields, type_id=8, mass=0.106)
-                ele_inputs = self.make_vector(objs, "electrons", fields, type_id=2)
-                photon_inputs = self.make_vector(objs, "photons", fields, type_id=4)
+                collections = ["muons", "dsaMuons", "electrons", "photons"]
+                fields = [objs[c].fields for c in collections]
+                all_fields = list(set().union(*fields))
+                muon_inputs = self.make_vector(objs, "muons", all_fields,  type_id=3)
+                dsa_inputs = self.make_vector(objs, "dsaMuons", all_fields, type_id=8, mass=0.106)
+                ele_inputs = self.make_vector(objs, "electrons", all_fields, type_id=2)
+                photon_inputs = self.make_vector(objs, "photons", all_fields, type_id=4)
                 lj_inputs = ak.concatenate([muon_inputs, dsa_inputs, ele_inputs, photon_inputs], axis=-1)
 
             distance_param = abs(lj_reco)
@@ -209,43 +216,35 @@ class SidmProcessor(processor.ProcessorABC):
                  "z": jets.z,
                  "t": jets.t},
                 with_name="LorentzVector",
-                behavior=cvec.behavior
+                behavior=nanoaod.behavior
             )
             
             # add fields to access LJ constituents
             consts = cluster.constituents()
-            forms = {f: consts[f] for f in consts.fields}
-            # add x, y, z and t separately to avoid error (unclear why this is necessary)
-            forms["x"] = consts.x
-            forms["y"] = consts.y
-            forms["z"] = consts.z
-            forms["t"] = consts.t
-            const_vec = ak.zip(forms, with_name="LorentzVector", behavior=cvec.behavior)
-            ljs["constituents"] = const_vec
-            ljs["pfMuons"] = ljs.constituents[ljs.constituents.part_type == 3]
-            ljs["dsaMuons"] = ljs.constituents[ljs.constituents.part_type == 8]
-            ljs["muons"] = ljs.constituents[(ljs.constituents.part_type == 3)
-                                            | (ljs.constituents["part_type"] == 8)]
-            ljs["electrons"] = ljs.constituents[ljs.constituents.part_type == 2]
-            ljs["photons"] = ljs.constituents[ljs.constituents.part_type == 4]
+            common_fields = list(set(fields[0]).intersection(*fields[1:]))
+            muon_fields = list(set(objs["muons"].fields).intersection(objs["dsaMuons"].fields))
+            ljs["constituents"] = self.make_constituent(consts, [2, 3, 4, 8], "PtEtaPhiMCollection", common_fields)
+            ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
+            ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", objs["muons"].fields)
+            ljs["dsaMuons"] = self.make_constituent(consts, [8], "Muon", objs["dsaMuons"].fields)
+            ljs["electrons"] = self.make_constituent(consts, [2], "Electron", objs["electrons"].fields)
+            ljs["photons"] = self.make_constituent(consts, [4], "Photon", objs["photons"].fields)
 
             # define LJ-level quantities
-            
+
             # number of constituents
-            ljs["pfMu_n"] = ak.num(ljs.constituents[ljs.constituents.part_type == 3], axis=-1)
-            ljs["dsaMu_n"] = ak.num(ljs.constituents[ljs.constituents.part_type == 8], axis=-1)
-            ljs["muon_n"] = ak.num(ljs.constituents[(ljs.constituents["part_type"] == 3)
-                                                    | (ljs.constituents["part_type"] == 8)], axis=-1)
-            ljs["electron_n"] = ak.num(ljs.constituents[ljs.constituents["part_type"] == 2], axis=-1)
-            ljs["photon_n"] = ak.num(ljs.constituents[ljs.constituents["part_type"] == 4], axis=-1)
-            ljs["pfMu_n"] = ak.num(ljs.constituents[ljs.constituents.part_type == 3], axis=-1)
-            ljs["dsaMu_n"] = ak.num(ljs.constituents[ljs.constituents.part_type == 8], axis=-1)
+            ljs["pfMu_n"] = ak.num(ljs.pfMuons, axis=-1)
+            ljs["dsaMu_n"] = ak.num(ljs.dsaMuons, axis=-1)
+            ljs["muon_n"] = ak.num(ljs.muons, axis=-1)
+            ljs["electron_n"] = ak.num(ljs.electrons, axis=-1)
+            ljs["photon_n"] = ak.num(ljs.photons, axis=-1)
 
             # dRSpread (the maximum dR betwen any pair of constituents in each lepton jet)
             # a) for each constituent, find the dR between it and all other constituents in the same LJ
             # b) flatten that into a list of dRs per LJ
             # c) and then take the maximum dR per LJ, leaving us with a single value per LJ
-            ljs["dRSpread"]= ak.max(ak.flatten(const_vec.metric_table(const_vec, axis=2), axis=-1), axis=-1)
+            ljs["dRSpread"] = ak.max(ak.flatten(
+                ljs["constituents"].metric_table(ljs["constituents"], axis=2), axis=-1), axis=-1)
             
             # todo: add LJ isolation
             
@@ -260,7 +259,7 @@ class SidmProcessor(processor.ProcessorABC):
     def build_cuts(self):
         """ Make list of pre-lj object, lj, post-lj obj, and event cuts per channel"""
 
-        selection_menu = utilities.load_yaml(self.selections_cfg)
+        selection_menu = utilities.load_yaml(f"{BASE_DIR}/{self.selections_cfg}")
 
         all_obj_cuts = {}
         ch_cuts = {}
@@ -297,7 +296,7 @@ class SidmProcessor(processor.ProcessorABC):
 
     def build_histograms(self):
         """Create dictionary of Histogram objects"""
-        hist_menu = utilities.load_yaml(self.histograms_cfg)
+        hist_menu = utilities.load_yaml(f"{BASE_DIR}/{self.histograms_cfg}")
         # build dictionary and create hist.Hist objects
         hists = {}
         for collection in self.hist_collection_names:

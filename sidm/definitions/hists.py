@@ -372,7 +372,7 @@ hist_defs = {
     "lj_n": obj_attr("ljs", "n"),
     "egm_lj_n": obj_attr("egm_ljs", "n"),
     "mu_lj_n": obj_attr("mu_ljs", "n"),
-    "lj_pt": obj_attr("ljs", "pt", xmax=400),
+    "lj_pt": obj_attr("ljs", "pt", xmax=600),
     "lj0_pt": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 400, name="lj0_pt",
@@ -422,7 +422,7 @@ hist_defs = {
         evt_mask=lambda objs: ak.num(objs["ljs"]) > 1,
     ),
     "lj_eta_phi": obj_eta_phi("ljs"),
-    "egm_lj_pt": obj_attr("egm_ljs", "pt", xmax=400),
+    "egm_lj_pt": obj_attr("egm_ljs", "pt", xmax=700),
     "mu_lj_pt": obj_attr("mu_ljs", "pt", xmax=400),
     "lj_electronN": h.Histogram(
         [
@@ -1052,8 +1052,8 @@ hist_defs = {
     "genAs_n": obj_attr("genAs", "n"),
     "genAs_toMu_n": obj_attr("genAs_toMu", "n"),
     "genAs_toE_n": obj_attr("genAs_toE", "n"),
-    "genAs_pt": obj_attr("genAs", "pt", xmax=200),
-    "genAs_pt_highRange": obj_attr("genAs", "pt", xmax=700),
+    "genAs_pt": obj_attr("genAs", "pt", xmax=700),
+    "egm_lj_pt": obj_attr("genAs", "pt", xmax=700),
     "genAs_eta_phi": obj_eta_phi("genAs"),
     "genAs_toMu_matched_muLj_n": h.Histogram(
         [
@@ -1582,7 +1582,7 @@ hist_defs = {
     ),
     "genA_egmLj_ptRatio": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(200, 0, 2.0, name="genA_egmLj_ptRatio",
+            h.Axis(hist.axis.Regular(200, 0, 4.0, name="genA_egmLj_ptRatio",
                    label=r"EGM Lepton Jet pT / (closest) $Z_d$ pT"),
                    lambda objs, mask: objs["egm_ljs"].pt
                        / objs["egm_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt),
