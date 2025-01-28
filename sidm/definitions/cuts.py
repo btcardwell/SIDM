@@ -66,6 +66,7 @@ obj_cut_defs = {
         "dR(A, LJ) < 0.4": lambda objs: dR(objs["genAs_toMu"], objs["ljs"]) < 0.4,
         "lxy < 10 cm": lambda objs: lxy(objs["genAs_toMu"]) < 10,
         "10 cm <= lxy < 100 cm": lambda objs: (lxy(objs["genAs_toMu"]) >= 10) & (lxy(objs["genAs_toMu"]) < 100),
+        "lxy <= 60 cm": lambda objs: lxy(objs["genAs_toMu"]) <= 60,
         "lxy >= 100 cm": lambda objs: lxy(objs["genAs_toMu"]) >= 100,
         "lxy <= 100 cm": lambda objs: lxy(objs["genAs_toMu"]) <= 100,
         "lxy <= 150 cm": lambda objs: lxy(objs["genAs_toMu"]) <= 150,
