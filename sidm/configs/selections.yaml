@@ -709,6 +709,60 @@ baseNoLj_A_ee_matched_lj_highPT_lowLxyA: &baseNoLj_A_ee_matched_lj_highPT_lowLxy
     - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
+baseNoLj_A_ee_matched_elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_elj_highPT_lowLxyA
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+    genAs_toE:
+      - "pT > 30 GeV"
+      - "lxy <= 150 cm"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toE:
+      - "dR(A, LJ) < 0.4"
+    egm_ljs:
+      - "eLj"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toE_matched_egmLj"
+
+baseNoLj_A_ee_matched_glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_glj_highPT_lowLxyA
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+    genAs_toE:
+      - "pT > 30 GeV"
+      - "lxy <= 150 cm"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toE:
+      - "dR(A, LJ) < 0.4"
+    egm_ljs:
+      - "gLj"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toE_matched_egmLj"
+
+baseNoLj_A_ee_matched_eglj_highPT_lowLxyA: &baseNoLj_A_ee_matched_eglj_highPT_lowLxyA
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+    genAs_toE:
+      - "pT > 30 GeV"
+      - "lxy <= 150 cm"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toE:
+      - "dR(A, LJ) < 0.4"
+    egm_ljs:
+      - "egLj"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toE_matched_egmLj"
+
 baseNoLj_A_ee_highPtA_lowLxyA_eIdBit2to8: &baseNoLj_A_ee_highPtA_lowLxyA_eIdBit2to8
   <<: *baseNoLj
   obj_cuts:
