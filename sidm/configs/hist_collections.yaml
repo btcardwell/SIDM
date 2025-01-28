@@ -303,6 +303,7 @@ genA_toE_base: &genA_toE_base
   - "genAs_toE_n"
   - "genAs_toE_pt"
   - "genAs_toE_lxy"
+  - "genAs_toE_lxy_highRange"
   - "genAs_toE_lxy_lowRange"
   - "genAs_toE_lxy_midRange"
   - "genAs_toE_lxy_ecal"
