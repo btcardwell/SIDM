@@ -340,6 +340,10 @@ genA_ratio: &genA_ratio
   - "genA_muLj_lxyRatio"
 
 lepton_genA_base: &lepton_genA_base
+  - "electron_genA_dR"
+  - "photon_genA_dR"
+  - "muon_genA_dR"
+  - "dsaMuon_genA_dR"
   #- "dsamuon_absd0_genAs_tomu_lxy"
   - "electron_nearGenA_n"
   - "electron_nearGenA_n_genA_lxy"
@@ -352,6 +356,7 @@ lepton_genA_base: &lepton_genA_base
 
 electron_photon_base: &electron_photon_base
   - "electron_photon_dR"
+
 lepton_genLepton_base: &lepton_genLepton_base
   - "dsaMuon_absD0_genMus_dR"
   - "electron_nearGenE_n"

@@ -274,6 +274,13 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["electrons"], objs["genAs_toE"], 0.5))),
         ],
     ),
+    "electron_genA_dR": h.Histogram(
+        [
+            # dR(e, nearest gen A)
+            h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="electron_genA_dR"),
+                   lambda objs, mask: dR(objs["electrons"], objs["genAs"]))
+        ],
+    ),
     # pfelectron-genElectron
     "electron_genE_dR": h.Histogram(
         [
@@ -317,6 +324,13 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["photons"], objs["genAs_toE"], 0.5))),
         ],
     ),
+    "photon_genA_dR": h.Histogram(
+        [
+            # dR(photon, nearest gen A)
+            h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="photon_genA_dR"),
+                   lambda objs, mask: dR(objs["photons"], objs["genAs"]))
+        ],
+    ),
     # pfphoton-genElectron
     "photon_genE_dR": h.Histogram(
         [
@@ -351,6 +365,13 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["muons"], objs["genAs_toMu"], 0.5))),
         ],
     ),
+    "muon_genA_dR": h.Histogram(
+        [
+            # dR(mu, nearest gen A)
+            h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="muon_genA_dR"),
+                   lambda objs, mask: dR(objs["muons"], objs["genAs"]))
+        ],
+    ),
     # pfmuon-genMuon
     "muon_genMu_dR": h.Histogram(
         [
@@ -383,6 +404,13 @@ hist_defs = {
             # number of dsaMuons within dR=0.5 of a genA that decays to muons
             h.Axis(hist.axis.Integer(0, 4, name="dsaMuon_nearGenA_n", label=r"$N_{\mu^{DSA}}$"),
                    lambda objs, mask: ak.num(matched(objs["dsaMuons"], objs["genAs_toMu"], 0.5))),
+        ],
+    ),
+    "dsaMuon_genA_dR": h.Histogram(
+        [
+            # dR(dsa mu, nearest gen A)
+            h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="dsaMuon_genA_dR"),
+                   lambda objs, mask: dR(objs["dsaMuons"], objs["genAs"]))
         ],
     ),
     # dsaMuon-genMuon

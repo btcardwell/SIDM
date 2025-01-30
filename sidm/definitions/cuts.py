@@ -119,6 +119,7 @@ obj_cut_defs = {
         "looseID": lambda objs: objs["muons"].looseId,
         "pT > 5 GeV": lambda objs: objs["muons"].pt > 5,
         "|eta| < 2.4": lambda objs: abs(objs["muons"].eta) < 2.4,
+        "dR(mu, A) < 0.5": lambda objs: dR(objs["muons"], objs["genAs_toMu"]) < 0.5,
     },
     "photons":{
         "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,
@@ -147,6 +148,7 @@ obj_cut_defs = {
         "ptErrorOverPT < 1": lambda objs: (objs["dsaMuons"].ptErr / objs["dsaMuons"].pt) < 1.0,
         # just use segment-based matching
         "no PF match" : lambda objs: objs["dsaMuons"].muonMatch1/objs["dsaMuons"].nSegments < 0.667,
+        "dR(mu, A) < 0.5": lambda objs: dR(objs["dsaMuons"], objs["genAs_toMu"]) < 0.5,
     },
 }
 

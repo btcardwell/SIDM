@@ -11,16 +11,16 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "looseID"
-    muons:
+    muons: &muons_ljsource_cuts
       - "looseID"
       - "pT > 5 GeV"
       - "|eta| < 2.4"
-    photons:
+    photons: &photons_ljsource_cuts
       - "pT > 20 GeV"
       - "eta"
       - "looseID"
       - "pixelSeed"
-    dsaMuons:
+    dsaMuons: &dsaMuons_ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "DT + CSC hits > 12"
@@ -138,6 +138,47 @@ matchedLj: &matchedLj
     - *evt_matchedLj
     - "2mu2e"
 
+# basic selections with lepton matching
+matched_leptons:
+  obj_cuts: &obj_matched_leptons
+    electrons:
+      - "dR(e, A) < 0.5"
+    muons:
+      - "dR(mu, A) < 0.5"
+    photons:
+      - "dR(gm, A) < 0.5"
+    dsaMuons:
+      - "dR(mu, A) < 0.5"
+
+matched_ljsource_leptons:
+  obj_cuts: &obj_matched_ljsource_leptons
+    electrons:
+      - *electrons_ljsource_cuts
+      - "dR(e, A) < 0.5"
+    muons:
+      - *muons_ljsource_cuts
+      - "dR(mu, A) < 0.5"
+    photons:
+      - *photons_ljsource_cuts
+      - "dR(gm, A) < 0.5"
+    dsaMuons:
+      - *dsaMuons_ljsource_cuts
+      - "dR(mu, A) < 0.5"
+
+baseNoLjNoLjsource_matchedLeptons:
+  obj_cuts:
+    <<: *obj_baseNoLjNoLjsource
+    <<: *obj_matched_leptons
+  evt_cuts:
+    - *evt_baseNoLjNoljsource
+
+baseNoLj_matchedLeptons:
+  obj_cuts:
+    <<: *obj_baseNoLjNoLjsource
+    <<: *obj_matched_ljsource_leptons
+  evt_cuts:
+    - *evt_baseNoLj
+
 #Selections over base
 base_egmLj_eLj: &base_egmLj_eLj
   obj_cuts:
@@ -203,7 +244,7 @@ baseNoLj_veryDisplacedA: &baseNoLj_veryDisplacedA
     genAs_toMu:
       - "lxy >= 100 cm"
 
-#Selections for studying the Electron ID 
+# Selections for studying the Electron ID 
 baseNoLj_noLoose: &baseNoLj_noLoose
   obj_cuts:
     <<: *obj_baseNoLj
