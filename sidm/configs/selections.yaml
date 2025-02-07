@@ -669,10 +669,6 @@ baseNoLj_A_ee_matched_lj_highPT_lowLxyA: &baseNoLj_A_ee_matched_lj_highPT_lowLxy
   <<: *baseNoLj
   obj_cuts:
     <<: *obj_baseNoLj
-    photons:
-      - "pT > 20 GeV"
-      - "eta"
-      - "looseID"
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
