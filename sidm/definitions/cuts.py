@@ -149,7 +149,7 @@ obj_cut_defs = {
         "pT > 10 GeV": lambda objs: objs["dsaMuons"].pt > 10,
         "|eta| < 2.4": lambda objs: abs(objs["dsaMuons"].eta) < 2.4,
         # displaced ID as a single flag and as individual cuts
-        "displaced ID" : lambda objs: objs["dsaMuons"].displacedID,
+        "displaced ID" : lambda objs: objs["dsaMuons"].displacedID > 0,
         "DT + CSC hits > 12": lambda objs: (objs["dsaMuons"].trkNumDTHits
                                             + objs["dsaMuons"].trkNumCSCHits) > 12,
         "ifcsczero": lambda objs: ak.where(((objs["dsaMuons"].trkNumCSCHits == 0)

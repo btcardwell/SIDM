@@ -23,12 +23,8 @@ ljsource_cuts: &ljsource_cuts
     dsaMuons:
       - "pT > 10 GeV"
       - "|eta| < 2.4"
-      - "DT + CSC hits > 12"
-      - "ifcsczero"
-      - "normChi2 < 2.5"
-      - "ptErrorOverPT < 1"
+      - "displaced ID"
       - "no PF match"
-
 # require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
   obj_cuts: &obj_gen_level_cuts
