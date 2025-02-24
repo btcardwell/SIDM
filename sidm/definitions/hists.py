@@ -413,11 +413,33 @@ hist_defs = {
                    lambda objs, mask: dR(objs["dsaMuons"], objs["genAs"]))
         ],
     ),
+    # dsaMuon-pfMuon
+    "dsaMuon_muon_dR": h.Histogram(
+        [
+            # dR(dsa mu, nearest pf mu)
+            h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="dsaMuon_muon_dR"),
+                   lambda objs, mask: dR(objs["dsaMuons"], objs["muons"]))
+        ],
+    ),
+    "dsaMuon_muon_dR_lowRange": h.Histogram(
+        [
+            # dR(dsa mu, nearest pf mu)
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="dsaMuon_muon_dR"),
+                   lambda objs, mask: dR(objs["dsaMuons"], objs["muons"]))
+        ],
+    ),
     # dsaMuon-genMuon
     "dsaMuon_genMu_dR": h.Histogram(
         [
             # dR(dsa mu, nearest gen mu)
             h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="dsaMuon_genMu_dR"),
+                   lambda objs, mask: dR(objs["dsaMuons"], objs["genMus"]))
+        ],
+    ),
+    "dsaMuon_genMu_dR_lowRange": h.Histogram(
+        [
+            # dR(dsa mu, nearest gen mu)
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="dsaMuon_genMu_dR"),
                    lambda objs, mask: dR(objs["dsaMuons"], objs["genMus"]))
         ],
     ),
