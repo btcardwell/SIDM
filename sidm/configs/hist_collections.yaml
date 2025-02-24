@@ -70,6 +70,8 @@ dsaMuon_base: &dsaMuon_base
   - "dsaMuon_eta_phi"
   - "dsaMuon_absD0"
   - "dsaMuon_absD0_lowRange"
+  - "dsaMuon_muon_dR"
+  - "dsaMuon_muon_dR_lowRange"
 
 lj_base: &lj_base
   - "lj_n"
