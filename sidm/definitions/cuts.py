@@ -15,6 +15,7 @@ obj_cut_defs = {
     },
     "ljs": {
         "pT > 30 GeV": lambda objs: objs["ljs"].pt > 30,
+        "pT < 150 GeV": lambda objs: objs["ljs"].pt < 150,
         "|eta| < 2.4": lambda objs: abs(objs["ljs"].eta) < 2.4,
         "mu_charge == 0": lambda objs: ak.sum (objs["ljs"].muons.charge, axis =-1) == 0,
         "dR(LJ, A) < 0.2": lambda objs: dR(objs["ljs"], objs["genAs"]) < 0.2,

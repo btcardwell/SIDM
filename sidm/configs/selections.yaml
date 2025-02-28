@@ -996,6 +996,20 @@ baseNoLj_A_mumu_highPtA: &baseNoLj_A_mumu_highPtA
     - *evt_baseNoLj
     - "genAs_toMu"
 
+baseNoLj_A_mumu_highPtA_noPfMatch: &baseNoLj_A_mumu_highPtA_noPfMatch
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+    dsaMuons: 
+      - "pT > 10 GeV"
+      - "|eta| < 2.4"
+      - "displaced ID"
+    genAs_toMu:
+      - "pT > 30 GeV"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toMu"
+
 baseNoLj_A_mumu_matched_lj_highPT_lowLxyAUpto60: &baseNoLj_A_mumu_matched_lj_highPT_lowLxyAUpto60
   <<: *baseNoLj
   obj_cuts:
@@ -1027,6 +1041,25 @@ baseNoLj_A_mumu_matched_lj_highPT: &baseNoLj_A_mumu_matched_lj_highPT
   <<: *baseNoLj
   obj_cuts:
     <<: *obj_baseNoLj
+    genAs_toMu:
+      - "pT > 30 GeV"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toMu:
+      - "dR(A, LJ) < 0.4"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toMu_matched_muLj"
+    
+baseNoLj_A_mumu_matched_lj_highPT_noPfMatch: &baseNoLj_A_mumu_matched_lj_highPT_noPfMatch
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+    dsaMuons: 
+      - "pT > 10 GeV"
+      - "|eta| < 2.4"
+      - "displaced ID"
     genAs_toMu:
       - "pT > 30 GeV"
   postLj_obj_cuts:
