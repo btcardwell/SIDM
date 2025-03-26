@@ -255,6 +255,7 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["electrons"], objs["genAs_toE"], 0.5))),
         ],
     ),
+
     "electron_nearGenE_n": h.Histogram(
         [
             # number of electrons within dR=0.5 of a genA that decays to electrons
@@ -262,6 +263,7 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["electrons"], objs["genEs"], 0.5))),
         ],
     ),
+
 
     # pfelectron-genA
     "electron_nearGenA_n_genA_lxy": h.Histogram(
@@ -2395,6 +2397,13 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(50, -3, 3, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: (derived_objs["genAs_toE_matched_egmLj_ptRatio_lt_1p5"](objs, 0.4).eta) ),
+        ],
+    ),
+
+    "test": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: (derived_objs['genA_egmLj_ptRatio_PS'](objs)) ),
         ],
     ),
     "genA_egmLj_ptRatio_onePhoton": h.Histogram(

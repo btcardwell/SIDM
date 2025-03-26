@@ -48,7 +48,6 @@ electron_base: &electron_base
   - "electron_lostHits"
   - "electron_deltaEtaSC"
 
-
 photon_base: &photon_base
   - "photon_n"
   - "photon_pt"
@@ -172,6 +171,9 @@ egm_lj_base: &egm_lj_base
   - "egm_lj_electron_min_dxy_XXXXLowRange"
   - "egm_lj_electron_max_dxy_XXXXLowRange"
   - "egm_lj_electron_lostHits"
+  - "genEs_toEgmLJ_pt"
+  - "photon_to_electron_ptRatio_from_oneEonePLJ"
+  - "photon_electron_dR_from_oneEonePLJ"
 
 electron_lj_base: &electron_lj_base
   - "electron_lj_dR"
