@@ -34,6 +34,7 @@ electron_base: &electron_base
   - "electron_pt"
   - "electron_eta_phi"
   - "electron_photon_dR"
+  - "electron_egmLj_dR"
 
 photon_base: &photon_base
   - "photon_n"
@@ -77,7 +78,9 @@ lj_base: &lj_base
   - "lj_muonN"
   - "lj_dsaMuN"
   - "lj_pfMuN"
-
+  - "genEs_toEgmLJ_pt"
+  - "photon_to_electron_ptRatio_from_oneEonePLJ"
+  - "photon_electron_dR_from_oneEonePLJ"
 electron_lj_base: &electron_lj_base
   - "electron_lj_dR"
   - "electron_lj_dR_lowRange"
@@ -174,7 +177,6 @@ genA_base: &genA_base
   - "genAs_lxy_lowRange"
   - "genAs_pt_lxy"
   - "genAs_lj_dR"
-  - "genAs_lj_dR_lowRange"
   - "genAs_children_n"
   - "genAs_children_absPdgId"
   - "genAs_genAs_absdphi"
@@ -186,6 +188,12 @@ genA_base: &genA_base
   - "genAs_matched_egmLj_lxy"
   - "genAs_matched_lj_n"
   - "genA_egmLj_ptRatio"
+  - "genAs_Photon_dR"
+  - "genA_egmLj_ptRatio_onePhoton"
+  - "genA_egmLj_ptRatio_twoPhoton"
+  - "genA_egmLj_ptRatio_oneElectron"
+  - "genA_egmLj_ptRatio_twoElectron"
+  - "genA_egmLj_ptRatio_oneEoneP"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"
@@ -239,6 +247,21 @@ genA_toE_base: &genA_toE_base
   - "genAs_toE_matched_egmLj_pt_highRange"
   - "genAs_toE_matched_egmLj_eta"
   - "genAs_toE_matched_egmLj_n"
+  - "genAs_toE_matched_one_photon_ljs_lxy"
+  - "genAs_toE_matched_two_photon_ljs_lxy"
+  - "genAs_toE_matched_one_electron_ljs_lxy"
+  - "genAs_toE_matched_two_electron_ljs_lxy"
+  - "genAs_toE_matched_one_e_one_p_ljs_lxy"
+  - "genAs_toE_matched_one_photon_ljs_lxy_lowRange"
+  - "genAs_toE_matched_two_photon_ljs_lxy_lowRange"
+  - "genAs_toE_matched_one_electron_ljs_lxy_lowRange"
+  - "genAs_toE_matched_two_electron_ljs_lxy_lowRange"
+  - "genAs_toE_matched_one_e_one_p_ljs_lxy_lowRange"
+  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lxy"
+  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lowRange"
+  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_pt"
+  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_eta"
+
 
 genA_ratio: &genA_ratio
   - "genA_lj_ptRatio"
