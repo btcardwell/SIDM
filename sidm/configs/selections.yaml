@@ -16,7 +16,6 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 5 GeV"
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts
-      - "pT > 20 GeV"
       - "|eta| < 2.5"
       - 'Custom Cutbased'
       - "pixelSeed"
@@ -27,7 +26,6 @@ ljsource_cuts: &ljsource_cuts
       - "displaced ID"
       - "no PF match"
 
-# require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
   obj_cuts: &obj_gen_level_cuts
     genMus:

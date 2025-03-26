@@ -7,7 +7,6 @@ from sidm.definitions.objects import derived_objs
 from sidm.tools.utilities import dR, lxy, rho, check_bits
 import numpy as np
 
-
 def check_variablePhoton(value, min_val=0b01):
     """
     Function to check if the variable is at least `min_val`
@@ -38,7 +37,6 @@ def select_numbersPhoton(number, var1, var2):
         # Get the 2 bits corresponding to this variable
         value = (number >> start_bit) & 0b11  # Extract 2 bits
         if (var != f'{var1}') and (var != f'{var2}'):
-        #if var == f'{var1}': 
             if not check_variablePhoton(value):
                 selected = False
                 break
@@ -60,6 +58,7 @@ def returnBitMapTArrayPhoton(bitMap, var1, var2):
                 temp.append(False)
         tList.append(temp)
     return ak.Array(tList)
+
 
 
 obj_cut_defs = {
@@ -206,8 +205,6 @@ obj_cut_defs = {
         "looseID": lambda objs: objs["photons"].cutBased >= 1,
         "pixelSeed": lambda objs: objs["photons"].pixelSeed == False ,
         "electronVeto": lambda objs: objs["photons"].electronVeto,
-        #'No PhoFull5x5SigmaIEtaIEtaCut': lambda objs: returnBitMapTArrayPhoton(objs['photons'].vidNestedWPBitmap, 'PhoFull5x5SigmaIEtaIEtaCut'),
-        #'No PhoIsoWithEALinScalingCut': lambda objs: returnBitMapTArrayPhoton(objs['photons'].vidNestedWPBitmap, 'PhoIsoWithEALinScalingCut'),
         "dR(gm, A) < 0.5": lambda objs: dR(objs["photons"], objs["genAs_toE"]) < 0.5,
         "barrel_hoe": lambda objs: objs["photons"].hoe <= .04596,
         "barrel_sieie": lambda objs: objs["photons"].sieie <=  0.0106 ,
