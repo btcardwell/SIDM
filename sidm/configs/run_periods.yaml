@@ -1,0 +1,5 @@
+# config to store info on run periods
+# lumi assumed to be in /pb
+
+'2018':
+  lumi: 59830

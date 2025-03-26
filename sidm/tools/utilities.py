@@ -3,6 +3,7 @@
 import yaml
 import numpy as np
 import awkward as ak
+import numpy as np
 import matplotlib.pyplot as plt
 import mplhep as hep
 import hist.intervals
@@ -62,8 +63,9 @@ def as_int(array):
     return ak.values_astype(array, "int64")
 
 def dR(obj1, obj2):
-    """Return dR between obj1 and the nearest obj2; returns None if no obj2 is found"""
-    return obj1.nearest(obj2, return_metric=True)[1]
+    """Return dR between obj1 and the nearest obj2; returns inf if no obj2 is found"""
+    dr = obj1.nearest(obj2, return_metric=True)[1]
+    return ak.fill_none(dr, np.inf)
 
 def dR_outer(obj1, obj2):
     """Return dR between outer tracks of obj1 and obj2"""
@@ -192,3 +194,64 @@ def plot_ratio(num, den, **kwargs):
     plot(eff,yerr=errors,skip_label=True,color="black")
     plt.ylabel("Efficiency")
     plt.ylim(0, 1.2)
+
+def round_sigfig(val, digits=1):
+    """Return a number rounded to a given number of significant figures. Uses magic copied from
+    https://stackoverflow.com/questions/3410976/how-to-round-a-number-to-significant-figures-in-python"""
+    return float('{:g}'.format(float('{:.{p}g}'.format(val, p=digits))))
+
+def proper_ctau(bs, zd, lab_ct, grid_cfg=f"{BASE_DIR}/configs/signal_grid.yaml"):
+    """Convert average lab-frame transverse decay length in cm to proper decay
+    length in mm for SIDM signals"""
+    grid = load_yaml(grid_cfg)
+    # handle goofy edge cases that I suspect stems from Weinan rounding errors
+    if (float(bs), float(zd), float(lab_ct)) == (150, 0.25, 150):
+        proper_ct = 6.7
+    elif (float(bs), float(zd), float(lab_ct)) == (150, 5, 150):
+        proper_ct = 130.0
+    elif (float(bs), float(zd), float(lab_ct)) == (800, 0.25, 150):
+        proper_ct = 1.2
+    else:
+        proper_ct = lab_ct/grid[bs][zd]["labframe_factor"]
+    return round_sigfig(proper_ct, digits=2)
+
+def lab_ctau(bs, zd, proper_ct, grid_cfg=f"{BASE_DIR}/configs/signal_grid.yaml"):
+    """Convert proper decay length in mm to average lab-frame transverse decay
+    length in cm for SIDM signals"""
+    grid = load_yaml(grid_cfg)
+    # handle goofy edge case that I suspect stems from Weinan rounding errors
+    if (float(bs), float(zd), float(proper_ct)) == (150, 0.25, 6.7):
+        lab_ct = 150.0
+    elif (float(bs), float(zd), float(proper_ct)) == (150, 5, 130):
+        lab_ct = 150.0
+    elif (float(bs), float(zd), float(proper_ct)) == (800, 0.25, 1.2):
+        lab_ct = 150.0
+    else:
+        lab_ct = proper_ct*grid[bs][zd]["labframe_factor"]
+    return round_sigfig(lab_ct, digits=2)
+
+def get_xs(dataset, cfg="cross_sections.yaml"):
+    """Fetch dataset xs from cfg"""
+    # assume location_cfg is stored in sidm/configs/
+    xs_menu = load_yaml(f"{BASE_DIR}/configs/" + cfg)
+    try:
+        return xs_menu[dataset]
+    except KeyError:
+        if dataset.startswith(("2Mu2E", "4Mu")):
+            print("Signal not in xs cfg, assuming 1fb")
+            return 0.001
+        else:
+            raise
+
+def get_lumi(year, cfg="run_periods.yaml"):
+    """Fetch run period lumi from cfg"""
+    # assume location_cfg is stored in sidm/configs/
+    lumi_menu = load_yaml(f"{BASE_DIR}/configs/" + cfg)
+    return lumi_menu[year]["lumi"]
+
+def get_lumixs_weight(dataset, year, n_evts):
+    """Get weights to scale n_evts to lumi*xs"""
+    lumi = get_lumi(year)
+    xs = get_xs(dataset)
+    return lumi*xs/n_evts
+    

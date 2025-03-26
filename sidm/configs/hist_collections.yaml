@@ -8,7 +8,7 @@ pv_base: &pv_base
   - "pv_ndof"
   - "pv_z"
   - "pv_rho"
-  
+
 electron_extra: &electron_extra
   - "electron_GsfEleDEtaInSeedCut"
   - "electron_GsfEleDPhiInCut"
@@ -32,18 +32,36 @@ electron_extra_2d: &electron_extra_2d
 electron_base: &electron_base
   - "electron_n"
   - "electron_pt"
+  - "electron_dxy"
   - "electron_eta_phi"
   - "electron_photon_dR"
   - "electron_egmLj_dR"
+  - "electron_photonIdx"
+  - "electron_dxy"
+  - "electron_pfRelIso03_all"
+  - "electron_pfRelIso03_all_lowRange"
+  - "electron_r9"
+  - "electron_scEtOverPt"
+  - "electron_sieie"
+  - "electron_hoe"
+  - "electron_eInvMinusPInv"
+  - "electron_lostHits"
+  - "electron_deltaEtaSC"
+
 
 photon_base: &photon_base
   - "photon_n"
   - "photon_pt"
+  - "photon_hoe"
+  - "photon_sieie"
+  - "photon_pfRelIso03_all"
+  - "photon_pfRelIso03_chg"
   - "photon_eta_phi"
 
 muon_base: &muon_base
   - "muon_n"
   - "muon_pt"
+  - "muon_dxy"
   - "muon_eta_phi"
   - "muon_absD0"
   - "muon_absD0_lowRange"
@@ -51,17 +69,14 @@ muon_base: &muon_base
 dsaMuon_base: &dsaMuon_base
   - "dsaMuon_n"
   - "dsaMuon_pt"
+  - "dsaMuon_dxy"
   - "dsaMuon_eta_phi"
   - "dsaMuon_absD0"
   - "dsaMuon_absD0_lowRange"
 
 lj_base: &lj_base
   - "lj_n"
-  - "egm_lj_n"
-  - "mu_lj_n"
   - "lj_pt"
-  - "egm_lj_pt"
-  - "mu_lj_pt"
   - "lj_eta_phi"
   - "lj0_pt"
   - "lj1_pt"
@@ -70,9 +85,6 @@ lj_base: &lj_base
   - "lj0_dRSpread"
   - "lj1_dRSpread"
   - "lj_electronN"
-  - "mu_lj_muonN"
-  - "egm_lj_electronN"
-  - "egm_lj_photonN"
   - "lj_photonN"
   - "lj_electronPhotonN"
   - "lj_muonN"
@@ -81,6 +93,80 @@ lj_base: &lj_base
   - "genEs_toEgmLJ_pt"
   - "photon_to_electron_ptRatio_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ"
+
+mu_lj_base: &mu_lj_base
+  - "mu_lj_n"
+  - "mu_lj_pt"
+  - "mu_lj_muonN"
+  - "mu_lj_pfMu_n"
+  - "mu_lj_dsaMu_n"
+  - "mu_lj_muon_pt"
+  - "mu_lj_pfMuon_pt"
+  - "mu_lj_dsaMuon_pt"
+  - "mu_lj_muon_dxy"
+  - "mu_lj_pfMuon_dxy"
+  - "mu_lj_dsaMuon_dxy"
+  - "mu_lj_muon_dxy_lowRange"
+  - "mu_lj_pfMuon_dxy_lowRange"
+  - "mu_lj_dsaMuon_dxy_lowRange"
+  - "mu_lj_muon_dxy_XLowRange"
+  - "mu_lj_pfMuon_dxy_XLowRange"
+  - "mu_lj_dsaMuon_dxy_XLowRange"
+  - "mu_lj_muon_min_dxy"
+  - "mu_lj_pfMuon_min_dxy"
+  - "mu_lj_dsaMuon_min_dxy"
+  - "mu_lj_muon_min_dxy_XLowRange"
+  - "mu_lj_pfMuon_min_dxy_XLowRange"
+  - "mu_lj_dsaMuon_min_dxy_XLowRange"
+  - "mu_lj_muon_max_dxy"
+  - "mu_lj_pfMuon_max_dxy"
+  - "mu_lj_dsaMuon_max_dxy"
+  - "mu_lj_muon_max_dxy_XLowRange"
+  - "mu_lj_pfMuon_max_dxy_XLowRange"
+  - "mu_lj_dsaMuon_max_dxy_XLowRange"
+  - "mu_lj_pfMu_nTrackerLayers"
+  - "mu_lj_dsaMu_trkNumPlanes"
+  - "mu_lj_dsaMu_trkNumHits"
+  - "mu_lj_dsaMu_trkNumDTHits"
+  - "mu_lj_dsaMu_trkNumCSCHits"
+  - "mu_lj_dsaMu_nSegments"
+  - "mu_lj_dsaMu_nDTSegments"
+  - "mu_lj_dsaMu_nCSCSegments"
+  - "mu_lj_pfMu_trkNumPlanes"
+  - "mu_lj_pfMu_trkNumHits"
+  - "mu_lj_pfMu_trkNumDTHits"
+  - "mu_lj_pfMu_trkNumCSCHits"
+  - "mu_lj_pfMu_trkNumPixelHits"
+  - "mu_lj_pfMu_trkNumTrkLayers"
+  - "mu_lj_muon_eta_phi"
+
+egm_lj_base: &egm_lj_base
+  - "egm_lj_n"
+  - "egm_lj_pt"
+  - "egm_lj_electronN"
+  - "egm_lj_photonN"
+  - "egm_lj_electron_pt"
+  - "egm_lj_photon_pt"
+  - "egm_lj_electron_dxy"
+  - "egm_lj_electron_min_dxy"
+  - "egm_lj_electron_max_dxy"
+  - "egm_lj_electron_dxy_lowRange"
+  - "egm_lj_electron_min_dxy_lowRange"
+  - "egm_lj_electron_max_dxy_lowRange"
+  - "egm_lj_electron_dxy_XLowRange"
+  - "egm_lj_electron_min_dxy_XLowRange"
+  - "egm_lj_electron_max_dxy_XLowRange"
+  - "egm_lj_electron_dxy_XXLowRange"
+  - "egm_lj_electron_min_dxy_XXLowRange"
+  - "egm_lj_electron_max_dxy_XXLowRange"
+  - "egm_lj_electron_dxy_XXXLowRange"
+  - "egm_lj_electron_min_dxy_XXXLowRange"
+  - "egm_lj_electron_max_dxy_XXXLowRange"
+  - "egm_lj_electron_dxy_XXXXLowRange"
+  - "egm_lj_electron_min_dxy_XXXXLowRange"
+  - "egm_lj_electron_max_dxy_XXXXLowRange"
+  - "egm_lj_electron_lostHits"
+
 electron_lj_base: &electron_lj_base
   - "electron_lj_dR"
   - "electron_lj_dR_lowRange"
@@ -121,6 +207,7 @@ genE_base: &genE_base
   - "genE_n"
   - "genE_pt"
   - "genE_pt_highRange"
+  - "genE_dxy"
   - "genE0_pt"
   - "genE1_pt"
   - "genE0_pt_highRange"
@@ -132,6 +219,8 @@ genE_base: &genE_base
   - "genE_genE_dR_XLowRange"
   - "genE_genE_dR_XXLowRange"
   - "genE_genE_dEta"
+  - "genE_genE_dPhi"
+  - "genE_genE_dPt"
   - "genE_genE_pt"
   - "electron_genE_dR"
   - "photon_genE_dR"
@@ -140,6 +229,7 @@ genMu_base: &genMu_base
   - "genMu_n"
   - "genMu_pt"
   - "genMu_pt_highRange"
+  - "genMu_dxy"
   - "genMu0_pt"
   - "genMu1_pt"
   - "genMu0_pt_highRange"
@@ -151,6 +241,7 @@ genMu_base: &genMu_base
   - "genMu_genMu_dR_XLowRange"
   - "genMu_genMu_dR_XXLowRange"
   - "genMu_genMu_dEta"
+  - "genMu_genMu_dPhi"
   - "genMu_genMu_pt"
   - "muon_genMu_dR"
   - "dsaMuon_genMu_dR"
@@ -223,6 +314,7 @@ genA_toE_base: &genA_toE_base
   - "genAs_toE_n"
   - "genAs_toE_pt"
   - "genAs_toE_lxy"
+  - "genAs_toE_lxy_highRange"
   - "genAs_toE_lxy_lowRange"
   - "genAs_toE_lxy_midRange"
   - "genAs_toE_lxy_ecal"
@@ -275,6 +367,11 @@ genA_ratio: &genA_ratio
   - "genA_muLj_lxyRatio"
 
 lepton_genA_base: &lepton_genA_base
+  - "electron_genA_dR"
+  - "photon_genA_dR"
+  - "muon_genA_dR"
+  - "dsaMuon_genA_dR"
+  #- "dsamuon_absd0_genAs_tomu_lxy"
   - "electron_nearGenA_n"
   - "electron_nearGenA_n_genA_lxy"
   - "photon_nearGenA_n"
@@ -283,9 +380,13 @@ lepton_genA_base: &lepton_genA_base
   - "muon_nearGenA_n_genA_lxy"
   - "dsaMuon_nearGenA_n"
   - "dsaMuon_nearGenA_n_genA_lxy"
-  
+
+electron_photon_base: &electron_photon_base
+  - "electron_photon_dR"
+
 lepton_genLepton_base: &lepton_genLepton_base
   - "dsaMuon_absD0_genMus_dR"
+  - "electron_nearGenE_n"
   - "leadingDsaMuon_absD0_genMus_dR"
   - "subLeadingDsaMuon_absD0_genMus_dR"
   - "dsaMuon_absD0_genMus_dR_XLowRange"
@@ -315,7 +416,7 @@ lepton_genLepton_genA_base: &lepton_genLepton_genA_base
   - "genMu0_truept_vs_muon0_lxy"
   - "dsaMuon0_muLj_ptRatio_vs_truept"
   - "muon0_muLj_ptRatio_vs_truept"
-  
+
 genA_lj_2d: &genA_lj_2d
   - "mu_lj_genA_ptRatio_vs_recolxy"
   - "egm_lj_genA_ptRatio_vs_recolxy"
@@ -337,17 +438,20 @@ base: &base
   - *muon_base
   - *dsaMuon_base
   - *lj_base
+  - *mu_lj_base
+  - *egm_lj_base
   - *electron_lj_base
   - *photon_lj_base
   - *muon_lj_base
   - *dsaMuon_lj_base
   - *lj_lj_base
   - *abcd_base
+  - *electron_photon_base
 
 base_plus_gen: &base_plus_gen
   - *base
   - *gen_base
-  
+
 base_plus_gen_resolution: &base_plus_gen_resolution
   - *base
   - *gen_base

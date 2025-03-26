@@ -54,64 +54,23 @@ class JaggedSelection:
     """
 
     def __init__(self, cuts, verbose=False):
-        self.obj_cuts = cuts # dict of names of cuts to be applied
-        self.evaluated_obj_cuts = {}
+        self.obj_cuts = cuts # dict of cuts to be applied
         self.verbose = verbose
-
-    def evaluate_obj_cuts(self, objs):
-        """Evaluate all relevant object-level cuts that have not already been evaluated"""
+    
+    def apply_obj_cuts(self, objs):
+        """Apply object cuts sequentially"""
+        sel_objs = objs
         for obj, cuts in self.obj_cuts.items():
             if obj not in objs:
                 print(f"Warning: {obj} not found in sample. "
                       f"The following cuts will not be applied: {cuts}")
                 continue
-            if obj not in self.evaluated_obj_cuts:
-                self.evaluated_obj_cuts[obj] = {}
+
             for cut in cuts:
-                if cut not in self.evaluated_obj_cuts[obj]:
-                    if self.verbose:
-                        print(f"Evaluating {obj} {cut}")
-                    try:
-                        self.evaluated_obj_cuts[obj][cut] = obj_cut_defs[obj][cut](objs)
-                    except:
-                        print(f"Warning: Unable to apply {cut} for {obj}. Skipping.")
-
-    def make_obj_masks(self, channel_cut_list):
-        """Create one mask per object, using the subset of cuts specified in channel_cut_list"""
-        obj_masks = {}
-        for obj, cuts in channel_cut_list.items():
-            if obj not in self.evaluated_obj_cuts:
-                print(f"Warning: {obj} not found in sample. "
-                      f"The following cuts will not be applied: {cuts}")
-                continue
-            for cut in cuts:
-                if cut not in self.evaluated_obj_cuts[obj]:
-                    print(f"Uh oh, haven't evaluated this cut yet! Make sure it was included in the list of cuts you used to initialize this JaggedSelection. {obj}: {cut}")
-                else:
-                    if self.verbose:
-                        print(f"Adding the following cut on {obj} to the mask: {cut}")
-                    if obj not in obj_masks:
-                        obj_masks[obj] = self.evaluated_obj_cuts[obj][cut]
-                    else:
-                        obj_masks[obj] = obj_masks[obj] & self.evaluated_obj_cuts[obj][cut]
-        return obj_masks
-
-    def apply_obj_masks(self, objs, obj_masks):
-        """Filter object collections based on object masks """
-        sel_objs = {}
-        for name, obj in objs.items():
-            # filter objects if mask exists, return collection unfiltered if mask does not exist
-            sel_objs[name] = obj[obj_masks[name]] if name in obj_masks else obj
-
-            if self.verbose:
-                if name in obj_masks:
-                    print(f"Applying mask to collection: {name}")
-                else:
-                    print(f"No mask available for collection; returning unfiltered: {name}")
-        for collection_to_cut in obj_masks:
-            if collection_to_cut not in objs.keys():
-                print(f"WARNING! Trying to apply a cut to {collection_to_cut} but that's not a valid object")
+                if self.verbose:
+                    print(f"Applying {obj} {cut}")
+                try:
+                    sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs)]
+                except:
+                    print(f"Warning: Unable to apply {cut} for {obj}. Skipping.")
         return sel_objs
-
-    def make_and_apply_obj_masks(self, objs, channel_cut_list):
-        return self.apply_obj_masks(objs, self.make_obj_masks(channel_cut_list))
