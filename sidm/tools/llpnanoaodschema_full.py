@@ -1,4 +1,5 @@
 import warnings
+import awkward as ak
 from coffea.nanoevents import transforms
 from coffea.nanoevents.schemas.base import BaseSchema, zip_forms
 
@@ -117,9 +118,9 @@ class LLPNanoAODSchema(BaseSchema):
         "DSAMuon_muonIdxG": [
             "DSAMuon_muonMatch1idxG",
             "DSAMuon_muonMatch2idxG",
-            "DSAMuon_muonMatch3idxG",
-            "DSAMuon_muonMatch4idxG",
-            "DSAMuon_muonMatch5idxG",
+            #"DSAMuon_muonMatch3idxG",
+            #"DSAMuon_muonMatch4idxG",
+            #"DSAMuon_muonMatch5idxG",
         ],
     }
     """Nested collections, where nesting is accomplished by a fixed-length set of indexers"""
@@ -209,11 +210,14 @@ class LLPNanoAODSchema(BaseSchema):
                     branch_forms["n" + name]
                 )
 
-        print()
         # Create global index virtual arrays for indirection
         for indexer, target in self.cross_references.items():
             if target.startswith("Gen") and isData:
                 continue
+            # convert dsa-pf match indices to ints (probably doesn't matter)
+            #if indexer.startswith("DSAMuon_muonMatch"):
+            #    branch_forms[indexer]["content"]["format"] = 'i'
+            #    branch_forms[indexer]["content"]["primitive"] = 'int32'
             if indexer not in branch_forms:
                 if self.warn_missing_crossrefs:
                     warnings.warn(
@@ -231,19 +235,24 @@ class LLPNanoAODSchema(BaseSchema):
             branch_forms[indexer + "G"] = transforms.local2global_form(
                 branch_forms[indexer], branch_forms["o" + target]
             )
-            if indexer.startswith(("DSAMuon", "Muon")):
-                print(indexer, target)
-                print(branch_forms[indexer + "G"])
+            if indexer.startswith(("DSAMuon", "Jet")) and target.startswith("Muon") and "1" in indexer:
+                print()
+                print(branch_forms[indexer])
+                print(branch_forms["o" + target])
                 print(transforms.local2global_form(branch_forms[indexer], branch_forms["o" + target]))
+                print(branch_forms[indexer + "G"])
 
         print()
         # Create nested indexer from Idx1, Idx2, ... arrays
         for name, indexers in self.nested_items.items():
-            print(name, indexers)
             if all(idx in branch_forms for idx in indexers):
                 branch_forms[name] = transforms.nestedindex_form(
                     [branch_forms[idx] for idx in indexers]
                 )
+                if "uon" in name:
+                    print()
+                    print(name, indexers)
+                    print(branch_forms[name])
 
         # Create nested indexer from n* counts arrays
         for name, (local_counts, target) in self.nested_index_items.items():
@@ -302,13 +311,6 @@ class LLPNanoAODSchema(BaseSchema):
                 output[name]["parameters"].update({"collection_name": name})
 
         return output
-
-#    @property
-#    def behavior(self):
-#        """Behaviors necessary to implement this schema"""
-#        from coffea.nanoevents.methods import nanoaod
-#
-#        return nanoaod.behavior
 
     @property
     def behavior(self):
