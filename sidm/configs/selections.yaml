@@ -21,6 +21,7 @@ ljsource_cuts: &ljsource_cuts
       - "pixelSeed"
       - 'No PhoFull5x5SigmaIEtaIEtaCut'
       - 'No PhoIsoWithEALinScalingCut'
+      #- 'looseID'
     dsaMuons: &dsaMuons_ljsource_cuts
 
       - "pT > 10 GeV"
@@ -94,6 +95,97 @@ base: &base
   evt_cuts: &evt_base
     - *evt_baseNoLj
     - ">=2 LJs"
+
+## new base channel #########################################################################
+# Cuts to apply to objects that are clustered into lepton jets
+ljsource_cuts_v2: &ljsource_cuts_v2
+  obj_cuts: &obj_ljsource_cuts_v2
+    electrons: &electrons_ljsource_cuts_v2
+      - "pT > 10 GeV"
+      - "|eta| < 2.4"
+      - "looseID"
+    muons: &muons_ljsource_cuts_v2
+      - "looseID"
+      - "pT > 5 GeV"
+      - "|eta| < 2.4"
+    photons: &photons_ljsource_cuts_v2
+      - "pT > 20 GeV"
+      - "eta"
+      - "pixelSeed"
+      - 'looseID'
+    dsaMuons: &dsaMuons_ljsource_cuts_v2
+      - "pT > 10 GeV"
+      - "|eta| < 2.4"
+      - "displaced ID"
+      - "no PF match"
+
+# require final-state gen e and mu
+gen_level_cuts_v2: &gen_level_cuts_v2
+  obj_cuts: &obj_gen_level_cuts_v2
+    genMus:
+      - "status 1"
+    genEs:
+      - "status 1"
+
+# apply trigger
+trigger_v2: &trigger_v2
+  evt_cuts:
+    - "pass triggers"
+
+# PV filter
+pv_cuts_v2: &pv_cuts_v2
+  evt_cuts: &evt_pv_cuts_v2
+    - "PV filter"
+
+# apply trigger, gen cuts, and pv filter
+baseNoLjNoLjsource_v2: &baseNoLjNoLjsource_v2
+  obj_cuts: &obj_baseNoLjNoLjsource_v2
+    <<: *obj_gen_level_cuts_v2
+  evt_cuts: &evt_baseNoLjNoljsource_v2
+    - *trigger_v2
+    - *evt_pv_cuts_v2
+
+# apply trigger, gen cuts, pv filter, and lj-source cuts
+baseNoLj_v2: &baseNoLj_v2
+  obj_cuts: &obj_baseNoLj_v2
+    <<: *obj_baseNoLjNoLjsource_v2
+    <<: *obj_ljsource_cuts_v2
+  evt_cuts: &evt_baseNoLj_v2
+    - *evt_baseNoLjNoljsource_v2
+
+baseNoLj_egLj_v2: &baseNoLj_egLj_v2
+  obj_cuts:
+    <<: *obj_ljsource_cuts_v2
+    <<: *obj_gen_level_cuts_v2
+  postLj_obj_cuts_v2:
+    egm_ljs:
+      - "egLj"
+  evt_cuts:
+    - *evt_baseNoLj_v2
+
+# add obj-level LJ cuts
+base_ljObjCut_v2: &base_ljObjCut_v2
+  obj_cuts:
+    <<: *obj_baseNoLj_v2
+  postLj_obj_cuts_v2: &base_postLj_obj_cuts_v2
+    ljs: &lj_base_v2
+      - "pT > 30 GeV"
+      - "|eta| < 2.4"
+      - "mu_charge == 0"
+  evt_cuts:
+    - *evt_baseNoLj_v2
+
+# add >=2 LJ requirement
+base_v2: &base_v2
+  obj_cuts: &obj_base_v2
+    <<: *obj_baseNoLj_v2
+  postLj_obj_cuts_v2:
+    <<: *base_postLj_obj_cuts_v2
+  evt_cuts: &evt_base_v2
+    - *evt_baseNoLj_v2
+    - ">=2 LJs"
+##########################################################
+
 
 4mu: &4mu
   <<: *base
