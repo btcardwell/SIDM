@@ -59,7 +59,7 @@ class JaggedSelection:
     
     def apply_obj_cuts(self, objs):
         """Apply object cuts sequentially"""
-        sel_objs = objs
+        sel_objs = objs.copy()
         for obj, cuts in self.obj_cuts.items():
             if obj not in objs:
                 print(f"Warning: {obj} not found in sample. "

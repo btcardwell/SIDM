@@ -93,18 +93,12 @@ class SidmProcessor(processor.ProcessorABC):
         for channel, cuts in ch_cuts.items():
             obj_selection = selection.JaggedSelection(cuts["obj"], self.verbose)
 
-            # apply pre-LJ object selection
-            channel_objs = obj_selection.apply_obj_cuts(objs)
-
             for lj_reco in self.lj_reco_choices:
-                sel_objs = channel_objs
+                # apply pre-LJ object selection
+                sel_objs = obj_selection.apply_obj_cuts(objs)
 
                 # reconstruct lepton jets
                 sel_objs["ljs"] = self.build_lepton_jets(sel_objs, float(lj_reco))
-
-                # apply obj selection to ljs
-                lj_selection = selection.JaggedSelection(cuts["lj"], self.verbose)
-                lj_selection.apply_obj_cuts(sel_objs)
 
                 # add post-lj objects to sel_objs
                 for obj in postLj_objs:
@@ -112,7 +106,7 @@ class SidmProcessor(processor.ProcessorABC):
 
                 # apply post-lj obj selection
                 postLj_selection = selection.JaggedSelection(cuts["postLj_obj"], self.verbose)
-                postLj_selection.apply_obj_cuts(sel_objs)
+                sel_objs = postLj_selection.apply_obj_cuts(sel_objs)
 
                 # build Selection objects and apply event selection
                 evt_selection = selection.Selection(cuts["evt"], self.verbose)
@@ -246,7 +240,7 @@ class SidmProcessor(processor.ProcessorABC):
         return ljs
 
     def build_cuts(self):
-        """ Make list of pre-lj object, lj, post-lj obj, and event cuts per channel"""
+        """ Make list of pre-lj object, post-lj obj, and event cuts per channel"""
 
         selection_menu = utilities.load_yaml(f"{BASE_DIR}/{self.selections_cfg}")
 
@@ -255,7 +249,6 @@ class SidmProcessor(processor.ProcessorABC):
         for channel in self.channel_names:
             ch_cuts[channel] = {}
             ch_cuts[channel]["obj"] = {}
-            ch_cuts[channel]["lj"] = {}
             ch_cuts[channel]["postLj_obj"] = {}
             ch_cuts[channel]["evt"] = {}
 
@@ -267,10 +260,7 @@ class SidmProcessor(processor.ProcessorABC):
 
             if "postLj_obj_cuts" in cuts:
                 for obj, obj_cuts in cuts["postLj_obj_cuts"].items():
-                    if obj == "ljs":
-                        ch_cuts[channel]["lj"][obj] = utilities.flatten(obj_cuts)
-                    else:
-                        ch_cuts[channel]["postLj_obj"][obj] = utilities.flatten(obj_cuts)
+                    ch_cuts[channel]["postLj_obj"][obj] = utilities.flatten(obj_cuts)
 
             if "evt_cuts" in cuts:
                 ch_cuts[channel]["evt"] = utilities.flatten(cuts["evt_cuts"])
