@@ -657,7 +657,7 @@ hist_defs = {
     ),
     "mu_lj_pfMuon_dxy_lowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 10, name=r"$\mu$- type LJ PF $\mu$ dxy (cm)"),
+            h.Axis(hist.axis.Regular(100, 0, 5, name=r"$\mu$- type LJ PF $\mu$ dxy (cm)"),
                    lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxy)),
         ],
     ),
