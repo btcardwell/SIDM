@@ -184,6 +184,11 @@ lj_lj_base: &lj_lj_base
   - "lj_lj_invmass_lowRange"
   - "lj_lj_absdR"
   - "lj_lj_absdeta"
+  
+isolation_base: &isolation_base  
+  - "matched_jet_pt"
+  - "matched_jet_lj_dR"
+  - "lj_isolation"
 
 abcd_base: &abcd_base
   - "lj_lj_absdphi_invmass"
@@ -421,6 +426,7 @@ base: &base
   - *lj_lj_base
   - *abcd_base
   - *electron_photon_base
+  - *isolation_base
 
 base_plus_gen: &base_plus_gen
   - *base

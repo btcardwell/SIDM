@@ -968,6 +968,29 @@ hist_defs = {
         ],
         evt_mask=lambda objs: ak.num(objs["ljs"]) > 1,
     ),
+    # matchedjet
+    "matched_jet_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 500, name="matched_jet_pt",
+                   label="Matched Jet PT [GeV]"),
+                   lambda objs, mask:  objs["ljs"].matched_jet.pt),
+        ],
+    ),      
+    # matchedjet-lj
+    "matched_jet_lj_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="matched_jet_dR",
+                   label="dR(LJ, Matched Jet)"),
+                   lambda objs, mask: dR(objs["ljs"].matched_jet, objs["ljs"])),
+        ],
+    ),    
+    "lj_isolation": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 2, name="lj_isolation",
+                   label="LJ Isolation"),
+                   lambda objs, mask:  objs["ljs"].isolation),
+        ],
+    ),
     # ABCD plane
     "lj_lj_absdphi_invmass": h.Histogram(
         [

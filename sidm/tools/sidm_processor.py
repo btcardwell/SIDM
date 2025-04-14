@@ -229,8 +229,10 @@ class SidmProcessor(processor.ProcessorABC):
         ljs["dRSpread"] = ak.max(ak.flatten(
             ljs["constituents"].metric_table(ljs["constituents"], axis=2), axis=-1), axis=-1)
 
-        # todo: add LJ isolation
-
+        # LJ isolation
+        ljs["matched_jet"] = ljs.nearest(objs["jets"], threshold=0.4)       
+        ljs["isolation"] = ak.fill_none((ljs["matched_jet"].energy / ljs.energy) * (1 - (ljs["matched_jet"].chEmEF + ljs["matched_jet"].neEmEF + ljs["matched_jet"].muEF)), 0)
+        
         # todo: add LJ displacement
 
         # pt order the new LJs
