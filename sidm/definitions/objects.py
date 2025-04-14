@@ -53,6 +53,7 @@ preLj_objs["genAs"]      = lambda evts: pid(preLj_objs["gens"](evts), 32)
 preLj_objs["genAs_toMu"] = lambda evts: toPid(preLj_objs["genAs"](evts), 13)
 preLj_objs["genAs_toE"]  = lambda evts: toPid(preLj_objs["genAs"](evts), 11)
 preLj_objs["rho_PFIso"]  = lambda evts: evts.fixedGridRhoFastjetAll
+preLj_objs["jets"]       = lambda evts: evts.Jet
 
 # define objects whose that will be added to objs by the sidm_processor after LJs are clustered
 # and LJ cuts are applied. postLj_obj cuts can be applied to these

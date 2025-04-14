@@ -70,7 +70,12 @@ dsaMuon_base: &dsaMuon_base
   - "dsaMuon_eta_phi"
   - "dsaMuon_absD0"
   - "dsaMuon_absD0_lowRange"
-
+  
+isolation_base: &isolation_base  
+  - "matched_jet_pt"
+  - "matched_jet_dR"
+  - "lj_isolation"
+  
 lj_base: &lj_base
   - "lj_n"
   - "lj_pt"
@@ -421,6 +426,7 @@ base: &base
   - *lj_lj_base
   - *abcd_base
   - *electron_photon_base
+  - *isolation_base 
 
 base_plus_gen: &base_plus_gen
   - *base
