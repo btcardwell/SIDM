@@ -15,7 +15,7 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output1_8.root
       - skimmed_output1_9.root
       - skimmed_output1_10.root
-      - skimmed_output1_11.root
+      # - skimmed_output1_11.root # ValueError: 'PV filter' is not in list
       - skimmed_output1_12.root
       - skimmed_output1_13.root
       - skimmed_output1_14.root
@@ -52,7 +52,7 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output1_45.root
       - skimmed_output1_46.root
       - skimmed_output1_47.root
-      - skimmed_output1_48.root
+      # - skimmed_output1_48.root # DeserializationError: while reading
       - skimmed_output1_49.root
       - skimmed_output1_50.root
       - skimmed_output1_51.root
@@ -67,7 +67,7 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_8.root
       - skimmed_output2_9.root
       - skimmed_output2_10.root
-      - skimmed_output2_11.root
+      # - skimmed_output2_11.root # DeserializationError: while reading
       - skimmed_output2_12.root
       - skimmed_output2_13.root
       - skimmed_output2_14.root
@@ -77,40 +77,40 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_18.root
       - skimmed_output2_19.root
       - skimmed_output2_20.root
-      - skimmed_output2_21.root
+      # - skimmed_output2_21.root # ValueError: 'PV filter' is not in list
       - skimmed_output2_22.root
       - skimmed_output2_23.root
       - skimmed_output2_24.root
-      - skimmed_output2_25.root
+      # - skimmed_output2_25.root # DeserializationError: while reading
       - skimmed_output2_26.root
       - skimmed_output2_27.root
       - skimmed_output2_28.root
       - skimmed_output2_29.root
       - skimmed_output2_30.root
-      - skimmed_output2_31.root
-      - skimmed_output2_32.root
+      # - skimmed_output2_31.root # DeserializationError: while reading
+      # - skimmed_output2_32.root # DeserializationError: while reading
       - skimmed_output2_33.root
-      - skimmed_output2_34.root
+      # - skimmed_output2_34.root # DeserializationError: while reading
       - skimmed_output2_35.root
       - skimmed_output2_36.root
       - skimmed_output2_37.root
-      - skimmed_output2_38.root
+      # - skimmed_output2_38.root # ValueError: 'PV filter' is not in list
       - skimmed_output2_39.root
       - skimmed_output2_40.root
       - skimmed_output2_41.root
       - skimmed_output2_42.root
-      - skimmed_output2_43.root
+      # - skimmed_output2_43.root # DeserializationError: while reading
       - skimmed_output2_44.root
-      - skimmed_output2_45.root
+      # - skimmed_output2_45.root # DeserializationError: while reading
       - skimmed_output2_46.root
       - skimmed_output2_47.root
       - skimmed_output2_48.root
       - skimmed_output2_49.root
       - skimmed_output2_50.root
-      - skimmed_output2_51.root
+      # - skimmed_output2_51.root # DeserializationError: while reading
       - skimmed_output2_52.root
       - skimmed_output2_53.root
-      - skimmed_output2_54.root
+      # - skimmed_output2_54.root # DeserializationError: while reading
       - skimmed_output2_55.root
       - skimmed_output2_56.root
       - skimmed_output2_57.root
@@ -120,10 +120,10 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_61.root
       - skimmed_output2_62.root
       - skimmed_output2_63.root
-      - skimmed_output2_64.root
+      # - skimmed_output2_64.root # DeserializationError: while reading
       - skimmed_output2_65.root
       - skimmed_output2_66.root
-      - skimmed_output2_67.root
+      # - skimmed_output2_67.root # ValueError: 'PV filter' is not in list
       - skimmed_output2_68.root
       - skimmed_output2_69.root
       - skimmed_output2_70.root
@@ -161,7 +161,7 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_103.root
       - skimmed_output2_104.root
       - skimmed_output2_105.root
-      - skimmed_output2_106.root
+      # - skimmed_output2_106.root # DeserializationError: while reading
       - skimmed_output2_107.root
       - skimmed_output2_108.root
       - skimmed_output2_109.root
@@ -210,7 +210,7 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_152.root
       - skimmed_output2_153.root
       - skimmed_output2_154.root
-      - skimmed_output2_155.root
+      # - skimmed_output2_155.root # ValueError: 'PV filter' is not in list
       - skimmed_output2_156.root
       - skimmed_output2_157.root
       - skimmed_output2_158.root
@@ -231,12 +231,12 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_173.root
       - skimmed_output2_174.root
       - skimmed_output2_175.root
-      - skimmed_output2_176.root
-      - skimmed_output2_177.root
+      # - skimmed_output2_176.root # ValueError: 'PV filter' is not in list
+      # - skimmed_output2_177.root # ValueError: 'PV filter' is not in list
       - skimmed_output2_178.root
       - skimmed_output2_179.root
       - skimmed_output2_180.root
-      - skimmed_output2_181.root
+      # - skimmed_output2_181.root # ValueError: 'PV filter' is not in list
       - skimmed_output2_182.root
       - skimmed_output2_183.root
       - skimmed_output2_184.root
@@ -255,7 +255,6 @@ skimmed_llpNanoAOD_v2:
       - skimmed_output2_197.root
       - skimmed_output2_198.root
       path: TTJets_TuneCP5/
-      skim_factor: 0.2725757936422064
 
 llpNanoAOD_v2:
   path: root://xcache//store/group/lpcmetx/SIDM/Backgrounds/2018_v2/
@@ -1349,7 +1348,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: DYJetsToMuMu_M-10to50_H2ErratumFix_TuneCP5_13TeV-powhegMiNNLO-pythia8-photos/
-      skim_factor: 1.0
     DYJetsToMuMu_M50:
       files:
       - output_1.root
@@ -7506,7 +7504,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: DYJetsToMuMu_M-50_massWgtFix_TuneCP5_13TeV-powhegMiNNLO-pythia8-photos/
-      skim_factor: 1.0
     QCD_Pt1000:
       files:
       - output_1.root
@@ -11811,7 +11808,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt120To170:
       files:
       - output_1.root
@@ -16322,7 +16318,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-120To170_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt15To20:
       files:
       - output_1.root
@@ -16917,7 +16912,6 @@ llpNanoAOD_v2:
       - output_98.root
       - output_99.root
       path: QCD_Pt-15To20_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt170To300:
       files:
       - output_1.root
@@ -23919,7 +23913,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-170To300_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt20To30:
       files:
       - output_1.root
@@ -27681,7 +27674,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-20To30_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt300To470:
       files:
       - output_1.root
@@ -34534,7 +34526,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-300To470_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt30To50:
       files:
       - output_100.root
@@ -38056,7 +38047,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-30To50_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt470To600:
       files:
       - output_1000.root
@@ -42842,7 +42832,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-470To600_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt50To80:
       files:
       - output_1.root
@@ -45303,7 +45292,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-50To80_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt600To800:
       files:
       - output_1.root
@@ -50035,7 +50023,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-600To800_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt800To1000:
       files:
       - output_10.root
@@ -55061,7 +55048,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-800To1000_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     QCD_Pt80To120:
       files:
       - output_1000.root
@@ -57887,7 +57873,6 @@ llpNanoAOD_v2:
       - output_998.root
       - output_999.root
       path: QCD_Pt-80To120_MuEnrichedPt5_TuneCP5_13TeV-pythia8/
-      skim_factor: 1.0
     TTJets:
       files:
       - TTJets_TuneCP5_part1_part-0.root
@@ -58141,5 +58126,4 @@ llpNanoAOD_v2:
       - TTJets_TuneCP5_part2_part-98.root
       - TTJets_TuneCP5_part2_part-99.root
       path: TTJets_TuneCP5/LLPnanoAODv2/
-      skim_factor: 1.0
 
