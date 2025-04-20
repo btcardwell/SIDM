@@ -7,37 +7,23 @@ from sidm.definitions.objects import derived_objs
 from sidm.tools.utilities import dR, lxy, rho, check_bits
 import numpy as np
 
-def check_variable(value, Electron = True):
+
+def check_variablePhoton(value, min_val=0b01):
     """
     Function to check if the variable is at least `min_val`
     """
-    if Electron:
-        min_val = 0b010
-    else:
-        min_val = 0b01
     return value >= min_val
 
-def select_numbers(number, vars1, Electron=True):
-    
+def select_numbersPhoton(number, var1, var2):
+    """
+    Function to select the numbers where each variable is at least 0b010 except for variable of choice
+    """
     selected = True
     
-    if Electron:
-        # Variables and their bit ranges (each variable takes 3 bits, total of 30 bits)
-        variables = [
-            ('MinPtCut', 0),  # 3 bits for MinPtCut (LSB)
-            ('GsfEleSCEtaMultiRangeCut', 3),
-            ('GsfEleDEtaInSeedCut', 6),
-            ('GsfEleDPhiInCut', 9),
-            ('GsfEleFull5x5SigmaIEtaIEtaCut', 12),
-            ('GsfEleHadronicOverEMEnergyScaledCut', 15),
-            ('GsfEleEInverseMinusPInverseCut', 18),
-            ('GsfEleRelPFIsoScaledCut', 21),
-            ('GsfEleConversionVetoCut', 24),  # This one can have any value, no check
-            ('GsfEleMissingHitsCut', 27),
-        ]
-        bit_extraction = 0b111
-    else:
-        variables = [
+    # number will have 14 bits (2 bits per each cut)
+    # starting with MinPtCut at the LSB
+    # and ending with PhoIsoWithEALinScalingCut at the MSB
+    variables = [
         ('MinPtCut', 0),  # 2 bits for MinPtCut (LSB)
         ('PhoSCEtaMultiRangeCut', 2),
         ('PhoSingleTowerHadOverEmCut', 4),
@@ -45,41 +31,35 @@ def select_numbers(number, vars1, Electron=True):
         ('ChHadIsoWithEALinScalingCut', 8),
         ('NeuHadIsoWithEAQuadScalingCut', 10),
         ('PhoIsoWithEALinScalingCut', 12),
-        ]
-        bit_extraction = 0b11
-        
-    # Check each variable (except GsfEleConversionVetoCut which is at bit 24)
+    ]
+    
+    # Check each variable except variable of choice 
     for var, start_bit in variables:
-        # Get the 3 bits corresponding to this variable
-        value = (number >> start_bit) & bit_extraction # Extract 3 bits
-        if var != f'{vars1}':
-        #if var == f'{vars1}':# Only apply check to variables other than GsfEleConversionVetoCut
-            if not check_variable(value):
+        # Get the 2 bits corresponding to this variable
+        value = (number >> start_bit) & 0b11  # Extract 2 bits
+        if (var != f'{var1}') and (var != f'{var2}'):
+        #if var == f'{var1}': 
+            if not check_variablePhoton(value):
                 selected = False
                 break
     
     return selected
 
-def returnBitMapTArray(bitMap, var, Electron=True):
+
+def returnBitMapTArrayPhoton(bitMap, var1, var2):
     tList = []
     for i in range(len(bitMap)):
         temp = []
         if len(bitMap[i]) == 0:
             tList.append(temp)
             continue
-        # Iterate over each number in bitMap[i]
-        for number in bitMap[i]:
-            # Ensure each number is checked with select_numbers
-            if select_numbers(number, var, Electron):
+        for j in range(len(bitMap[i])):
+            if select_numbersPhoton(bitMap[i][j], var1, var2):
                 temp.append(True)
             else:
                 temp.append(False)
-        
         tList.append(temp)
-    
-    # Now wrap tList in an awkward array (should be correct now)
     return ak.Array(tList)
-
 
 
 obj_cut_defs = {
@@ -202,7 +182,7 @@ obj_cut_defs = {
         "endcap_iso": lambda objs: objs["electrons"].pfRelIso03_all < (.108 + .963/objs["electrons"].pt),
         "endcap_hoe": lambda objs: objs["electrons"].hoe <  0.0441 + 2.54/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt) + 0.183*objs["rho_PFIso"]/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt),
         "endcap_eInvMinusPInv": lambda objs: objs["electrons"].eInvMinusPInv < 0.111,
-        'No Missing Hit': lambda objs: (returnBitMapTArray(objs['electrons'].vidNestedWPBitmap, 'GsfEleMissingHitsCut', Electron=True)),
+        'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
     },
     "muons": {
         "looseID": lambda objs: objs["muons"].looseId,
@@ -220,12 +200,13 @@ obj_cut_defs = {
         "looseID": lambda objs: objs["photons"].cutBased >= 1,
         "pixelSeed": lambda objs: objs["photons"].pixelSeed == False ,
         "electronVeto": lambda objs: objs["photons"].electronVeto,
-        'No PhoFull5x5SigmaIEtaIEtaCut': lambda objs: returnBitMapTArray(objs['photons'].vidNestedWPBitmap, 'PhoFull5x5SigmaIEtaIEtaCut', Electron=False),
-        'No PhoIsoWithEALinScalingCut': lambda objs: returnBitMapTArray(objs['photons'].vidNestedWPBitmap, 'PhoIsoWithEALinScalingCut', Electron=False),
+        #'No PhoFull5x5SigmaIEtaIEtaCut': lambda objs: returnBitMapTArrayPhoton(objs['photons'].vidNestedWPBitmap, 'PhoFull5x5SigmaIEtaIEtaCut'),
+        #'No PhoIsoWithEALinScalingCut': lambda objs: returnBitMapTArrayPhoton(objs['photons'].vidNestedWPBitmap, 'PhoIsoWithEALinScalingCut'),
         "dR(gm, A) < 0.5": lambda objs: dR(objs["photons"], objs["genAs_toE"]) < 0.5,
         "barrel_hoe": lambda objs: objs["photons"].hoe <= .04596,
         "barrel_sieie": lambda objs: objs["photons"].sieie <=  0.0106 ,
         "|eta| < 1.479": lambda objs: abs(objs["photons"].eta) < 1.479,
+        'Custom Cutbased': lambda objs: returnBitMapTArrayPhoton(objs['photons'].vidNestedWPBitmap, 'PhoFull5x5SigmaIEtaIEtaCut', 'PhoIsoWithEALinScalingCut')
     },
     "dsaMuons": {
         "pT > 10 GeV": lambda objs: objs["dsaMuons"].pt > 10,
