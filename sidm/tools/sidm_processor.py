@@ -162,15 +162,15 @@ class SidmProcessor(processor.ProcessorABC):
         # all objects must have the same fields to later concatenate and cluster them
         # set fields that aren't available for a given object to be None
         # these additional fields will be removed after clustering
-        nan = ak.full_like(shape, None)
-        forms = {f: objs[collection][f] if f in objs[collection].fields else nan for f in fields}
+        zeros = ak.zeros_like(shape)
+        forms = {f: objs[collection][f] if f in objs[collection].fields else zeros for f in fields}
         forms["part_type"] = objs[collection]["type"] if type_id is None else type_id*shape
         forms["mass"] = objs[collection]["mass"] if mass is None else mass*shape
         return vector.zip(forms)
 
     def make_constituent(self, consts, type_ids, name, fields):
         """Return array of particles of given type_ids, name, and only specified fields"""
-        relevant_consts = consts[ak.any((consts.part_type == x for x in type_ids), axis=0)]
+        relevant_consts = consts[ak.any([consts.part_type == x for x in type_ids], axis=0)]
         forms = {f: relevant_consts.__getattr__(f) for f in fields}
         return ak.zip(forms, with_name=name, behavior=nanoaod.behavior)
 
@@ -185,7 +185,10 @@ class SidmProcessor(processor.ProcessorABC):
         dsa_inputs = self.make_vector(objs, "dsaMuons", all_fields, type_id=8, mass=0.106)
         ele_inputs = self.make_vector(objs, "electrons", all_fields, type_id=2)
         photon_inputs = self.make_vector(objs, "photons", all_fields, type_id=4)
-        lj_inputs = ak.concatenate([muon_inputs, dsa_inputs, ele_inputs, photon_inputs], axis=-1)
+        #print(ak.concatenate([muon_inputs, dsa_inputs, ele_inputs, photon_inputs], axis=0))
+        #print(ak.concatenate([muon_inputs, dsa_inputs, ele_inputs, photon_inputs], axis=1))
+        #print(ak.concatenate([muon_inputs, dsa_inputs, ele_inputs, photon_inputs], axis=2))
+        lj_inputs = ak.concatenate([muon_inputs, dsa_inputs, ele_inputs, photon_inputs], axis=1)
 
         distance_param = abs(lj_reco)
         jet_def = fastjet.JetDefinition(fastjet.antikt_algorithm, distance_param)

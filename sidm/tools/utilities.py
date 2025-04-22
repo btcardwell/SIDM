@@ -166,7 +166,7 @@ def make_fileset(samples, ntuple_version, max_files=-1, location_cfg="signal_v8.
         if max_files != -1:
             file_list = file_list[:max_files]
         fileset[sample] = {
-            "files": file_list,
+            "files": {f: "Events" for f in file_list},
             "metadata": {
                 "skim_factor": sample_yaml.get("skim_factor", 1.0)}
         }

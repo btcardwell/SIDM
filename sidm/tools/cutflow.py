@@ -8,7 +8,7 @@ from coffea.analysis_tools import PackedSelection
 import awkward as ak
 import numpy as np
 
-class Cutflow(processor.AccumulatorABC):
+class Cutflow:
     """Class to represent the number of events that pass each cut in a selection
 
     Cutflow can print tables of the following values:
@@ -125,7 +125,7 @@ class Cutflow(processor.AccumulatorABC):
         flow = self.unweighted_flow if unweighted else self.flow
         return flow[0].n_evts
 
-class CutflowElement(processor.AccumulatorABC):
+class CutflowElement:
     """Class to represent individual rows of a cutflow table"""
 
     def __init__(self, cut, all_cuts, cutflow, weights, is_first_element=False):
