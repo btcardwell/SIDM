@@ -355,6 +355,13 @@ hist_defs = {
     "muon_eta_phi": obj_eta_phi("muons"),
     "muon_absD0": obj_attr("muons", "dxy", absval=True, xmax=500),
     "muon_absD0_lowRange": obj_attr("muons", "dxy", absval=True, xmax=10),
+    "lj_muonChg_nearGenA": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, -4, 4, name="lj_muonChg_nearGenA",
+                                     label=r"LJ Muon Chg Near GenA"),
+                   lambda objs, mask: (matched(objs["mu_ljs"], objs["genAs_toMu"], 0.5).muon_chg)),
+        ],
+    ),
     "muon_nearGenA_n": h.Histogram(
         [
             # number of muons within dR=0.5 of a genA that decays to muons
@@ -2023,7 +2030,7 @@ hist_defs = {
     # genA - LJ 0.4 matching radius, pT Ratios
     "genA_lj_ptRatio": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(200, 0, 2.0, name="genA_lj_ptRatio",
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_lj_ptRatio",
                    label=r"Lepton Jet pT / (closest) $Z_d$ pT"),
                    lambda objs, mask: objs["ljs"].pt
                        / objs["ljs"].nearest(objs["genAs"], threshold=0.4).pt),
@@ -2071,10 +2078,10 @@ hist_defs = {
     ),
     "genA_muLj_ptRatio": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(200, 0, 2.0, name="genA_muLj_ptRatio",
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_muLj_ptRatio",
                    label=r"Muon Lepton Jet pT / (closest) $Z_d$ pT"),
-                   lambda objs, mask: objs["mu_ljs"].pt
-                       / objs["mu_ljs"].nearest(objs["genAs_toMu"], threshold=0.4).pt),
+                   lambda objs, mask: objs["mu_ljs"][:,0:1].pt
+                       / objs["mu_ljs"][:,0:1].nearest(objs["genAs_toMu"], threshold=0.4).pt),
         ],
     ),
     "genA_dsaMuonLj_ptRatio": h.Histogram(
@@ -2367,12 +2374,6 @@ hist_defs = {
                    lambda objs, mask: (derived_objs["genAs_toE_matched_egmLj_ptRatio_lt_1p5"](objs, 0.4).eta) ),
         ],
     ),
-    "test": h.Histogram(
-        [
-            h.Axis(hist.axis.Regular(50, 0, 4, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: (derived_objs['genA_egmLj_ptRatio_PS'](objs)) ),
-        ],
-    ),
     "genA_egmLj_ptRatio_onePhoton": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio_onePhoton",
@@ -2421,6 +2422,30 @@ hist_defs = {
             h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
                                      label=r"$\Delta R$($p$, $e$)"),
                    lambda objs, mask: dR(objs["one_e_one_p_ljs"].photons, objs["one_e_one_p_ljs"].electrons))
+        ],
+    ),
+    
+    "photon_electron_dR_from_oneEonePLJ_lowThreshold": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
+                                     label=r"$\Delta R$($p$, $e$)"),
+                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) < 1.2].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) < 1.2].electrons))
+        ],
+    ),
+    
+    "photon_electron_dR_from_oneEonePLJ_highThreshold": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
+                                     label=r"$\Delta R$($p$, $e$)"),
+                  lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons))
+        ],
+    ),
+    "test": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons) ),
         ],
     ),
 }
