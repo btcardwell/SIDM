@@ -10,6 +10,7 @@ Usage: python add_ntuples.py -o OUTPUT_CONFIG -n NTUPLE_NAME -c NTUPLE_COMMENT -
 from __future__ import print_function
 import argparse
 import yaml
+import ROOT
 from XRootD import client
 
 
@@ -26,6 +27,8 @@ parser.add_argument("-d", "--directory", dest="directory", required=True,
                     "'root://cmseos.fnal.gov//store/group/lpcmetx/SIDM/ffNtupleV4/2018/'"))
 parser.add_argument("-f", "--first-dir", dest="first_dir", action='store_true',
                     help="Choose first option when encountering unexpected directory structure")
+parser.add_argument("-s", "--skim", action='store_true',
+                    help="Identify skimmed ntuples")
 # fixme: add option to associate multiple subdirectories with one process name
 args = parser.parse_args()
 
@@ -153,6 +156,46 @@ for sample in samples:
     files = [f for f in files if f.endswith("root")]
     output[args.name]["samples"][simple_name]["path"] = sample_path + "/"
     output[args.name]["samples"][simple_name]["files"] = files
+
+    # get skim factor
+    skim_factor = 1.0
+    if args.skim:
+        skimmed_evts = 0
+        original_evts = 0
+        # check first 10 files for valid OriginalEventIndex and sufficient stats
+        for file in files[:20]:
+            file_path = f"{redirector}//{ntuple_path}{sample_path}/{file}"
+            try:
+                in_file = ROOT.TFile.Open(file_path)
+            except Exception as e:
+                print(e)
+                print(f"failed reading {file_path}")
+                print("skipping")
+                continue
+            tree = in_file.Events
+            for entry in tree:
+                file_skimmed_evts = tree.GetEntries()
+                file_original_evts = entry.OriginalEventIndex
+                break
+            in_file.Close()
+
+            # Go to next file if OriginalEventIndex is invalid
+            if file_original_evts == 0:
+                print("invalid OriginalEventIndex, going to next file")
+                continue
+            else:
+                skimmed_evts += file_skimmed_evts
+                original_evts += file_original_evts
+                print(skimmed_evts, original_evts, file_skimmed_evts/file_original_evts, skimmed_evts/original_evts)
+            if skimmed_evts > 100000:
+                break
+        try:
+            skim_factor = skimmed_evts / original_evts
+        except ZeroDivisionError:
+            print("No valid OriginalEventIndex found, setting skim_factor to 1.0")
+    print(f"Setting skim factor to {skim_factor}")
+    output[args.name]["samples"][simple_name]["skim_factor"] = skim_factor
+
 
 # Avoid yaml references, a la stackoverflow.com/questions/13518819
 yaml.Dumper.ignore_aliases = lambda *args: True

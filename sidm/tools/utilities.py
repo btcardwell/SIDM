@@ -160,11 +160,16 @@ def make_fileset(samples, ntuple_version, max_files=-1, location_cfg="signal_v8.
     if not fileset:
         fileset = {}
     for sample in samples:
-        base_path = locations["path"] + locations["samples"][sample]["path"]
-        file_list = [base_path + f for f in locations["samples"][sample]["files"]]
+        sample_yaml = locations["samples"][sample]
+        base_path = locations["path"] + sample_yaml["path"]
+        file_list = [base_path + f for f in sample_yaml["files"]]
         if max_files != -1:
             file_list = file_list[:max_files]
-        fileset[sample] = file_list
+        fileset[sample] = {
+            "files": file_list,
+            "metadata": {
+                "skim_factor": sample_yaml.get("skim_factor", 1.0)}
+        }
     return fileset
 
 def check_bit(array, bit_num):
@@ -251,7 +256,7 @@ def get_lumi(year, cfg="run_periods.yaml"):
 
 def get_lumixs_weight(dataset, year, n_evts):
     """Get weights to scale n_evts to lumi*xs"""
+    # n_evts: actual number of events processed
     lumi = get_lumi(year)
     xs = get_xs(dataset)
     return lumi*xs/n_evts
-    
