@@ -1131,14 +1131,14 @@ hist_defs = {
                    label="dR(EGM-LJ, EGM-Matched Jet)"),
                    lambda objs, mask: objs["egm_ljs"].dR_matched_jet),
         ],
-    ), 
+    ),
     "electron_matched_jet_lj_dR": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 0.4, name="electron_matched_jet_lj_dR",
                    label="dR(Electron-LJ, Electron EGM-Matched Jet)"),
                    lambda objs, mask: objs["electron_ljs"].dR_matched_jet),
         ],
-    ), 
+    ),
     "photon_matched_jet_lj_dR": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 0.4, name="photon_matched_jet_lj_dR",
