@@ -15,7 +15,6 @@ import awkward as ak
 from sidm.tools import histogram as h
 from sidm.tools.utilities import dR, lxy, matched
 from sidm.definitions.objects import derived_objs
-import numpy as np
 # always reload local modules to pick up changes during development
 importlib.reload(h)
 
@@ -1579,9 +1578,7 @@ hist_defs = {
     ),
     "genAs_toE_lxy": obj_attr("genAs_toE", "lxy", xmax=150),
     "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=5),
-    "genAs_toE_lxy": obj_attr("genAs_toE", "lxy", xmax=150),
     "genAs_toE_lxy_highRange": obj_attr("genAs_toE", "lxy", xmax=500),
-    "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=5),
     "genAs_toE_lxy_midRange": obj_attr("genAs_toE", "lxy", xmin=40, xmax=80),
     "genAs_toE_lxy_ecal": obj_attr("genAs_toE", "lxy", xmin=125, xmax=135),
     "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200),

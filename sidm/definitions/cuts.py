@@ -5,7 +5,6 @@ import awkward as ak
 # local
 from sidm.definitions.objects import derived_objs
 from sidm.tools.utilities import dR, lxy, rho, check_bits
-import numpy as np
 
 def check_variablePhoton(value, min_val=0b01):
     """
@@ -77,7 +76,6 @@ obj_cut_defs = {
         "pT < 150 GeV": lambda objs: objs["ljs"].pt < 150,
         "|eta| < 2.4": lambda objs: abs(objs["ljs"].eta) < 2.4,
         "mu_charge == 0": lambda objs: ak.sum(objs["ljs"].muons.charge, axis= -1) == 0,
-        #"mu_charge == 0": lambda objs: objs["ljs"].muon_chg == 0,
         "dR(LJ, A) < 0.2": lambda objs: dR(objs["ljs"], objs["genAs"]) < 0.2,
         "egmLj": lambda objs: ak.num(objs["ljs"].muons) == 0,
         "eLj": lambda objs: (ak.num(objs["ljs"].muons) == 0) & (ak.num(objs["ljs"].electrons) > 0) & (ak.num(objs["ljs"].photons) == 0),

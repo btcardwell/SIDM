@@ -74,7 +74,6 @@ dsaMuon_base: &dsaMuon_base
   - "dsaMuon_absD0_lowRange"
 
 lj_base: &lj_base
-  - "egm_lj_n"
   - "lj_n"
   - "lj_pt"
   - "lj_eta_phi"
@@ -95,8 +94,6 @@ lj_base: &lj_base
   - "photon_electron_dR_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ_lowThreshold"
   - "photon_electron_dR_from_oneEonePLJ_highThreshold"
-  - 'test'
-  - "lj_muonChg_nearGenA"
   - "genE_fromA_deltaR"
 
 mu_lj_base: &mu_lj_base

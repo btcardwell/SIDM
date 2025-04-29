@@ -2,7 +2,6 @@
 
 import awkward as ak
 from sidm.tools.utilities import matched
-import numpy as np
 # define helper functions
 def pid(part, val):
     return part[abs(part.pdgId) == val]
