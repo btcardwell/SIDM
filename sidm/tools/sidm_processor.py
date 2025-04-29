@@ -102,7 +102,7 @@ class SidmProcessor(processor.ProcessorABC):
 
                 # apply obj selection to ljs
                 lj_selection = selection.JaggedSelection(cuts["lj"], self.verbose)
-                lj_selection.apply_obj_cuts(sel_objs)
+                sel_objs = lj_selection.apply_obj_cuts(sel_objs)
 
                 # add post-lj objects to sel_objs
                 for obj in postLj_objs:

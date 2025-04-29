@@ -228,6 +228,7 @@ obj_cut_defs = {
         # just use segment-based matching
         "no PF match" : lambda objs: objs["dsaMuons"].muonMatch1/objs["dsaMuons"].nSegments < 0.667,
         "dR(mu, A) < 0.5": lambda objs: dR(objs["dsaMuons"], objs["genAs_toMu"]) < 0.5,
+        "dR(dsa, pf) > 0.2": lambda objs: dR(objs["dsaMuons"], objs["muons"]) > 0.2,
     },
 }
 

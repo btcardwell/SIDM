@@ -30,7 +30,7 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
-      - "no PF match"
+      - "dR(dsa, pf) > 0.2"
 
 gen_level_cuts: &gen_level_cuts
   obj_cuts: &obj_gen_level_cuts
