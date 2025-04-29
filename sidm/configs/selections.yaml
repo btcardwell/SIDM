@@ -10,23 +10,22 @@ ljsource_cuts: &ljsource_cuts
     electrons: &electrons_ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
-      - "looseID"
+      - 'MVANonIsoWPL'
     muons: &muons_ljsource_cuts
       - "looseID"
       - "pT > 5 GeV"
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts
-      - "pT > 20 GeV"
-      - "eta"
-      - "looseID"
+      - "|eta| < 2.5"
+      - 'Custom Cutbased'
       - "pixelSeed"
+      - 'Photon DR Veto 0p025'
     dsaMuons: &dsaMuons_ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
       - "dR(dsa, pf) > 0.2"
 
-# require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
   obj_cuts: &obj_gen_level_cuts
     genMus:
@@ -70,7 +69,6 @@ baseNoLj_egLj: &baseNoLj_egLj
   evt_cuts:
     - *evt_baseNoLj
 
-# add obj-level LJ cuts
 base_ljObjCut: &base_ljObjCut
   obj_cuts:
     <<: *obj_baseNoLj
@@ -81,8 +79,7 @@ base_ljObjCut: &base_ljObjCut
       - "mu_charge == 0"
   evt_cuts:
     - *evt_baseNoLj
- 
-# add >=2 LJ requirement
+
 base: &base
   obj_cuts: &obj_base
     <<: *obj_baseNoLj
@@ -90,7 +87,7 @@ base: &base
     <<: *base_postLj_obj_cuts
   evt_cuts: &evt_base
     - *evt_baseNoLj
-    - ">=2 LJs"
+
 
 4mu: &4mu
   <<: *base

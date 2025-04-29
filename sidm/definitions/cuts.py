@@ -5,6 +5,60 @@ import awkward as ak
 # local
 from sidm.definitions.objects import derived_objs
 from sidm.tools.utilities import dR, lxy, rho, check_bits
+import numpy as np
+
+def check_variablePhoton(value, min_val=0b01):
+    """
+    Function to check if the variable is at least `min_val`
+    """
+    return value >= min_val
+
+def select_numbersPhoton(number, var1, var2):
+    """
+    Function to select the numbers where each variable is at least 0b010 except for variable of choice
+    """
+    selected = True
+    
+    # number will have 14 bits (2 bits per each cut)
+    # starting with MinPtCut at the LSB
+    # and ending with PhoIsoWithEALinScalingCut at the MSB
+    variables = [
+        ('MinPtCut', 0),  # 2 bits for MinPtCut (LSB)
+        ('PhoSCEtaMultiRangeCut', 2),
+        ('PhoSingleTowerHadOverEmCut', 4),
+        ('PhoFull5x5SigmaIEtaIEtaCut', 6),
+        ('ChHadIsoWithEALinScalingCut', 8),
+        ('NeuHadIsoWithEAQuadScalingCut', 10),
+        ('PhoIsoWithEALinScalingCut', 12),
+    ]
+    
+    # Check each variable except variable of choice 
+    for var, start_bit in variables:
+        # Get the 2 bits corresponding to this variable
+        value = (number >> start_bit) & 0b11  # Extract 2 bits
+        if (var != f'{var1}') and (var != f'{var2}'):
+            if not check_variablePhoton(value):
+                selected = False
+                break
+    
+    return selected
+
+
+def returnBitMapTArrayPhoton(bitMap, var1, var2):
+    tList = []
+    for i in range(len(bitMap)):
+        temp = []
+        if len(bitMap[i]) == 0:
+            tList.append(temp)
+            continue
+        for j in range(len(bitMap[i])):
+            if select_numbersPhoton(bitMap[i][j], var1, var2):
+                temp.append(True)
+            else:
+                temp.append(False)
+        tList.append(temp)
+    return ak.Array(tList)
+
 
 
 obj_cut_defs = {
@@ -14,10 +68,16 @@ obj_cut_defs = {
         "|rho| < 0.02 cm": lambda objs: rho(objs["pvs"], ref=objs["bs"]) < 0.02,
     },
     "ljs": {
+        "pT > 10 GeV": lambda objs: objs["ljs"].pt > 10,
+        "pT > 20 GeV": lambda objs: objs["ljs"].pt > 20,
         "pT > 30 GeV": lambda objs: objs["ljs"].pt > 30,
+        "pT > 40 GeV": lambda objs: objs["ljs"].pt > 40,
+        "pT > 50 GeV": lambda objs: objs["ljs"].pt > 50,
+        "pT > 60 GeV": lambda objs: objs["ljs"].pt > 60,
         "pT < 150 GeV": lambda objs: objs["ljs"].pt < 150,
         "|eta| < 2.4": lambda objs: abs(objs["ljs"].eta) < 2.4,
-        "mu_charge == 0": lambda objs: ak.sum (objs["ljs"].muons.charge, axis =-1) == 0,
+        "mu_charge == 0": lambda objs: ak.sum(objs["ljs"].muons.charge, axis= -1) == 0,
+        #"mu_charge == 0": lambda objs: objs["ljs"].muon_chg == 0,
         "dR(LJ, A) < 0.2": lambda objs: dR(objs["ljs"], objs["genAs"]) < 0.2,
         "egmLj": lambda objs: ak.num(objs["ljs"].muons) == 0,
         "eLj": lambda objs: (ak.num(objs["ljs"].muons) == 0) & (ak.num(objs["ljs"].electrons) > 0) & (ak.num(objs["ljs"].photons) == 0),
@@ -107,6 +167,7 @@ obj_cut_defs = {
     },
     "electrons": {
         "pT > 10 GeV": lambda objs: objs["electrons"].pt > 10,
+        "pT > 30 GeV": lambda objs: objs["electrons"].pt > 30,
         "|eta| < 1.479": lambda objs: abs(objs["electrons"].eta) < 1.479,
         "1.479 < |eta| < 2.4": lambda objs: ((abs(objs["electrons"].eta) > 1.479)
                                              & (abs(objs["electrons"].eta) < 2.4)),
@@ -126,6 +187,7 @@ obj_cut_defs = {
         "endcap_iso": lambda objs: objs["electrons"].pfRelIso03_all < (.108 + .963/objs["electrons"].pt),
         "endcap_hoe": lambda objs: objs["electrons"].hoe <  0.0441 + 2.54/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt) + 0.183*objs["rho_PFIso"]/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt),
         "endcap_eInvMinusPInv": lambda objs: objs["electrons"].eInvMinusPInv < 0.111,
+        'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
     },
     "muons": {
         "looseID": lambda objs: objs["muons"].looseId,
@@ -135,6 +197,7 @@ obj_cut_defs = {
     },
     "photons":{
         "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,
+        "pT > 30 GeV": lambda objs: objs["photons"].pt > 30,
         "|eta| < 2.5": lambda objs: abs(objs["photons"].eta) < 2.5, # fixme: do we want eta or scEta
         "eta": lambda objs: objs["photons"].isScEtaEB | objs["photons"].isScEtaEE,
         "barrel": lambda objs: objs["photons"].isScEtaEB,
@@ -146,6 +209,10 @@ obj_cut_defs = {
         "barrel_hoe": lambda objs: objs["photons"].hoe <= .04596,
         "barrel_sieie": lambda objs: objs["photons"].sieie <=  0.0106 ,
         "|eta| < 1.479": lambda objs: abs(objs["photons"].eta) < 1.479,
+        'Custom Cutbased': lambda objs: returnBitMapTArrayPhoton(objs['photons'].vidNestedWPBitmap, 'PhoFull5x5SigmaIEtaIEtaCut', 'PhoIsoWithEALinScalingCut'),
+        'Photon DR Veto 0p025': lambda objs: (dR(objs['photons'],objs['electrons']) > 0.025),
+        'Photon DR Veto 0p035': lambda objs: (dR(objs['photons'],objs['electrons']) > 0.035),
+        'Photon DR Veto 0p045': lambda objs: (dR(objs['photons'],objs['electrons']) > 0.045),
     },
     "dsaMuons": {
         "pT > 10 GeV": lambda objs: objs["dsaMuons"].pt > 10,

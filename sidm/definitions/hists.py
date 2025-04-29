@@ -15,6 +15,7 @@ import awkward as ak
 from sidm.tools import histogram as h
 from sidm.tools.utilities import dR, lxy, matched
 from sidm.definitions.objects import derived_objs
+import numpy as np
 # always reload local modules to pick up changes during development
 importlib.reload(h)
 
@@ -52,12 +53,11 @@ attr_labels = {
 }
 default_binnings = {
     "n":  (10, 0, 10),
-    "pt":  (100, 0, 100),
+    "pt":  (50, 0, 200),
     "eta": (50, -3, 3),
     "phi": (50, -1*math.pi, math.pi),
-    "lxy": (100, 0, 100),
+    "lxy": (50, 0, 200),
 }
-
 
 # define convenience functions to simplify creating basic hists
 def make_label(obj, attr, absval):
@@ -255,6 +255,7 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["electrons"], objs["genAs_toE"], 0.5))),
         ],
     ),
+
     "electron_nearGenE_n": h.Histogram(
         [
             # number of electrons within dR=0.5 of a genA that decays to electrons
@@ -262,6 +263,8 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["electrons"], objs["genEs"], 0.5))),
         ],
     ),
+
+
     # pfelectron-genA
     "electron_nearGenA_n_genA_lxy": h.Histogram(
         [
@@ -287,6 +290,14 @@ hist_defs = {
             # dR(e, nearest gen e)
             h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="electron_genE_dR"),
                    lambda objs, mask: dR(objs["electrons"], objs["genEs"]))
+        ],
+    ),
+    #pfelectron-pfphoton
+    "electron_photon_dR": h.Histogram(
+        [
+            # dR(e, nearest gen e)
+            h.Axis(hist.axis.Regular(50, 0, 0.1, name="electron_photon_dR"),
+                   lambda objs, mask: dR(objs["electrons"], objs["photons"]))
         ],
     ),
     # pfphoton
@@ -335,7 +346,7 @@ hist_defs = {
     "photon_genE_dR": h.Histogram(
         [
             # dR(photon, nearest gen e)
-            h.Axis(hist.axis.Regular(50, 0, 2*math.pi, name="photon_genE_dR"),
+            h.Axis(hist.axis.Regular(50, 0,0.1, name="photon_genE_dR"),
                    lambda objs, mask: dR(objs["photons"], objs["genEs"]))
         ],
     ),
@@ -346,6 +357,13 @@ hist_defs = {
     "muon_eta_phi": obj_eta_phi("muons"),
     "muon_absD0": obj_attr("muons", "dxy", absval=True, xmax=500),
     "muon_absD0_lowRange": obj_attr("muons", "dxy", absval=True, xmax=10),
+    "lj_muonChg_nearGenA": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, -4, 4, name="lj_muonChg_nearGenA",
+                                     label=r"LJ Muon Chg Near GenA"),
+                   lambda objs, mask: (matched(objs["mu_ljs"], objs["genAs_toMu"], 0.5).muon_chg)),
+        ],
+    ),
     "muon_nearGenA_n": h.Histogram(
         [
             # number of muons within dR=0.5 of a genA that decays to muons
@@ -863,11 +881,20 @@ hist_defs = {
                    lambda objs, mask: dR(objs["electrons"], objs["ljs"]))
         ],
     ),
+    
     "electron_lj_dR_lowRange": h.Histogram(
         [
             # dR(e, nearest LJ)
             h.Axis(hist.axis.Regular(100, 0, 1.0, name="electron_lj_dR_lowRange"),
                    lambda objs, mask: dR(objs["electrons"], objs["ljs"]))
+        ],
+    ),
+    # pfelectron-egm lj
+    "electron_egmLj_dR": h.Histogram(
+        [
+            # dR(e, nearest LJ)
+            h.Axis(hist.axis.Regular(100, 0, 6, name="electron_egmLj_dR"),
+                   lambda objs, mask: dR(objs["electrons"], objs["egm_ljs"]))
         ],
     ),
     # pfphoton-lj
@@ -1495,8 +1522,9 @@ hist_defs = {
     "genAs_n": obj_attr("genAs", "n"),
     "genAs_toMu_n": obj_attr("genAs_toMu", "n"),
     "genAs_toE_n": obj_attr("genAs_toE", "n"),
-    "genAs_pt": obj_attr("genAs", "pt", xmax=200),
-    "genAs_pt_highRange": obj_attr("genAs", "pt", xmax=700),
+    "genAs_pt": obj_attr("genAs", "pt", xmax=700),
+    "egm_lj_pt": obj_attr("genAs", "pt", xmax=700),
+    
     "genAs_eta_phi": obj_eta_phi("genAs"),
     "genAs_toMu_matched_muLj_n": h.Histogram(
         [
@@ -1549,9 +1577,11 @@ hist_defs = {
                    lambda objs, mask: objs["genAs_toMu"].eta ),
         ],
     ),
-    "genAs_toE_lxy": obj_attr("genAs_toE", "lxy", xmax=150, nbins=30),
+    "genAs_toE_lxy": obj_attr("genAs_toE", "lxy", xmax=150),
+    "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=5),
+    "genAs_toE_lxy": obj_attr("genAs_toE", "lxy", xmax=150),
     "genAs_toE_lxy_highRange": obj_attr("genAs_toE", "lxy", xmax=500),
-    "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=20),
+    "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=5),
     "genAs_toE_lxy_midRange": obj_attr("genAs_toE", "lxy", xmin=40, xmax=80),
     "genAs_toE_lxy_ecal": obj_attr("genAs_toE", "lxy", xmin=125, xmax=135),
     "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200),
@@ -1612,19 +1642,19 @@ hist_defs = {
     ),
     "genAs_matched_egmLj_lxy": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 500, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs["genAs_matched_egmLj"](objs, 0.4)) ),
         ],
     ),
     "genAs_toE_matched_egmLj_lxy": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 500, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj"](objs, 0.4)) ),
         ],
     ),
     "genAs_toE_matched_egmLj_lxy_lowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 20, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj"](objs, 0.4)) ),
         ],
     ),
@@ -1638,6 +1668,12 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(25, 125, 135, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj"](objs, 0.4)) ),
+        ],
+    ),
+    "genEs_toEgmLJ_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 200, name=r"Reco Electron $P_T$ $(GeV)$"),
+                   lambda objs, mask: abs(derived_objs['recoElectrons_matched_egmLj'](objs, 0.4).pt) ),
         ],
     ),
     "genAs_matched_lj_n": h.Histogram(
@@ -1666,7 +1702,7 @@ hist_defs = {
     ),
     "genAs_toE_matched_egmLj_pt": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 200, name=r"$Z_d$ $p_T$ $(GeV)$"),
+            h.Axis(hist.axis.Regular(50, 0, 200, name=r"$Z_d$ $p_T$ $(GeV)$"),
                    lambda objs, mask: abs(derived_objs["genAs_toE_matched_egmLj"](objs, 0.4).pt) ),
         ],
     ),
@@ -2008,17 +2044,18 @@ hist_defs = {
                    lambda objs, mask: dR(objs["genAs_toE"], objs["ljs"]))
         ],
     ),
-    "genAs_lj_dR_lowRange": h.Histogram(
+    
+    "genAs_Photon_dR": h.Histogram(
         [
             # dR(A, nearest LJ)
-            h.Axis(hist.axis.Regular(200, 0, 1.0, name="genAs_lj_dR_lowRange"),
-                   lambda objs, mask: dR(objs["genAs"], objs["ljs"]))
+            h.Axis(hist.axis.Regular(200, 0, 1.0, name="dR(genAs, RecoPhotons)"),
+                   lambda objs, mask: dR(objs["genAs"], objs["photons"]))
         ],
     ),
     # genA - LJ 0.4 matching radius, pT Ratios
     "genA_lj_ptRatio": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(200, 0, 2.0, name="genA_lj_ptRatio",
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_lj_ptRatio",
                    label=r"Lepton Jet pT / (closest) $Z_d$ pT"),
                    lambda objs, mask: objs["ljs"].pt
                        / objs["ljs"].nearest(objs["genAs"], threshold=0.4).pt),
@@ -2026,7 +2063,7 @@ hist_defs = {
     ),
     "genA_egmLj_ptRatio": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(200, 0, 2.0, name="genA_egmLj_ptRatio",
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio",
                    label=r"EGM Lepton Jet pT / (closest) $Z_d$ pT"),
                    lambda objs, mask: objs["egm_ljs"].pt
                        / objs["egm_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt),
@@ -2066,10 +2103,10 @@ hist_defs = {
     ),
     "genA_muLj_ptRatio": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(200, 0, 2.0, name="genA_muLj_ptRatio",
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_muLj_ptRatio",
                    label=r"Muon Lepton Jet pT / (closest) $Z_d$ pT"),
-                   lambda objs, mask: objs["mu_ljs"].pt
-                       / objs["mu_ljs"].nearest(objs["genAs_toMu"], threshold=0.4).pt),
+                   lambda objs, mask: objs["mu_ljs"][:,0:1].pt
+                       / objs["mu_ljs"][:,0:1].nearest(objs["genAs_toMu"], threshold=0.4).pt),
         ],
     ),
     "genA_dsaMuonLj_ptRatio": h.Histogram(
@@ -2257,4 +2294,221 @@ hist_defs = {
         evt_mask=lambda objs: ((ak.num(matched(objs["genMus"], objs["muons"], 0.4)) > 0)
                                & (ak.num(matched(objs["genAs"], objs["muons"], 0.4)) > 0)),
     ),
+    ## Electron LJ lxy
+    "electronLj_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 1000, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(objs["electron_ljs"]) ),
+        ],
+    ),
+    ## Egm LJ Lxy
+    "egmLj_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 1000, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(objs["egm_ljs"]) ),
+        ],
+    ),
+    "genAs_toE_matched_one_photon_ljs_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_one_photon_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_two_photon_ljs_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_two_photon_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_one_electron_ljs_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_one_electron_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_two_electron_ljs_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_two_electron_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_one_e_one_p_ljs_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_one_e_one_p_ljs'](objs, 0.4)) ),
+        ],
+    ),
+    ###
+    "genAs_toE_matched_one_photon_ljs_lxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_one_photon_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_two_photon_ljs_lxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_two_photon_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_one_electron_ljs_lxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_one_electron_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_two_electron_ljs_lxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_two_electron_ljs"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_one_e_one_p_ljs_lxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_one_e_one_p_ljs'](objs, 0.4)) ),
+        ],
+    ),
+    "test": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: (derived_objs['genA_egmLj_ptRatio_PS'](objs)) ),
+        ],
+    ),
+    "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj_ptRatio_lt_1p5"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj_ptRatio_lt_1p5"](objs, 0.4)) ),
+        ],
+    ),
+    "genAs_toE_matched_egmLj_ptRatio_lt_1p5_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 200, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: (derived_objs["genAs_toE_matched_egmLj_ptRatio_lt_1p5"](objs, 0.4).pt) ),
+        ],
+    ),
+    "genAs_toE_matched_egmLj_ptRatio_lt_1p5_eta": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, -3, 3, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: (derived_objs["genAs_toE_matched_egmLj_ptRatio_lt_1p5"](objs, 0.4).eta) ),
+        ],
+    ),
+
+    "test": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: (derived_objs['genA_egmLj_ptRatio_PS'](objs)) ),
+        ],
+    ),
+    "genA_egmLj_ptRatio_onePhoton": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio_onePhoton",
+                   label=r"EGM (1 Photon) Lepton Jet pT / (closest) $Z_d$ pT"),
+                   lambda objs, mask: derived_objs['genA_onePhoton_ptRatio'](objs)),
+        ],
+    ),
+    "genA_egmLj_ptRatio_twoPhoton": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio_twoPhoton",
+                   label=r"EGM (2 Photon) Lepton Jet pT / (closest) $Z_d$ pT"),
+                   lambda objs, mask: derived_objs['genA_twoPhoton_ptRatio'](objs)),
+        ],
+    ),
+    "genA_egmLj_ptRatio_oneElectron": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio_oneElectron",
+                   label=r"EGM (1 Electron) Lepton Jet pT / (closest) $Z_d$ pT"),
+                   lambda objs, mask: derived_objs['genA_oneElectron_ptRatio'](objs)),
+        ],
+    ),
+    "genA_egmLj_ptRatio_twoElectron": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio_twoElectron",
+                   label=r"EGM (2 Electron) Lepton Jet pT / (closest) $Z_d$ pT"),
+                   lambda objs, mask: derived_objs['genA_twoElectron_ptRatio'](objs)),
+        ],
+    ),
+    "genA_egmLj_ptRatio_oneEoneP": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio_oneEoneP",
+                   label=r"EGM (1E 1P) Lepton Jet pT / (closest) $Z_d$ pT"),
+                   lambda objs, mask: derived_objs['genA_one_e_one_p_ptRatio'](objs)),
+        ],
+    ),
+    "photon_to_electron_ptRatio_from_oneEonePLJ": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 3.0, name="photon_to_electron_ptRatio_from_oneEonePLJ",
+                   label=r"EGM (1E 1P) LJ Photon to Electron PT ratio"),
+                   lambda objs, mask: derived_objs['photon_to_electron_pt_ratio_1p1eLJ'](objs)),
+        ],
+    ),
+    "photon_electron_dR_from_oneEonePLJ": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
+                                     label=r"$\Delta R$($p$, $e$)"),
+                   lambda objs, mask: dR(objs["one_e_one_p_ljs"].photons, objs["one_e_one_p_ljs"].electrons))
+        ],
+    ),
+    
+    "photon_electron_dR_from_oneEonePLJ_lowThreshold": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
+                                     label=r"$\Delta R$($p$, $e$)"),
+                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) < 1.2].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) < 1.2].electrons))
+        ],
+    ),
+    
+    "photon_electron_dR_from_oneEonePLJ_highThreshold": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
+                                     label=r"$\Delta R$($p$, $e$)"),
+                  lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons))
+        ],
+    ),
+    "genE_fromA_deltaR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"genE_fromA_deltaR"),
+                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
+        ],
+    ),
+    "test": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
+        ],
+    ),
+    'genA_toE_matched_photons_lxyLowRange': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4)))
+        ],
+    ),
+     'genA_toE_matched_photons_lxy': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4)))
+        ],
+    ),
+    'genA_toE_matched_electrons_lxyLowRange': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_electrons'](objs,0.4)))
+        ],
+    ),
+     'genA_toE_matched_electrons_lxy': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_electrons'](objs,0.4)))
+        ],
+    ),
 }
+
