@@ -86,7 +86,7 @@ class SidmProcessor(processor.ProcessorABC):
         # define histograms
         hists = self.build_histograms()
 
-        ### define pre- and post-lj object-level and event-level cuts per channel
+        ### define pre-lj object, lj, post-lj obj, and event cuts per channel
         ch_cuts = self.build_cuts()
 
         # loop through lj reco choices and channels, treating each lj+channel pair as a unique Selection
@@ -99,6 +99,10 @@ class SidmProcessor(processor.ProcessorABC):
 
                 # reconstruct lepton jets
                 sel_objs["ljs"] = self.build_lepton_jets(sel_objs, float(lj_reco))
+
+                # apply obj selection to ljs
+                lj_selection = selection.JaggedSelection(cuts["lj"], self.verbose)
+                lj_selection.apply_obj_cuts(sel_objs)
 
                 # add post-lj objects to sel_objs
                 for obj in postLj_objs:
@@ -117,19 +121,19 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs["lj_reco"] = lj_reco
 
                 # define event weights
-                if self.unweighted_hist:
-                    evt_weights =  ak.ones_like(self.obj_defs["weight"](events)[evt_selection.all_evt_cuts.all(*evt_selection.evt_cuts)])
-                else:
-                    evt_weights = self.obj_defs["weight"](events)[evt_selection.all_evt_cuts.all(*evt_selection.evt_cuts)]
-
-                # fill histograms for this channel+lj_reco pair
-                for h in hists.values():
-                    h.fill(sel_objs, evt_weights)
+                evt_weights =  self.obj_defs["weight"](events)*events.metadata["skim_factor"]
 
                 # make cutflow
                 if lj_reco not in cutflows:
                     cutflows[str(lj_reco)] = {}
-                cutflows[str(lj_reco)][channel] = cutflow.Cutflow(evt_selection.all_evt_cuts, evt_selection.evt_cuts, self.obj_defs["weight"](events))
+                cutflows[str(lj_reco)][channel] = cutflow.Cutflow(evt_selection.all_evt_cuts, evt_selection.evt_cuts, evt_weights)
+
+                # fill histograms for this channel+lj_reco pair
+                hist_weights = evt_weights[evt_selection.all_evt_cuts.all(*evt_selection.evt_cuts)]
+                if self.unweighted_hist:
+                    hist_weights =  ak.ones_like(hist_weights)
+                for h in hists.values():
+                    h.fill(sel_objs, hist_weights)
 
                 # Fill counters
                 if lj_reco not in counters:
@@ -229,8 +233,10 @@ class SidmProcessor(processor.ProcessorABC):
         ljs["dRSpread"] = ak.max(ak.flatten(
             ljs["constituents"].metric_table(ljs["constituents"], axis=2), axis=-1), axis=-1)
 
-        # todo: add LJ isolation
-
+        # LJ isolation
+        ljs["matched_jet"] = ljs.nearest(objs["jets"], threshold=0.4)       
+        ljs["isolation"] = ak.fill_none((ljs["matched_jet"].energy / ljs.energy) * (1 - (ljs["matched_jet"].chEmEF + ljs["matched_jet"].neEmEF + ljs["matched_jet"].muEF)), 0)
+        
         # todo: add LJ displacement
 
         # pt order the new LJs
@@ -240,7 +246,7 @@ class SidmProcessor(processor.ProcessorABC):
         return ljs
 
     def build_cuts(self):
-        """ Make list of pre-lj object, post-lj obj, and event cuts per channel"""
+        """ Make list of pre-lj object, lj, post-lj obj, and event cuts per channel"""
 
         selection_menu = utilities.load_yaml(f"{BASE_DIR}/{self.selections_cfg}")
 
@@ -249,6 +255,7 @@ class SidmProcessor(processor.ProcessorABC):
         for channel in self.channel_names:
             ch_cuts[channel] = {}
             ch_cuts[channel]["obj"] = {}
+            ch_cuts[channel]["lj"] = {}
             ch_cuts[channel]["postLj_obj"] = {}
             ch_cuts[channel]["evt"] = {}
 
@@ -260,7 +267,10 @@ class SidmProcessor(processor.ProcessorABC):
 
             if "postLj_obj_cuts" in cuts:
                 for obj, obj_cuts in cuts["postLj_obj_cuts"].items():
-                    ch_cuts[channel]["postLj_obj"][obj] = utilities.flatten(obj_cuts)
+                    if obj == "ljs":
+                        ch_cuts[channel]["lj"][obj] = utilities.flatten(obj_cuts)
+                    else:
+                        ch_cuts[channel]["postLj_obj"][obj] = utilities.flatten(obj_cuts)
 
             if "evt_cuts" in cuts:
                 ch_cuts[channel]["evt"] = utilities.flatten(cuts["evt_cuts"])
