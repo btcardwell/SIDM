@@ -75,6 +75,7 @@ dsaMuon_base: &dsaMuon_base
   - "dsaMuon_absD0_lowRange"
 
 lj_base: &lj_base
+  - "egm_lj_n"
   - "lj_n"
   - "lj_pt"
   - "lj_eta_phi"
@@ -97,6 +98,7 @@ lj_base: &lj_base
   - "photon_electron_dR_from_oneEonePLJ_highThreshold"
   - 'test'
   - "lj_muonChg_nearGenA"
+  - "genE_fromA_deltaR"
 
 mu_lj_base: &mu_lj_base
   - "mu_lj_n"
@@ -362,6 +364,10 @@ genA_toE_base: &genA_toE_base
   - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lowRange"
   - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_pt"
   - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_eta"
+  - 'genA_toE_matched_photons_lxyLowRange'
+  - 'genA_toE_matched_photons_lxy'
+  - 'genA_toE_matched_electrons_lxyLowRange'
+  - 'genA_toE_matched_electrons_lxy'
 
 
 genA_ratio: &genA_ratio

@@ -15,6 +15,7 @@ import awkward as ak
 from sidm.tools import histogram as h
 from sidm.tools.utilities import dR, lxy, matched
 from sidm.definitions.objects import derived_objs
+import numpy as np
 # always reload local modules to pick up changes during development
 importlib.reload(h)
 
@@ -57,7 +58,6 @@ default_binnings = {
     "phi": (50, -1*math.pi, math.pi),
     "lxy": (50, 0, 200),
 }
-
 
 # define convenience functions to simplify creating basic hists
 def make_label(obj, attr, absval):
@@ -2465,10 +2465,41 @@ hist_defs = {
                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons))
         ],
     ),
+    "genE_fromA_deltaR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"genE_fromA_deltaR"),
+                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
+        ],
+    ),
     "test": h.Histogram(
         [
             h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons) ),
+                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
+        ],
+    ),
+    'genA_toE_matched_photons_lxyLowRange': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4)))
+        ],
+    ),
+     'genA_toE_matched_photons_lxy': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4)))
+        ],
+    ),
+    'genA_toE_matched_electrons_lxyLowRange': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_electrons'](objs,0.4)))
+        ],
+    ),
+     'genA_toE_matched_electrons_lxy': h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_electrons'](objs,0.4)))
         ],
     ),
 }
+
