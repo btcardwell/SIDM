@@ -132,22 +132,6 @@ derived_objs['genAs_toE_matched_one_e_one_p_ljs'] = lambda objs, r: matched(objs
 derived_objs['genAs_toE_matched_photons'] = lambda objs, r: matched(objs['genAs_toE'], objs['photons'], r)
 derived_objs['genAs_toE_matched_electrons'] = lambda objs, r: matched(objs['genAs_toE'], objs['electrons'], r)
 ## used matched instead of nearest
-#derived_objs['genA_egmLj_ptRatio_PS'] = lambda objs: objs["egm_ljs"].pt / objs["egm_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['genA_egmLj_ptRatio_PS'] = lambda objs: objs["egm_ljs"].pt / objs["egm_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-
 derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'] = lambda objs: objs["one_e_one_p_ljs"].pt / objs["one_e_one_p_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
 
-## used matched instead of nearest
-#derived_objs['genA_egmLj_ptRatio_PS'] = lambda objs: objs["egm_ljs"].pt / objs["egm_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['genA_egmLj_ptRatio_PS'] = lambda objs: objs["egm_ljs"].pt / objs["egm_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['egm_ljs_within_ptRatio'] = lambda objs: objs["egm_ljs"][derived_objs['genA_egmLj_ptRatio_PS'](objs) < 1.5]
-derived_objs['genAs_toE_matched_egmLj_ptRatio_lt_1p5'] = lambda objs, r: matched(objs['genAs_toE'], derived_objs['egm_ljs_within_ptRatio'](objs), r)
-derived_objs['genA_onePhoton_ptRatio'] = lambda objs: objs["one_photon_ljs"].pt / objs["one_photon_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['genA_twoPhoton_ptRatio'] = lambda objs: objs["two_photon_ljs"].pt / objs["two_photon_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['genA_oneElectron_ptRatio'] = lambda objs: objs["one_electron_ljs"].pt / objs["one_electron_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['genA_twoElectron_ptRatio'] = lambda objs: objs["two_electron_ljs"].pt / objs["two_electron_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-derived_objs['genA_one_e_one_p_ptRatio'] = lambda objs: objs["one_e_one_p_ljs"].pt / objs["one_e_one_p_ljs"].nearest(objs["genAs_toE"], threshold=0.4).pt
-
-##
-derived_objs['photon_to_electron_pt_ratio_1p1eLJ'] = lambda objs: objs["one_e_one_p_ljs"].photons.pt/objs["one_e_one_p_ljs"].photons.pt
 

@@ -90,7 +90,6 @@ lj_base: &lj_base
   - "lj_dsaMuN"
   - "lj_pfMuN"
   #- "genEs_toEgmLJ_pt"
-  - "photon_to_electron_ptRatio_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ_lowThreshold"
   - "photon_electron_dR_from_oneEonePLJ_highThreshold"
@@ -359,10 +358,6 @@ genA_toE_base: &genA_toE_base
   - "genAs_toE_matched_one_electron_ljs_lxy_lowRange"
   - "genAs_toE_matched_two_electron_ljs_lxy_lowRange"
   - "genAs_toE_matched_one_e_one_p_ljs_lxy_lowRange"
-  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lxy"
-  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_lowRange"
-  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_pt"
-  - "genAs_toE_matched_egmLj_ptRatio_lt_1p5_eta"
   - 'genA_toE_matched_photons_lxyLowRange'
   - 'genA_toE_matched_photons_lxy'
   - 'genA_toE_matched_electrons_lxyLowRange'
