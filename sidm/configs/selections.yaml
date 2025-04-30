@@ -16,6 +16,7 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 5 GeV"
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts
+      - 'pT > 20'
       - "|eta| < 2.5"
       - 'Custom Cutbased'
       - "pixelSeed"
@@ -26,6 +27,7 @@ ljsource_cuts: &ljsource_cuts
       - "displaced ID"
       - "dR(dsa, pf) > 0.2"
 
+# require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
   obj_cuts: &obj_gen_level_cuts
     genMus:
@@ -79,7 +81,8 @@ base_ljObjCut: &base_ljObjCut
       - "mu_charge == 0"
   evt_cuts:
     - *evt_baseNoLj
-
+    
+# add obj-level LJ cuts
 base: &base
   obj_cuts: &obj_base
     <<: *obj_baseNoLj
@@ -88,7 +91,6 @@ base: &base
   evt_cuts: &evt_base
     - *evt_baseNoLj
     - ">=2 LJs"
-
 
 4mu: &4mu
   <<: *base
