@@ -16,7 +16,7 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 5 GeV"
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts
-      - 'pT > 20'
+      - "pT > 20 GeV"
       - "|eta| < 2.5"
       - 'Custom Cutbased'
       - "pixelSeed"
@@ -70,7 +70,8 @@ baseNoLj_egLj: &baseNoLj_egLj
       - "egLj"
   evt_cuts:
     - *evt_baseNoLj
-
+    
+# add obj-level LJ cuts
 base_ljObjCut: &base_ljObjCut
   obj_cuts:
     <<: *obj_baseNoLj
@@ -82,7 +83,7 @@ base_ljObjCut: &base_ljObjCut
   evt_cuts:
     - *evt_baseNoLj
     
-# add obj-level LJ cuts
+# add >=2 LJ requirement
 base: &base
   obj_cuts: &obj_base
     <<: *obj_baseNoLj
