@@ -55,7 +55,7 @@ default_binnings = {
     "pt":  (50, 0, 200),
     "eta": (50, -3, 3),
     "phi": (50, -1*math.pi, math.pi),
-    "lxy": (50, 0, 200),
+    "lxy": (30, 0, 200),
 }
 
 # define convenience functions to simplify creating basic hists
@@ -268,7 +268,7 @@ hist_defs = {
     "electron_nearGenA_n_genA_lxy": h.Histogram(
         [
             # lxy of dark photon that decays to electrons
-            h.Axis(hist.axis.Regular(100, 0, 500, name="genA_lxy",
+            h.Axis(hist.axis.Regular(30, 0, 150, name="genA_lxy",
                                      label=r"Dark photon $L_{xy}$ [cm]"),
                    lambda objs, mask: lxy(objs["genAs_toE"])),
             # number of electrons within dR=0.5 of a genA that decays to electrons
@@ -326,7 +326,7 @@ hist_defs = {
     "photon_nearGenA_n_genA_lxy": h.Histogram(
         [
             # lxy of dark photon that decays to electrons
-            h.Axis(hist.axis.Regular(100, 0, 500, name="genA_lxy",
+            h.Axis(hist.axis.Regular(30, 0, 150, name="genA_lxy",
                                      label=r"Dark photon $L_{xy}$ [cm]"),
                    lambda objs, mask: lxy(objs["genAs_toE"])),
             # number of photons within dR=0.5 of a genA that decays to electrons
@@ -1645,13 +1645,13 @@ hist_defs = {
     ),
     "genAs_toE_matched_egmLj_lxy": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj"](objs, 0.4)) ),
         ],
     ),
     "genAs_toE_matched_egmLj_lxy_lowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs["genAs_toE_matched_egmLj"](objs, 0.4)) ),
         ],
     ),
