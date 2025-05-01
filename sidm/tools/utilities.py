@@ -260,3 +260,55 @@ def get_lumixs_weight(dataset, year, n_evts):
     lumi = get_lumi(year)
     xs = get_xs(dataset)
     return lumi*xs/n_evts
+
+def check_variablePhoton(value, min_val=0b01):
+    """
+    Function to check if the variable is at least `min_val`
+    """
+    return value >= min_val
+
+def select_numbersPhoton(number, var1, var2):
+    """
+    Function to select the numbers where each variable is at least 0b010 except for variable of choice
+    """
+    selected = True
+    
+    # number will have 14 bits (2 bits per each cut)
+    # starting with MinPtCut at the LSB
+    # and ending with PhoIsoWithEALinScalingCut at the MSB
+    variables = [
+        ('MinPtCut', 0),  # 2 bits for MinPtCut (LSB)
+        ('PhoSCEtaMultiRangeCut', 2),
+        ('PhoSingleTowerHadOverEmCut', 4),
+        ('PhoFull5x5SigmaIEtaIEtaCut', 6),
+        ('ChHadIsoWithEALinScalingCut', 8),
+        ('NeuHadIsoWithEAQuadScalingCut', 10),
+        ('PhoIsoWithEALinScalingCut', 12),
+    ]
+    
+    # Check each variable except variable of choice 
+    for var, start_bit in variables:
+        # Get the 2 bits corresponding to this variable
+        value = (number >> start_bit) & 0b11  # Extract 2 bits
+        if (var != f'{var1}') and (var != f'{var2}'):
+            if not check_variablePhoton(value):
+                selected = False
+                break
+    
+    return selected
+
+
+def returnBitMapTArrayPhoton(bitMap, var1, var2):
+    tList = []
+    for i in range(len(bitMap)):
+        temp = []
+        if len(bitMap[i]) == 0:
+            tList.append(temp)
+            continue
+        for j in range(len(bitMap[i])):
+            if select_numbersPhoton(bitMap[i][j], var1, var2):
+                temp.append(True)
+            else:
+                temp.append(False)
+        tList.append(temp)
+    return ak.Array(tList)
