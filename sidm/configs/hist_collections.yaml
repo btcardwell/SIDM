@@ -164,6 +164,7 @@ egm_lj_base: &egm_lj_base
   - "egm_lj_electron_min_dxy_XXXXLowRange"
   - "egm_lj_electron_max_dxy_XXXXLowRange"
   - "egm_lj_electron_lostHits"
+  - "egm_lj_genE_matched_e_dxy"
 
 electron_lj_base: &electron_lj_base
   - "electron_lj_dR"
@@ -188,8 +189,8 @@ lj_lj_base: &lj_lj_base
   - "lj_lj_invmass_lowRange"
   - "lj_lj_absdR"
   - "lj_lj_absdeta"
-  
-isolation_base: &isolation_base  
+
+isolation_base: &isolation_base
   - "matched_jet_pt"
   - "mu_matched_jet_pt"
   - "pfmu_matched_jet_pt"
