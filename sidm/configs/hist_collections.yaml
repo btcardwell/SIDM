@@ -164,7 +164,6 @@ egm_lj_base: &egm_lj_base
   - "egm_lj_electron_min_dxy_XXXXLowRange"
   - "egm_lj_electron_max_dxy_XXXXLowRange"
   - "egm_lj_electron_lostHits"
-  - "egm_lj_genE_matched_e_dxy"
 
 electron_lj_base: &electron_lj_base
   - "electron_lj_dR"
