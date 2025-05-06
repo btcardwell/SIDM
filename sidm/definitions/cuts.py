@@ -132,6 +132,8 @@ obj_cut_defs = {
         "endcap_hoe": lambda objs: objs["electrons"].hoe <  0.0441 + 2.54/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt) + 0.183*objs["rho_PFIso"]/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt),
         "endcap_eInvMinusPInv": lambda objs: objs["electrons"].eInvMinusPInv < 0.111,
         'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
+        "missing_hits == 0" : lambda objs: objs["electrons"].lostHits == 0,
+        "missing_hits == 1" : lambda objs: objs["electrons"].lostHits == 1,
     },
     "muons": {
         "looseID": lambda objs: objs["muons"].looseId,

@@ -171,6 +171,32 @@ baseNoLj_matchedLeptons:
     - *evt_baseNoLj
 
 #Selections over base
+base_ljObjCut_0e_lostHits: &base_ljObjCut_0e_lostHits
+  obj_cuts: 
+    <<: *obj_baseNoLj
+    electrons:
+      - "pT > 10 GeV"
+      - "|eta| < 2.4"
+      - "looseID"
+      - "missing_hits == 0"
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+  evt_cuts: 
+    - *evt_baseNoLj
+
+base_ljObjCut_1e_lostHits: &base_ljObjCut_1e_lostHits
+  obj_cuts: 
+    <<: *obj_baseNoLj
+    electrons:
+      - "pT > 10 GeV"
+      - "|eta| < 2.4"
+      - "looseID"
+      - "missing_hits == 1"
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+  evt_cuts:
+    - *evt_baseNoLj
+
 base_egmLj_eLj: &base_egmLj_eLj
   obj_cuts:
     <<: *obj_base
