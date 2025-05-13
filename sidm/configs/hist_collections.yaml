@@ -488,3 +488,18 @@ displacement_base: &displacement_base
   - "genMu_dxy_lowRange"
   - "genMu_dxy_XLowRange"
   - "genMu_dxy_XXLowRange"
+  
+lj_reco_effi_base: &lj_reco_effi_base
+  - "genAs_toE_pt"
+  - "genAs_toE_pt_highRange"
+  - "genAs_toE_lxy"
+  - "genAs_toMu_pt"
+  - "genAs_toMu_pt_highRange"
+  - "genAs_toMu_lxy"
+  - "genE_genE_dR_lowRange"
+  - "genE_genE_dR_XLowRange"
+  - "genE_genE_dR_XXLowRange"
+  - "genMu_genMu_dR_lowRange"
+  - "genMu_genMu_dR_XLowRange"
+  - "genMu_genMu_dR_XXLowRange"
+

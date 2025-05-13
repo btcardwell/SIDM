@@ -37,7 +37,6 @@ obj_cut_defs = {
         "eLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0),
         "gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n > 0),
         "egLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n > 0),
-        "eLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0),
         "1eLj": lambda objs: (objs["egm_ljs"].electron_n == 1) & (objs["egm_ljs"].photon_n == 0),
         "2eLj": lambda objs: (objs["egm_ljs"].electron_n == 2) & (objs["egm_ljs"].photon_n == 0),
         "1gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n == 1),

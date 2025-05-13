@@ -1268,7 +1268,7 @@ hist_defs = {
     "genMu_genMu_dR_lowRange": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(100, 0, 0.5, name="genMu_genMu_dR_lowRange",
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="genMu_genMu_dR_lowRange",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][mask, 1].delta_r(
                        objs["genMus"][mask, 0])),
@@ -1278,7 +1278,7 @@ hist_defs = {
     "genMu_genMu_dR_XLowRange": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genMu_genMu_dR_lowRange",
+            h.Axis(hist.axis.Regular(50, 0, 0.1, name="genMu_genMu_dR_lowRange",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][mask, 1].delta_r(
                        objs["genMus"][mask, 0])),
@@ -1288,7 +1288,7 @@ hist_defs = {
     "genMu_genMu_dR_XXLowRange": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(100, 0, 0.04, name="genMu_genMu_dR_lowRange",
+            h.Axis(hist.axis.Regular(50, 0, 0.04, name="genMu_genMu_dR_lowRange",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][mask, 1].delta_r(
                        objs["genMus"][mask, 0])),
@@ -1546,9 +1546,9 @@ hist_defs = {
                    lambda objs, mask: abs(objs["genAs"].children.pdgId)),
         ],
     ),
-    "genAs_toMu_lxy": obj_attr("genAs_toMu", "lxy", xmax=500),
-    "genAs_toMu_pt": obj_attr("genAs_toMu", "pt", xmax=200),
-    "genAs_toMu_pt_highRange": obj_attr("genAs_toMu", "pt", xmax=700),
+    "genAs_toMu_lxy": obj_attr("genAs_toMu", "lxy", xmax=500, nbins=100),
+    "genAs_toMu_pt": obj_attr("genAs_toMu", "pt", xmax=200, nbins=50),
+    "genAs_toMu_pt_highRange": obj_attr("genAs_toMu", "pt", xmax=700, nbins=200),
     "genAs_toMu_eta": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, -3, 3, name=r"$Z_d$ $\eta$"),
@@ -1560,8 +1560,8 @@ hist_defs = {
     "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=20),
     "genAs_toE_lxy_midRange": obj_attr("genAs_toE", "lxy", xmin=40, xmax=80),
     "genAs_toE_lxy_ecal": obj_attr("genAs_toE", "lxy", xmin=125, xmax=135),
-    "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200),
-    "genAs_toE_pt_highRange": obj_attr("genAs_toE", "pt", xmax=700),
+    "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200, nbins=50),
+    "genAs_toE_pt_highRange": obj_attr("genAs_toE", "pt", xmax=700, nbins=200),
     "genAs_toE_eta": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, -3, 3, name=r"$Z_d$ $\eta$"),
