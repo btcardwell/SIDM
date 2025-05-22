@@ -187,6 +187,12 @@ evt_cut_defs = {
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
     ),
+    'Pass DoubleL2Mu23NoVtx_2Cha': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha,
+    'Pass DoubleL2Mu23NoVtx_2Cha_NoL2Matched': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched,
+    'Pass DoubleL2Mu23NoVtx_2Cha_CosmicSeed': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed,
+    'Pass DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched,
+    'Pass DoubleL2Mu25NoVtx_2Cha_Eta2p4': lambda objs: objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4,
+    'Pass DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4': lambda objs: objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4,
     ">=1 muon": lambda objs: ak.num(objs["muons"]) >= 1,
     "PV filter": lambda objs: ak.flatten(objs["pvs"].npvsGood) >= 1,
     #"Cosmic veto": lambda objs: objs["cosmicveto"].result,

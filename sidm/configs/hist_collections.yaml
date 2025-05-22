@@ -93,7 +93,8 @@ lj_base: &lj_base
   - "photon_electron_dR_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ_lowThreshold"
   - "photon_electron_dR_from_oneEonePLJ_highThreshold"
-  - "genE_fromA_deltaR"
+  # - "genE_fromA_deltaR"
+  - "mJJ_2mu2e"
 
 mu_lj_base: &mu_lj_base
   - "mu_lj_n"
@@ -168,7 +169,7 @@ egm_lj_base: &egm_lj_base
   - "egm_lj_electron_max_dxy_XXXXLowRange"
   - "egm_lj_electron_lostHits"
   - "genEs_toEgmLJ_pt"
-  - "photon_to_electron_ptRatio_from_oneEonePLJ"
+  #- "photon_to_electron_ptRatio_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ"
 
 electron_lj_base: &electron_lj_base
@@ -233,6 +234,9 @@ genE_base: &genE_base
   - "genE_genE_pt"
   - "electron_genE_dR"
   - "photon_genE_dR"
+  - "genE_genE_dR_matched_Photon"
+  - "genE_genE_dR_matched_Photon_lowRange"
+  - "genE_genE_dR_matched_Photon_XLowRange"
 
 genMu_base: &genMu_base
   - "genMu_n"
@@ -294,6 +298,12 @@ genA_base: &genA_base
   - "genA_egmLj_ptRatio_oneElectron"
   - "genA_egmLj_ptRatio_twoElectron"
   - "genA_egmLj_ptRatio_oneEoneP"
+  #- "genE_fromA_deltaR_matchedToZdwPhotonsNear"
+  # - "genE_fromA_deltaR_matchedToZdwPhotonsNear_ratio"
+  - "genAs_toE_lxy_dR_lowRange_all"
+  - "genAs_toE_lxy_dR_lowRange_matched"
+  - "genAs_toE_lxy_dR_all"
+  - "genAs_toE_lxy_dR_matched"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"
@@ -335,7 +345,7 @@ genA_toE_base: &genA_toE_base
   # - "genAs_toE_lxy_EEdR"
   # - "genAs_toE_lxy_EEdR_XLowRange"
   # - "genAs_toE_lxy_EEdR_XXLowRange"
-  # - "genAs_toE_lxy_pt_lowRange"
+  - "genAs_toE_lxy_pt_lowRange"
   # - "genAs_toE_pt_lxy"
   - "genAs_toE_matched_egmLj_pt_lxy"
   - "genAs_toE_lj_dR"

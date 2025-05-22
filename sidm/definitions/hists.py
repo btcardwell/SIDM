@@ -17,6 +17,22 @@ from sidm.tools.utilities import dR, lxy, matched
 from sidm.definitions.objects import derived_objs
 # always reload local modules to pick up changes during development
 importlib.reload(h)
+import numpy as np
+
+# def helperFunc(objs, derived_objs):
+#     genEFA = objs['genEs']
+#     genAtoEMatchedPhotons = derived_objs['genAs_toE_matched_photons'](objs,0.4)
+#     newVar = (genEFA[(~ak.is_none(genEFA.pt, axis=-1)) & (ak.num(genAtoEMatchedPhotons) > 0)])[ak.num(genEFA[(~ak.is_none(genEFA.pt, axis=-1)) & (ak.num(genAtoEMatchedPhotons) > 0)]) == 2]
+    
+#     return newVar[:,0].delta_r(newVar[:,1])
+def helperFunc(objs, derived_objs):
+    genEFA = objs['genEs']
+    matchedPhotons = derived_objs['genAs_toE_matched_photons'](objs, 0.4)
+    mask = (~ak.is_none(genEFA.pt, axis=-1)) & (ak.num(matchedPhotons) > 0)
+    selected = genEFA[mask]
+    twos = ak.num(selected) == 2
+    newVar = selected[twos]
+    return newVar[:, 0].delta_r(newVar[:, 1])
 
 
 # define counters
@@ -27,6 +43,19 @@ counter_defs = {
     "Matched gen As to muons": lambda objs: ak.count(derived_objs["genAs_toMu_matched_lj"](objs, 0.4).pt),
     "Matched gen As to electrons": lambda objs: ak.count(derived_objs["genAs_toE_matched_lj"](objs, 0.4).pt),
 }
+
+def tempFunc(objs):
+    temp1 = ak.sum(objs["egm_ljs"].mass, axis=1)
+    temp2 = ak.sum(objs["mu_ljs"].mass, axis=1)
+    temp3 = ak.nan_to_num(temp1, nan=9999)
+    mask = (temp3 > 0) & (temp2 > 0)
+
+    egms = objs["egm_ljs"]
+    mjs = objs["mu_ljs"]
+
+    masses = [((egms[i] + mjs[i]).mass if mask[i] else []) for i in range(len(egms))]
+    return ak.Array(masses)
+
 
 
 # define default labels and binnings
@@ -1160,11 +1189,38 @@ hist_defs = {
     "genE_genE_dR": h.Histogram(
         [
             # dR(subleading gen E, leading gen E)
-            h.Axis(hist.axis.Regular(100, 0, 1.0, name="genE_genE_dR",
+            h.Axis(hist.axis.Regular(30, 0, 0.5, name="genE_genE_dR",
                                      label=r"$\Delta R$($e_0^{gen}$, $e_1^{gen}$)"),
                    lambda objs, mask: objs["genEs"][mask, 1].delta_r(objs["genEs"][mask, 0])),
         ],
         evt_mask=lambda objs: ak.num(objs["genEs"]) > 1,
+    ),
+    "genE_genE_dR_matched_Photon": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.5, name="genE_genE_dR",
+                                     label=r"$\Delta R$($e_0^{gen}$, $e_1^{gen}$)"),
+                   lambda objs, mask: objs["genEs"][mask, 1].delta_r(objs["genEs"][mask, 0])),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["genEs"]) > 1) & (ak.num(derived_objs['genAs_toE_matched_photons'](objs, 0.4)) > 0),
+    ),
+    "genE_genE_dR_matched_Photon_lowRange": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.1, name="genE_genE_dR",
+                                     label=r"$\Delta R$($e_0^{gen}$, $e_1^{gen}$)"),
+                   lambda objs, mask: objs["genEs"][mask, 1].delta_r(objs["genEs"][mask, 0])),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["genEs"]) > 1) & (ak.num(derived_objs['genAs_toE_matched_photons'](objs, 0.4)) > 0),
+    ),
+    "genE_genE_dR_matched_Photon_XLowRange": h.Histogram(
+        [
+            # dR(subleading gen E, leading gen E)
+            h.Axis(hist.axis.Regular(30, 0, 0.04, name="genE_genE_dR",
+                                     label=r"$\Delta R$($e_0^{gen}$, $e_1^{gen}$)"),
+                   lambda objs, mask: objs["genEs"][mask, 1].delta_r(objs["genEs"][mask, 0])),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["genEs"]) > 1) & (ak.num(derived_objs['genAs_toE_matched_photons'](objs, 0.4)) > 0),
     ),
     "genE_genE_dR_lowRange": h.Histogram(
         [
@@ -1178,7 +1234,7 @@ hist_defs = {
     "genE_genE_dR_XLowRange": h.Histogram(
         [
             # dR(subleading gen E, leading gen E)
-            h.Axis(hist.axis.Regular(50, 0, 0.1, name="genE_genE_dR_lowRange",
+            h.Axis(hist.axis.Regular(30, 0, 0.1, name="genE_genE_dR_lowRange",
                                      label=r"$\Delta R$($e_0^{gen}$, $e_1^{gen}$)"),
                    lambda objs, mask: objs["genEs"][mask, 1].delta_r(objs["genEs"][mask, 0])),
         ],
@@ -1187,7 +1243,7 @@ hist_defs = {
     "genE_genE_dR_XXLowRange": h.Histogram(
         [
             # dR(subleading gen E, leading gen E)
-            h.Axis(hist.axis.Regular(50, 0, 0.04, name="genE_genE_dR_lowRange",
+            h.Axis(hist.axis.Regular(30, 0, 0.04, name="genE_genE_dR_lowRange",
                                      label=r"$\Delta R$($e_0^{gen}$, $e_1^{gen}$)"),
                    lambda objs, mask: objs["genEs"][mask, 1].delta_r(objs["genEs"][mask, 0])),
         ],
@@ -2058,6 +2114,15 @@ hist_defs = {
                        / objs["ljs"].nearest(objs["genAs"], threshold=0.4).pt),
         ],
     ),
+    "mJJ_2mu2e": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 400.0, name=r"M_{jj}",
+                   label=r"$M_{jj}$ [GeV]"),
+                   lambda objs, mask: tempFunc(objs)),
+        ],
+        #evt_mask=lambda objs: (ak.num(objs["egm_ljs"]) > 0) & (ak.num(objs["mu_ljs"])),
+        #evt_mask=lambda objs: tempFunc(objs),
+    ),
     "genA_egmLj_ptRatio": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 4.0, name="genA_egmLj_ptRatio",
@@ -2415,7 +2480,7 @@ hist_defs = {
         [
             # dR(subleading gen E, leading gen E)
             h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
-                                     label=r"$\Delta R$($p$, $e$)"),
+                                     label=r"$\Delta R$($\gamma$, $e$)"),
                    lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) < 1.2].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) < 1.2].electrons))
         ],
     ),
@@ -2424,14 +2489,20 @@ hist_defs = {
         [
             # dR(subleading gen E, leading gen E)
             h.Axis(hist.axis.Regular(30, 0, 0.2, name="photon_electron_dR_from_oneEonePLJ",
-                                     label=r"$\Delta R$($p$, $e$)"),
+                                     label=r"$\Delta R$($\gamma$, $e$)"),
                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons))
         ],
     ),
     "genE_fromA_deltaR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"genE_fromA_deltaR"),
-                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
+            h.Axis(hist.axis.Regular(30, 0, 0.4, name=r"$\Delta$R(e,e)"),
+                   lambda objs, mask: objs['genEs'][~ak.is_none(objs['genEs'].pt, axis=-1)][:,0].delta_r(objs['genEs'][~ak.is_none(objs['genEs'].pt, axis=-1)][:,1]))
+        ],
+    ),
+    "genE_fromA_deltaR_matchedToZdwPhotonsNear": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.4, name=r"$\Delta$R(e,e)"),
+                   lambda objs, mask: matched(objs["genEs"],derived_objs['genAs_toE_matched_photons'](objs,0.4),0.1).metric_table(matched(objs["genEs"],derived_objs['genAs_toE_matched_photons'](objs,0.4),0.1))[matched(objs["genEs"],derived_objs['genAs_toE_matched_photons'](objs,0.4),0.1).metric_table(matched(objs["genEs"],derived_objs['genAs_toE_matched_photons'](objs,0.4),0.1)) > 0])
         ],
     ),
     "test": h.Histogram(
@@ -2462,6 +2533,38 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs['genAs_toE_matched_electrons'](objs,0.4)))
+        ],
+    ),
+    "genAs_toE_lxy_dR_lowRange_all": h.Histogram(
+        [
+           h.Axis(hist.axis.Regular(30, 0, 0.4, name=r"$\Delta$R(genE,genE)"),
+                   lambda objs, mask: objs['genEs'][~ak.is_none(objs['genEs'].pt, axis=-1)][:,0].delta_r(objs['genEs'][~ak.is_none(objs['genEs'].pt, axis=-1)][:,1])),
+           h.Axis(hist.axis.Regular(30, 0, 5, name="genAs_lxy"),
+                   lambda objs, mask: lxy(objs["genAs_toE"])),
+        ],
+    ),
+    "genAs_toE_lxy_dR_lowRange_matched": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.4, name=r"$\Delta$R(genE,genE)"),
+                   lambda objs, mask: helperFunc(objs, derived_objs)),
+            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4))),
+        ],
+    ),
+    "genAs_toE_lxy_dR_all": h.Histogram(
+        [
+           h.Axis(hist.axis.Regular(30, 0, 0.4, name=r"$\Delta$R(genE,genE)"),
+                   lambda objs, mask: objs['genEs'][~ak.is_none(objs['genEs'].pt, axis=-1)][:,0].delta_r(objs['genEs'][~ak.is_none(objs['genEs'].pt, axis=-1)][:,1])),
+           h.Axis(hist.axis.Regular(30, 0, 150, name="genAs_lxy"),
+                   lambda objs, mask: lxy(objs["genAs_toE"])),
+        ],
+    ),
+    "genAs_toE_lxy_dR_matched": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 0.4, name=r"$\Delta$R(genE,genE)"),
+                   lambda objs, mask: helperFunc(objs, derived_objs)),
+            h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4))),
         ],
     ),
 }
