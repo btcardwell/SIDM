@@ -13,6 +13,7 @@ obj_cut_defs = {
         "|rho| < 0.02 cm": lambda objs: rho(objs["pvs"], ref=objs["bs"]) < 0.02,
     },
     "ljs": {
+        "pT > 0 GeV": lambda objs: objs["ljs"].pt > 0,
         "pT > 10 GeV": lambda objs: objs["ljs"].pt > 10,
         "pT > 20 GeV": lambda objs: objs["ljs"].pt > 20,
         "pT > 30 GeV": lambda objs: objs["ljs"].pt > 30,

@@ -85,9 +85,10 @@ base_ljObjCut: &base_ljObjCut
     <<: *obj_baseNoLj
   postLj_obj_cuts: &base_postLj_obj_cuts
     ljs: &lj_base
-      #- "pT > 30 GeV"
-      #- "|eta| < 2.4"
-      #- "mu_charge == 0"
+      - "pT > 0 GeV"
+      # - "pT > 30 GeV"
+      # - "|eta| < 2.4"
+      # - "mu_charge == 0"
   evt_cuts:
     - *evt_baseNoLj
 
