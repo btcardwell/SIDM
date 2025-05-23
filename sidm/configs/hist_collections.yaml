@@ -233,6 +233,9 @@ genE_base: &genE_base
   - "genE_genE_pt"
   - "electron_genE_dR"
   - "photon_genE_dR"
+  - "genE_genE_dR_matched_Photon"
+  - "genE_genE_dR_matched_Photon_lowRange"
+  - "genE_genE_dR_matched_Photon_XLowRange"
 
 genMu_base: &genMu_base
   - "genMu_n"
