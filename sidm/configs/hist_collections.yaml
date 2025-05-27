@@ -77,6 +77,7 @@ dsaMuon_base: &dsaMuon_base
 
 lj_base: &lj_base
   - "lj_n"
+  - "lj_iso"
   - "lj_pt"
   - "lj_eta_phi"
   - "lj0_pt"
@@ -94,6 +95,7 @@ lj_base: &lj_base
 
 mu_lj_base: &mu_lj_base
   - "mu_lj_n"
+  - "mu_lj_iso"
   - "mu_lj_pt"
   - "mu_lj_muonN"
   - "mu_lj_pfMu_n"
@@ -140,6 +142,7 @@ mu_lj_base: &mu_lj_base
 
 egm_lj_base: &egm_lj_base
   - "egm_lj_n"
+  - "egm_lj_iso"
   - "egm_lj_pt"
   - "egm_lj_electronN"
   - "egm_lj_photonN"
@@ -527,7 +530,10 @@ displacement_base: &displacement_base
   - "genMu_dxy_lowRange"
   - "genMu_dxy_XLowRange"
   - "genMu_dxy_XXLowRange"
-  
+  - "lj_iso"
+  - "egm_lj_iso"
+  - "mu_lj_iso"
+
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
