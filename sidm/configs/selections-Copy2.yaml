@@ -173,7 +173,7 @@ base_ljObjCut_v2: &base_ljObjCut_v2
     <<: *obj_baseNoLj_v2
   postLj_obj_cuts: &base_postLj_obj_cuts_v2
     ljs: &lj_base_v2
-      - "pT > 30 GeV"
+      - "pT > 40 GeV"
       - "|eta| < 2.4"
       - "mu_charge == 0"
   evt_cuts:
@@ -257,7 +257,7 @@ base_ljObjCut_v3: &base_ljObjCut_v3
     <<: *obj_baseNoLj_v3
   postLj_obj_cuts: &base_postLj_obj_cuts_v3
     ljs: &lj_base_v3
-      - "pT > 30 GeV"
+      - "pT > 50 GeV"
       - "|eta| < 2.4"
       - "mu_charge == 0"
   evt_cuts:
@@ -343,7 +343,7 @@ base_ljObjCut_v4: &base_ljObjCut_v4
     <<: *obj_baseNoLj_v4
   postLj_obj_cuts: &base_postLj_obj_cuts_v4
     ljs: &lj_base_v4
-      - "pT > 30 GeV"
+      - "pT > 60 GeV"
       - "|eta| < 2.4"
       - "mu_charge == 0"
   evt_cuts:
