@@ -451,8 +451,11 @@ hist_defs = {
     ),
     # lj
     "lj_n": obj_attr("ljs", "n"),
+    "lj_iso": obj_attr("ljs", "isolation", nbins=50, xmax=1),
     "egm_lj_n": obj_attr("egm_ljs", "n"),
+    "egm_lj_iso": obj_attr("egm_ljs", "isolation", nbins=50, xmax=1),
     "mu_lj_n": obj_attr("mu_ljs", "n"),
+    "mu_lj_iso": obj_attr("mu_ljs", "isolation", nbins=50, xmax=1),
     "lj_pt": obj_attr("ljs", "pt", xmax=700),
     "lj0_pt": h.Histogram(
         [
