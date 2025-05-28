@@ -710,6 +710,12 @@ hist_defs = {
                    lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxy)),
         ],
     ),
+    "mu_lj_pfMuon_dxy_XXLowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name=r"$\mu$- type LJ PF $\mu$ dxy (cm)"),
+                   lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxy)),
+        ],
+    ),
     "mu_lj_dsaMuon_dxy_XLowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 1, name=r"$\mu$- type LJ DSA $\mu$ dxy (cm)"),
@@ -752,6 +758,12 @@ hist_defs = {
                    lambda objs, mask: ak.min(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
         ],
     ),
+    "mu_lj_pfMuon_min_dxy_XXLowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name=r"$\mu$- type LJ PF $\mu$ min dxy (cm)"),
+                   lambda objs, mask: ak.min(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
+        ],
+    ),
     "mu_lj_muon_max_dxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 50, name=r"$\mu$- type LJ $\mu$ max dxy (cm)"),
@@ -786,6 +798,12 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"$\mu$- type LJ PF $\mu$ max dxy (cm)"),
                    lambda objs, mask: ak.max(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
+        ],
+    ),
+    "mu_lj_pfMuon_max_dxy_XXLowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name=r"$\mu$- type LJ $\mu$ max dxy (cm)"),
+                   lambda objs, mask: ak.max(abs(objs["mu_ljs"].muons.dxy), axis=-1)),
         ],
     ),
     "mu_lj_pfMu_nTrackerLayers": h.Histogram(
