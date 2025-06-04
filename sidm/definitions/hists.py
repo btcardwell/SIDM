@@ -2567,5 +2567,19 @@ hist_defs = {
                    lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4))),
         ],
     ),
+    "electronsPassingEGammaTrigs_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 500, name=r"$P_T$ [GeV]"),
+                   lambda objs, mask: objs['electrons'][mask].pt),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].Ele27_WPTight_Gsf
+        | objs["hlt"].Photon110EB_TightID_TightIso
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+    ),
+    ),
 }
 
