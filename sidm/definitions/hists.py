@@ -52,8 +52,11 @@ def tempFunc(objs):
 
     egms = objs["egm_ljs"]
     mjs = objs["mu_ljs"]
-
-    masses = [((egms[i] + mjs[i]).mass if mask[i] else []) for i in range(len(egms))]
+    indexEGMS = ak.argsort(egms.pt, axis=1, ascending=False)
+    indexMJS = ak.argsort(mjs.pt, axis=1, ascending=False)
+    egms = egms[indexEGMS]
+    mjs = mjs[indexMJS]
+    masses = [((egms[i,0] + mjs[i,0]).mass if mask[i] else []) for i in range(len(egms))]
     return ak.Array(masses)
 
 
