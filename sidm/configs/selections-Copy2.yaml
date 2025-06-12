@@ -40,8 +40,7 @@ gen_level_cuts: &gen_level_cuts
 trigger: &trigger
   evt_cuts:
     - "pass triggers"
-    - 'pass triggers + Mu50'
-    - 'pass triggers + Photon200'
+    
 
 # PV filter
 pv_cuts: &pv_cuts
@@ -130,7 +129,7 @@ gen_level_cuts_v2: &gen_level_cuts_v2
 
 trigger_v2: &trigger_v2
   evt_cuts:
-    - "pass triggers"
+    - 'pass triggers + Mu50'
 
 pv_cuts_v2: &pv_cuts_v2
   evt_cuts: &evt_pv_cuts_v2
@@ -178,6 +177,7 @@ base_v2: &base_v2
     <<: *base_postLj_obj_cuts_v2
   evt_cuts: &evt_base_v2
     - *evt_baseNoLj_v2
+    - ">=2 LJs"
     
 
 # ---------------------- base_v3 ----------------------
@@ -193,16 +193,15 @@ ljsource_cuts_v3: &ljsource_cuts_v3
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts_v3
       - "pT > 20 GeV"
-      - "eta"
-      - "pixelSeed"
-      #- "electronVeto"
+      - "|eta| < 2.5"
       - 'Custom Cutbased'
-      - 'Photon DR Veto 0p025'
+      - "pixelSeed"
+      - 'Photon DR Veto 0p035'
     dsaMuons: &dsaMuons_ljsource_cuts_v3
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
-      - "no PF match"
+      - "dR(dsa, pf) > 0.2"
 
 gen_level_cuts_v3: &gen_level_cuts_v3
   obj_cuts: &obj_gen_level_cuts_v3
@@ -214,7 +213,7 @@ gen_level_cuts_v3: &gen_level_cuts_v3
 
 trigger_v3: &trigger_v3
   evt_cuts:
-    - "pass triggers"
+    - 'pass triggers + Photon200'
 
 pv_cuts_v3: &pv_cuts_v3
   evt_cuts: &evt_pv_cuts_v3
@@ -262,7 +261,7 @@ base_v3: &base_v3
     <<: *base_postLj_obj_cuts_v3
   evt_cuts: &evt_base_v3
     - *evt_baseNoLj_v3
-    
+    - ">=2 LJs"
 ##########################################################
 # ---------------------- base_v4 ----------------------
 ljsource_cuts_v4: &ljsource_cuts_v4
