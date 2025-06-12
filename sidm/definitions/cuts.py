@@ -141,7 +141,7 @@ obj_cut_defs = {
         "dR(mu, A) < 0.5": lambda objs: dR(objs["muons"], objs["genAs_toMu"]) < 0.5,
     },
     "photons":{
-        "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,
+        "pT > 20 GeV": lambda objs: objs['photons'].pt > 20,
         "pT > 30 GeV": lambda objs: objs["photons"].pt > 30,
         "|eta| < 2.5": lambda objs: abs(objs["photons"].eta) < 2.5, # fixme: do we want eta or scEta
         "eta": lambda objs: objs["photons"].isScEtaEB | objs["photons"].isScEtaEE,
@@ -187,6 +187,24 @@ evt_cut_defs = {
         | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+    ),
+    'pass triggers + Mu50': lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Mu50
+    ),
+    'pass triggers + Photon200': lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Photon200
     ),
     'Pass DoubleL2Mu23NoVtx_2Cha': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha,
     'Pass DoubleL2Mu23NoVtx_2Cha_NoL2Matched': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched,

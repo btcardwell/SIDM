@@ -9,25 +9,22 @@ ljsource_cuts: &ljsource_cuts
     electrons: &electrons_ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
-      #- "looseID"
       - 'MVANonIsoWPL'
     muons: &muons_ljsource_cuts
       - "looseID"
       - "pT > 5 GeV"
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts
-      - "pT > 20 GeV"
+      - 'pT > 20 GeV'
       - "|eta| < 2.5"
-      #- 'looseID'
       - 'Custom Cutbased'
       - "pixelSeed"
-      #- "electronVeto"
       - 'Photon DR Veto 0p025'
     dsaMuons: &dsaMuons_ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
-      - "no PF match"
+      - "dR(dsa, pf) > 0.2"
 
 # require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
@@ -43,12 +40,8 @@ gen_level_cuts: &gen_level_cuts
 trigger: &trigger
   evt_cuts:
     - "pass triggers"
-    # - 'Pass DoubleL2Mu23NoVtx_2Cha'
-    # - 'Pass DoubleL2Mu23NoVtx_2Cha_NoL2Matched'
-    # - 'Pass DoubleL2Mu23NoVtx_2Cha_CosmicSeed'
-    # - 'Pass DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched'
-    # - 'Pass DoubleL2Mu25NoVtx_2Cha_Eta2p4'
-    # - 'Pass DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4'
+    - 'pass triggers + Mu50'
+    - 'pass triggers + Photon200'
 
 # PV filter
 pv_cuts: &pv_cuts
@@ -100,6 +93,7 @@ base: &base
     <<: *base_postLj_obj_cuts
   evt_cuts: &evt_base
     - *evt_baseNoLj
+    - ">=2 LJs"
     
 
 # ---------------------- base_v2 ----------------------
@@ -108,7 +102,6 @@ ljsource_cuts_v2: &ljsource_cuts_v2
     electrons: &electrons_ljsource_cuts_v2
       - "pT > 10 GeV"
       - "|eta| < 2.4"
-      #- "looseID"
       - 'MVANonIsoWPL'
     muons: &muons_ljsource_cuts_v2
       - "looseID"
@@ -116,18 +109,16 @@ ljsource_cuts_v2: &ljsource_cuts_v2
       - "|eta| < 2.4"
     photons: &photons_ljsource_cuts_v2
       - "pT > 20 GeV"
-      - "eta"
-      #- 'looseID'
+      - "|eta| < 2.5"
       - 'Custom Cutbased'
       - "pixelSeed"
-      #- "electronVeto"
       - 'Photon DR Veto 0p035'
 
     dsaMuons: &dsaMuons_ljsource_cuts_v2
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
-      - "no PF match"
+      - "dR(dsa, pf) > 0.2"
 
 gen_level_cuts_v2: &gen_level_cuts_v2
   obj_cuts: &obj_gen_level_cuts_v2
@@ -174,7 +165,7 @@ base_ljObjCut_v2: &base_ljObjCut_v2
     <<: *obj_baseNoLj_v2
   postLj_obj_cuts: &base_postLj_obj_cuts_v2
     ljs: &lj_base_v2
-      - "pT > 40 GeV"
+      - "pT > 30 GeV"
       - "|eta| < 2.4"
       - "mu_charge == 0"
   evt_cuts:
