@@ -188,6 +188,16 @@ evt_cut_defs = {
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
     ),
+    "pass new triggers": lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs["hlt"].Mu50
+        | objs["hlt"].Photon200
+    ),
     ">=1 muon": lambda objs: ak.num(objs["muons"]) >= 1,
     "PV filter": lambda objs: ak.flatten(objs["pvs"].npvsGood) >= 1,
     #"Cosmic veto": lambda objs: objs["cosmicveto"].result,
