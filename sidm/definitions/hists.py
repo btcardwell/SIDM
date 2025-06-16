@@ -2119,7 +2119,7 @@ hist_defs = {
     ),
     "mJJ_2mu2e": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(30, 0, 400.0, name=r"M_{jj}",
+            h.Axis(hist.axis.Regular(30, 0, 1200.0, name=r"M_{jj}",
                    label=r"$M_{jj}$ [GeV]"),
                    lambda objs, mask: tempFunc(objs)),
         ],
