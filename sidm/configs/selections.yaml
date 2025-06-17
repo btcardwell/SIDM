@@ -38,7 +38,7 @@ gen_level_cuts: &gen_level_cuts
 # apply trigger
 trigger: &trigger
   evt_cuts:
-    - "pass triggers"
+    - "pass new triggers"
 
 # PV filter
 pv_cuts: &pv_cuts
