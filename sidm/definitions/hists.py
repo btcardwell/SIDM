@@ -37,10 +37,6 @@ def tempFunc(objs):
 
     egms = objs["egm_ljs"]
     mjs = objs["mu_ljs"]
-    indexEGMS = ak.argsort(egms.pt, axis=1, ascending=False)
-    indexMJS = ak.argsort(mjs.pt, axis=1, ascending=False)
-    egms = egms[indexEGMS]
-    mjs = mjs[indexMJS]
     masses = [((egms[i,0] + mjs[i,0]).mass if mask[i] else []) for i in range(len(egms))]
     return ak.Array(masses)
 
@@ -2472,18 +2468,6 @@ hist_defs = {
                   lambda objs, mask: dR(objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].photons, objs["one_e_one_p_ljs"][derived_objs['genA_egmLj_oneEoneP_ptRatio_PS'](objs) > 1.8].electrons))
         ],
     ),
-    "genE_fromA_deltaR": h.Histogram(
-        [
-            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"genE_fromA_deltaR"),
-                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
-        ],
-    ),
-    "test": h.Histogram(
-        [
-            h.Axis(hist.axis.Regular(30, 0, 0.2, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: objs["genEs"].metric_table(objs['genEs'])[objs["genEs"].metric_table(objs['genEs']) > 0])
-        ],
-    ),
     'genA_toE_matched_photons_lxyLowRange': h.Histogram(
         [
             h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
@@ -2512,10 +2496,9 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(30, 0, 1200.0, name=r"M_{jj}",
                    label=r"$M_{jj}$ [GeV]"),
-                   lambda objs, mask: tempFunc(objs)),
+                   lambda objs, mask: (objs["egm_ljs"][mask, 0] + objs["mu_ljs"][mask, 0]).mass)
         ],
-        #evt_mask=lambda objs: (ak.num(objs["egm_ljs"]) > 0) & (ak.num(objs["mu_ljs"])),
-        #evt_mask=lambda objs: tempFunc(objs),
+        evt_mask=lambda objs: (ak.num(objs["egm_ljs"].mass, axis=1) > 0) & (ak.num(objs["mu_ljs"].mass, axis=1) > 0),
     ),
-}
 
+}
