@@ -13,7 +13,7 @@ import hist
 import awkward as ak
 # local
 from sidm.tools import histogram as h
-from sidm.tools.utilities import dR, lxy, matched
+from sidm.tools.utilities import dR, lxy, matched, dxy
 from sidm.definitions.objects import derived_objs
 # always reload local modules to pick up changes during development
 importlib.reload(h)
@@ -620,19 +620,19 @@ hist_defs = {
     ),
     "egm_lj_electron_dxy_XXXXLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, .05, name=r"egm- type LJ e dxy (cm)"),
+            h.Axis(hist.axis.Regular(50, 0, .01, name=r"egm- type LJ e dxy (cm)"),
                    lambda objs, mask: abs(objs["egm_ljs"].electrons.dxy)),
         ],
     ),
     "egm_lj_electron_min_dxy_XXXXLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, .05, name=r"egm- type LJ e min dxy (cm)"),
+            h.Axis(hist.axis.Regular(50, 0, .01, name=r"egm- type LJ e min dxy (cm)"),
                    lambda objs, mask: ak.min(abs(objs["egm_ljs"].electrons.dxy), axis=-1)),
         ],
     ),
     "egm_lj_electron_max_dxy_XXXXLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, .05, name=r"egm- type LJ e max dxy (cm)"),
+            h.Axis(hist.axis.Regular(50, 0, .01, name=r"egm- type LJ e max dxy (cm)"),
                    lambda objs, mask: ak.max(abs(objs["egm_ljs"].electrons.dxy), axis=-1)),
         ],
     ),
@@ -686,7 +686,7 @@ hist_defs = {
     ),
     "mu_lj_pfMuon_dxy_lowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 10, name=r"$\mu$- type LJ PF $\mu$ dxy (cm)"),
+            h.Axis(hist.axis.Regular(100, 0, 5, name=r"$\mu$- type LJ PF $\mu$ dxy (cm)"),
                    lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxy)),
         ],
     ),
@@ -728,7 +728,7 @@ hist_defs = {
     ),
     "mu_lj_pfMuon_min_dxy": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 20, name=r"$\mu$- type LJ PF $\mu$ min dxy (cm)"),
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$\mu$- type LJ PF $\mu$ min dxy (cm)"),
                    lambda objs, mask: ak.min(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
         ],
     ),
@@ -746,7 +746,7 @@ hist_defs = {
     ),
     "mu_lj_pfMuon_min_dxy_XLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 1, name=r"$\mu$- type LJ PF $\mu$ min dxy (cm)"),
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"$\mu$- type LJ PF $\mu$ min dxy (cm)"),
                    lambda objs, mask: ak.min(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
         ],
     ),
@@ -764,7 +764,7 @@ hist_defs = {
     ),
     "mu_lj_pfMuon_max_dxy": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 20, name=r"$\mu$- type LJ PF $\mu$ max dxy (cm)"),
+            h.Axis(hist.axis.Regular(50, 0, 5, name=r"$\mu$- type LJ PF $\mu$ max dxy (cm)"),
                    lambda objs, mask: ak.max(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
         ],
     ),
@@ -782,7 +782,7 @@ hist_defs = {
     ),
     "mu_lj_pfMuon_max_dxy_XLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, 1, name=r"$\mu$- type LJ PF $\mu$ max dxy (cm)"),
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"$\mu$- type LJ PF $\mu$ max dxy (cm)"),
                    lambda objs, mask: ak.max(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
         ],
     ),
@@ -1128,7 +1128,10 @@ hist_defs = {
     "genE_n": obj_attr("genEs", "n"),
     "genE_pt": obj_attr("genEs", "pt"),
     "genE_pt_highRange": obj_attr("genEs", "pt", xmax=700),
-    "genE_dxy": obj_attr("genEs", "dxy", absval=True, xmax=300),
+    "genE_dxy": obj_attr("genEs", "dxy", absval=True, xmax=10, nbins=100),
+    "genE_dxy_lowRange": obj_attr("genEs", "dxy", absval=True, xmax=1, nbins=100),
+    "genE_dxy_XLowRange": obj_attr("genEs", "dxy", absval=True, xmax=0.1, nbins=100),
+    "genE_dxy_XXLowRange": obj_attr("genEs", "dxy", absval=True, xmax=0.01, nbins=100),
     "genE0_pt": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 200, name="genE0_pt",
@@ -1274,7 +1277,10 @@ hist_defs = {
     "genMu_n": obj_attr("genMus", "n"),
     "genMu_pt": obj_attr("genMus", "pt"),
     "genMu_pt_highRange": obj_attr("genMus", "pt", xmax=700),
-    "genMu_dxy": obj_attr("genMus", "dxy", absval=True, xmax=300),
+    "genMu_dxy": obj_attr("genMus", "dxy", absval=True, xmax=10, nbins=100),
+    "genMu_dxy_lowRange": obj_attr("genMus", "dxy", absval=True, xmax=1, nbins=100),
+    "genMu_dxy_XLowRange": obj_attr("genMus", "dxy", absval=True, xmax=0.1, nbins=100),
+    "genMu_dxy_XXLowRange": obj_attr("genMus", "dxy", absval=True, xmax=0.01, nbins=100),
     "genMu0_pt": h.Histogram(
         [
             h.Axis(hist.axis.Regular(200, 0, 200, name="genMu0_pt",
@@ -1328,7 +1334,7 @@ hist_defs = {
     "genMu_genMu_dR_lowRange": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(100, 0, 0.5, name="genMu_genMu_dR_lowRange",
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="genMu_genMu_dR_lowRange",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][mask, 1].delta_r(
                        objs["genMus"][mask, 0])),
@@ -1338,7 +1344,7 @@ hist_defs = {
     "genMu_genMu_dR_XLowRange": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genMu_genMu_dR_lowRange",
+            h.Axis(hist.axis.Regular(50, 0, 0.1, name="genMu_genMu_dR_lowRange",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][mask, 1].delta_r(
                        objs["genMus"][mask, 0])),
@@ -1348,7 +1354,7 @@ hist_defs = {
     "genMu_genMu_dR_XXLowRange": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(100, 0, 0.04, name="genMu_genMu_dR_lowRange",
+            h.Axis(hist.axis.Regular(50, 0, 0.04, name="genMu_genMu_dR_lowRange",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][mask, 1].delta_r(
                        objs["genMus"][mask, 0])),
@@ -1607,9 +1613,9 @@ hist_defs = {
                    lambda objs, mask: abs(objs["genAs"].children.pdgId)),
         ],
     ),
-    "genAs_toMu_lxy": obj_attr("genAs_toMu", "lxy", xmax=500),
-    "genAs_toMu_pt": obj_attr("genAs_toMu", "pt", xmax=200),
-    "genAs_toMu_pt_highRange": obj_attr("genAs_toMu", "pt", xmax=700),
+    "genAs_toMu_lxy": obj_attr("genAs_toMu", "lxy", xmax=500, nbins=100),
+    "genAs_toMu_pt": obj_attr("genAs_toMu", "pt", xmax=200, nbins=50),
+    "genAs_toMu_pt_highRange": obj_attr("genAs_toMu", "pt", xmax=700, nbins=200),
     "genAs_toMu_eta": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, -3, 3, name=r"$Z_d$ $\eta$"),
@@ -1621,8 +1627,8 @@ hist_defs = {
     "genAs_toE_lxy_highRange": obj_attr("genAs_toE", "lxy", xmax=500),
     "genAs_toE_lxy_midRange": obj_attr("genAs_toE", "lxy", xmin=40, xmax=80),
     "genAs_toE_lxy_ecal": obj_attr("genAs_toE", "lxy", xmin=125, xmax=135),
-    "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200),
-    "genAs_toE_pt_highRange": obj_attr("genAs_toE", "pt", xmax=700),
+    "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200, nbins=50),
+    "genAs_toE_pt_highRange": obj_attr("genAs_toE", "pt", xmax=700, nbins=200),
     "genAs_toE_eta": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, -3, 3, name=r"$Z_d$ $\eta$"),

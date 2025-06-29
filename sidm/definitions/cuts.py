@@ -37,7 +37,6 @@ obj_cut_defs = {
         "eLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0),
         "gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n > 0),
         "egLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n > 0),
-        "eLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0),
         "1eLj": lambda objs: (objs["egm_ljs"].electron_n == 1) & (objs["egm_ljs"].photon_n == 0),
         "2eLj": lambda objs: (objs["egm_ljs"].electron_n == 2) & (objs["egm_ljs"].photon_n == 0),
         "1gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n == 1),
@@ -132,6 +131,8 @@ obj_cut_defs = {
         "endcap_hoe": lambda objs: objs["electrons"].hoe <  0.0441 + 2.54/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt) + 0.183*objs["rho_PFIso"]/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt),
         "endcap_eInvMinusPInv": lambda objs: objs["electrons"].eInvMinusPInv < 0.111,
         'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
+        "missing_hits == 0" : lambda objs: objs["electrons"].lostHits == 0,
+        "missing_hits == 1" : lambda objs: objs["electrons"].lostHits == 1,
     },
     "muons": {
         "looseID": lambda objs: objs["muons"].looseId,
@@ -186,6 +187,16 @@ evt_cut_defs = {
         | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+    ),
+    "pass new triggers": lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs["hlt"].Mu50
+        | objs["hlt"].Photon200
     ),
     ">=1 muon": lambda objs: ak.num(objs["muons"]) >= 1,
     "PV filter": lambda objs: ak.flatten(objs["pvs"].npvsGood) >= 1,
