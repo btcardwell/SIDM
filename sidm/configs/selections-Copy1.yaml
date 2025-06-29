@@ -33,6 +33,7 @@ gen_level_cuts: &gen_level_cuts
       - "status 1"
     genEs:
       - "status 1"
+      - "fromGenA" 
 
 # apply trigger
 trigger: &trigger
@@ -119,6 +120,7 @@ gen_level_cuts_v2: &gen_level_cuts_v2
       - "status 1"
     genEs:
       - "status 1"
+      - "fromGenA" 
 
 trigger_v2: &trigger_v2
   evt_cuts:
@@ -201,6 +203,7 @@ gen_level_cuts_v3: &gen_level_cuts_v3
       - "status 1"
     genEs:
       - "status 1"
+      - "fromGenA" 
 
 trigger_v3: &trigger_v3
   evt_cuts:
@@ -283,6 +286,7 @@ gen_level_cuts_v4: &gen_level_cuts_v4
       - "status 1"
     genEs:
       - "status 1"
+      - "fromGenA" 
 
 trigger_v4: &trigger_v4
   evt_cuts:
@@ -367,6 +371,7 @@ gen_level_cuts_v5: &gen_level_cuts_v5
       - "status 1"
     genEs:
       - "status 1"
+      - "fromGenA" 
 
 trigger_v5: &trigger_v5
   evt_cuts:
