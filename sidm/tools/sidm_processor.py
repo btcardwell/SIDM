@@ -30,7 +30,6 @@ class SidmProcessor(processor.ProcessorABC):
         channel_names,
         hist_collection_names,
         lj_reco_choices=["0.4"],
-        #selections_cfg="configs/selections-Copy1.yaml",
         selections_cfg="configs/selections.yaml",
         histograms_cfg="configs/hist_collections.yaml",
         unweighted_hist=False,
