@@ -19,22 +19,6 @@ from sidm.definitions.objects import derived_objs
 importlib.reload(h)
 import numpy as np
 
-# def helperFunc(objs, derived_objs):
-#     genEFA = objs['genEs']
-#     genAtoEMatchedPhotons = derived_objs['genAs_toE_matched_photons'](objs,0.4)
-#     newVar = (genEFA[(~ak.is_none(genEFA.pt, axis=-1)) & (ak.num(genAtoEMatchedPhotons) > 0)])[ak.num(genEFA[(~ak.is_none(genEFA.pt, axis=-1)) & (ak.num(genAtoEMatchedPhotons) > 0)]) == 2]
-    
-#     return newVar[:,0].delta_r(newVar[:,1])
-def helperFunc(objs, derived_objs):
-    genEFA = objs['genEs']
-    matchedPhotons = derived_objs['genAs_toE_matched_photons'](objs, 0.4)
-    mask = (~ak.is_none(genEFA.pt, axis=-1)) & (ak.num(matchedPhotons) > 0)
-    selected = genEFA[mask]
-    twos = ak.num(selected) == 2
-    newVar = selected[twos]
-    return newVar[:, 0].delta_r(newVar[:, 1])
-
-
 # define counters
 counter_defs = {
     "Total LJs": lambda objs: ak.count(objs["ljs"].pt),
@@ -43,21 +27,6 @@ counter_defs = {
     "Matched gen As to muons": lambda objs: ak.count(derived_objs["genAs_toMu_matched_lj"](objs, 0.4).pt),
     "Matched gen As to electrons": lambda objs: ak.count(derived_objs["genAs_toE_matched_lj"](objs, 0.4).pt),
 }
-
-def tempFunc(objs):
-    temp1 = ak.sum(objs["egm_ljs"].mass, axis=1)
-    temp2 = ak.sum(objs["mu_ljs"].mass, axis=1)
-    temp3 = ak.nan_to_num(temp1, nan=9999)
-    mask = (temp3 > 0) & (temp2 > 0)
-
-    egms = objs["egm_ljs"]
-    mjs = objs["mu_ljs"]
-    indexEGMS = ak.argsort(egms.pt, axis=1, ascending=False)
-    indexMJS = ak.argsort(mjs.pt, axis=1, ascending=False)
-    egms = egms[indexEGMS]
-    mjs = mjs[indexMJS]
-    masses = [((egms[i,0] + mjs[i,0]).mass if mask[i] else []) for i in range(len(egms))]
-    return ak.Array(masses)
 
 
 
@@ -2121,10 +2090,9 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(30, 0, 1200.0, name=r"M_{jj}",
                    label=r"$M_{jj}$ [GeV]"),
-                   lambda objs, mask: tempFunc(objs)),
+                   lambda objs, mask: (objs["egm_ljs"][mask, 0] + objs["mu_ljs"][mask, 0]).mass)
         ],
-        #evt_mask=lambda objs: (ak.num(objs["egm_ljs"]) > 0) & (ak.num(objs["mu_ljs"])),
-        #evt_mask=lambda objs: tempFunc(objs),
+        evt_mask=lambda objs: (ak.num(objs["egm_ljs"].mass, axis=1) > 0) & (ak.num(objs["mu_ljs"].mass, axis=1) > 0),
     ),
     "genA_egmLj_ptRatio": h.Histogram(
         [
