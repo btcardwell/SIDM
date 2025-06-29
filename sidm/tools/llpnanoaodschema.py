@@ -9,10 +9,15 @@ class LLPNanoAODSchema(NanoAODSchema):
 
     mixins = {
         **NanoAODSchema.mixins,
-        "DSAMuon": "Muon",
+        "DSAMuon": "DSAMuon",
     }
     all_cross_references = {
         **NanoAODSchema.all_cross_references,
+        "Muon_dsaMatch1idx": "DSAMuon",
+        "Muon_dsaMatch2idx": "DSAMuon",
+        "Muon_dsaMatch3idx": "DSAMuon",
+        "Muon_dsaMatch4idx": "DSAMuon",
+        "Muon_dsaMatch5idx": "DSAMuon",
         "DSAMuon_muonMatch1idx": "Muon",
         "DSAMuon_muonMatch2idx": "Muon",
         "DSAMuon_muonMatch3idx": "Muon",
@@ -21,6 +26,13 @@ class LLPNanoAODSchema(NanoAODSchema):
     }
     nested_items = {
         **NanoAODSchema.nested_items,
+        "Muon_dsaIdxG": [
+            "Muon_dsaMatch1idxG",
+            "Muon_dsaMatch2idxG",
+            "Muon_dsaMatch3idxG",
+            "Muon_dsaMatch4idxG",
+            "Muon_dsaMatch5idxG",
+        ],
         "DSAMuon_muonIdxG": [
             "DSAMuon_muonMatch1idxG",
             "DSAMuon_muonMatch2idxG",
@@ -41,7 +53,7 @@ class LLPNanoAODSchema(NanoAODSchema):
             """LLPNanoAOD DSA muon object"""
  
             @property
-            def matched_muon(self):
+            def matched_muons(self):
                 return self._events().Muon._apply_global_index(self.muonIdxG)
 
         nanoaod._set_repr_name("DSAMuon")
