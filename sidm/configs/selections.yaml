@@ -113,7 +113,7 @@ EGammaIDStudyChannel1: &EGammaIDStudyChannel1
   postLj_obj_cuts:
     <<: *base_postLj_obj_cuts
   evt_cuts:
-    - *evt_base
+    - "PV filter"
 
 EGammaIDStudyChannel2: &EGammaIDStudyChannel2
   obj_cuts:
@@ -136,7 +136,7 @@ EGammaIDStudyChannel2: &EGammaIDStudyChannel2
   postLj_obj_cuts:
     <<: *base_postLj_obj_cuts
   evt_cuts:
-    - *evt_base
+    - "PV filter"
 
 EGammaIDStudyChannel3: &EGammaIDStudyChannel3
   obj_cuts:
@@ -160,7 +160,7 @@ EGammaIDStudyChannel3: &EGammaIDStudyChannel3
   postLj_obj_cuts:
     <<: *base_postLj_obj_cuts
   evt_cuts:
-    - *evt_base
+    - "PV filter"
 
 EGammaIDStudyChannel4: &EGammaIDStudyChannel4
   obj_cuts:
@@ -182,7 +182,7 @@ EGammaIDStudyChannel4: &EGammaIDStudyChannel4
   postLj_obj_cuts:
     <<: *base_postLj_obj_cuts
   evt_cuts:
-    - *evt_base
+    - "PV filter"
 
 EGammaIDStudyChannel5: &EGammaIDStudyChannel5
   obj_cuts:
@@ -205,7 +205,7 @@ EGammaIDStudyChannel5: &EGammaIDStudyChannel5
   postLj_obj_cuts:
     <<: *base_postLj_obj_cuts
   evt_cuts:
-    - *evt_base
+    - "PV filter"
 
 4mu: &4mu
   <<: *base
