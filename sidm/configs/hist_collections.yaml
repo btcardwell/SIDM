@@ -94,6 +94,7 @@ lj_base: &lj_base
   - "photon_electron_dR_from_oneEonePLJ_lowThreshold"
   - "photon_electron_dR_from_oneEonePLJ_highThreshold"
   - "genE_fromA_deltaR"
+  - "mJJ_2mu2e"
 
 mu_lj_base: &mu_lj_base
   - "mu_lj_n"

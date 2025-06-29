@@ -29,6 +29,22 @@ counter_defs = {
 }
 
 
+def tempFunc(objs):
+    temp1 = ak.sum(objs["egm_ljs"].mass, axis=1)
+    temp2 = ak.sum(objs["mu_ljs"].mass, axis=1)
+    temp3 = ak.nan_to_num(temp1, nan=9999)
+    mask = (temp3 > 0) & (temp2 > 0)
+
+    egms = objs["egm_ljs"]
+    mjs = objs["mu_ljs"]
+    indexEGMS = ak.argsort(egms.pt, axis=1, ascending=False)
+    indexMJS = ak.argsort(mjs.pt, axis=1, ascending=False)
+    egms = egms[indexEGMS]
+    mjs = mjs[indexMJS]
+    masses = [((egms[i,0] + mjs[i,0]).mass if mask[i] else []) for i in range(len(egms))]
+    return ak.Array(masses)
+
+    
 # define default labels and binnings
 obj_labels = {
     "electrons": "Electron",
@@ -2491,6 +2507,15 @@ hist_defs = {
             h.Axis(hist.axis.Regular(30, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs['genAs_toE_matched_electrons'](objs,0.4)))
         ],
+    ),
+    "mJJ_2mu2e": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(30, 0, 1200.0, name=r"M_{jj}",
+                   label=r"$M_{jj}$ [GeV]"),
+                   lambda objs, mask: tempFunc(objs)),
+        ],
+        #evt_mask=lambda objs: (ak.num(objs["egm_ljs"]) > 0) & (ak.num(objs["mu_ljs"])),
+        #evt_mask=lambda objs: tempFunc(objs),
     ),
 }
 
