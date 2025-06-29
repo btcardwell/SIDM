@@ -92,7 +92,7 @@ base: &base
     <<: *base_postLj_obj_cuts
   evt_cuts: &evt_base
     - *evt_baseNoLj
-    - ">=2 LJs"
+    
     
 
 # ---------------------- base_v2 ----------------------
@@ -177,7 +177,7 @@ base_v2: &base_v2
     <<: *base_postLj_obj_cuts_v2
   evt_cuts: &evt_base_v2
     - *evt_baseNoLj_v2
-    - ">=2 LJs"
+    
     
 
 # ---------------------- base_v3 ----------------------
@@ -261,7 +261,7 @@ base_v3: &base_v3
     <<: *base_postLj_obj_cuts_v3
   evt_cuts: &evt_base_v3
     - *evt_baseNoLj_v3
-    - ">=2 LJs"
+    
 ##########################################################
 # ---------------------- base_v4 ----------------------
 ljsource_cuts_v4: &ljsource_cuts_v4
