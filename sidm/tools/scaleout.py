@@ -11,4 +11,3 @@ def make_dask_client(address):
     client = Client(address)
     client.register_plugin(PipInstall(packages=dependencies, pip_options=["--upgrade"]))
     return client
-
