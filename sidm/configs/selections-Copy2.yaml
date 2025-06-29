@@ -111,7 +111,7 @@ ljsource_cuts_v2: &ljsource_cuts_v2
       - "|eta| < 2.5"
       - 'Custom Cutbased'
       - "pixelSeed"
-      - 'Photon DR Veto 0p035'
+      - 'Photon DR Veto 0p025'
 
     dsaMuons: &dsaMuons_ljsource_cuts_v2
       - "pT > 10 GeV"
@@ -129,7 +129,7 @@ gen_level_cuts_v2: &gen_level_cuts_v2
 
 trigger_v2: &trigger_v2
   evt_cuts:
-    - 'pass triggers + Mu50'
+    - 'pass triggers'
 
 pv_cuts_v2: &pv_cuts_v2
   evt_cuts: &evt_pv_cuts_v2
@@ -164,9 +164,9 @@ base_ljObjCut_v2: &base_ljObjCut_v2
     <<: *obj_baseNoLj_v2
   postLj_obj_cuts: &base_postLj_obj_cuts_v2
     ljs: &lj_base_v2
-      - "pT > 30 GeV"
+      - "pT > 40 GeV"
       - "|eta| < 2.4"
-      #- "mu_charge == 0"
+      - "mu_charge == 0"
   evt_cuts:
     - *evt_baseNoLj_v2
 
@@ -196,7 +196,7 @@ ljsource_cuts_v3: &ljsource_cuts_v3
       - "|eta| < 2.5"
       - 'Custom Cutbased'
       - "pixelSeed"
-      - 'Photon DR Veto 0p035'
+      - 'Photon DR Veto 0p025'
     dsaMuons: &dsaMuons_ljsource_cuts_v3
       - "pT > 10 GeV"
       - "|eta| < 2.4"
@@ -213,7 +213,7 @@ gen_level_cuts_v3: &gen_level_cuts_v3
 
 trigger_v3: &trigger_v3
   evt_cuts:
-    - 'pass triggers + Photon200'
+    - 'pass triggers'
 
 pv_cuts_v3: &pv_cuts_v3
   evt_cuts: &evt_pv_cuts_v3
