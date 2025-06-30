@@ -9,5 +9,6 @@ def make_dask_client(address):
         "git+https://github.com/SC990987/SIDM.git@LJDRandPT",
     ]
     client = Client(address)
-    client.register_plugin(PipInstall(packages=dependencies, pip_options=["--upgrade", "--no-cache-dir"]))
+    client.register_plugin(PipInstall(packages=dependencies, pip_options=["--upgrade"]))
     return client
+

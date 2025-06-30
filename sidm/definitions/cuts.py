@@ -13,7 +13,6 @@ obj_cut_defs = {
         "|rho| < 0.02 cm": lambda objs: rho(objs["pvs"], ref=objs["bs"]) < 0.02,
     },
     "ljs": {
-        "pT > 0 GeV": lambda objs: objs["ljs"].pt > 0,
         "pT > 10 GeV": lambda objs: objs["ljs"].pt > 10,
         "pT > 20 GeV": lambda objs: objs["ljs"].pt > 20,
         "pT > 30 GeV": lambda objs: objs["ljs"].pt > 30,
@@ -38,7 +37,6 @@ obj_cut_defs = {
         "eLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0),
         "gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n > 0),
         "egLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n > 0),
-        "eLj": lambda objs: (objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0),
         "1eLj": lambda objs: (objs["egm_ljs"].electron_n == 1) & (objs["egm_ljs"].photon_n == 0),
         "2eLj": lambda objs: (objs["egm_ljs"].electron_n == 2) & (objs["egm_ljs"].photon_n == 0),
         "1gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n == 1),
@@ -133,6 +131,9 @@ obj_cut_defs = {
         "endcap_hoe": lambda objs: objs["electrons"].hoe <  0.0441 + 2.54/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt) + 0.183*objs["rho_PFIso"]/((1 + objs["electrons"].scEtOverPt) * objs["electrons"].pt),
         "endcap_eInvMinusPInv": lambda objs: objs["electrons"].eInvMinusPInv < 0.111,
         'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
+        "missing_hits == 0" : lambda objs: objs["electrons"].lostHits == 0,
+        "missing_hits == 1" : lambda objs: objs["electrons"].lostHits == 1,
+
     },
     "muons": {
         "looseID": lambda objs: objs["muons"].looseId,
@@ -141,7 +142,7 @@ obj_cut_defs = {
         "dR(mu, A) < 0.5": lambda objs: dR(objs["muons"], objs["genAs_toMu"]) < 0.5,
     },
     "photons":{
-        "pT > 20 GeV": lambda objs: objs['photons'].pt > 20,
+        "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,
         "pT > 30 GeV": lambda objs: objs["photons"].pt > 30,
         "|eta| < 2.5": lambda objs: abs(objs["photons"].eta) < 2.5, # fixme: do we want eta or scEta
         "eta": lambda objs: objs["photons"].isScEtaEB | objs["photons"].isScEtaEE,
@@ -188,30 +189,16 @@ evt_cut_defs = {
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
     ),
-    'pass triggers + Mu50': lambda objs: (
+    "pass new triggers": lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
         | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
         | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
         | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
         | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
-        | objs['hlt'].Mu50
+        | objs["hlt"].Mu50
+        | objs["hlt"].Photon200
     ),
-    'pass triggers + Photon200': lambda objs: (
-          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
-        | objs['hlt'].Photon200
-    ),
-    'Pass DoubleL2Mu23NoVtx_2Cha': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha,
-    'Pass DoubleL2Mu23NoVtx_2Cha_NoL2Matched': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched,
-    'Pass DoubleL2Mu23NoVtx_2Cha_CosmicSeed': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed,
-    'Pass DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched': lambda objs: objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched,
-    'Pass DoubleL2Mu25NoVtx_2Cha_Eta2p4': lambda objs: objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4,
-    'Pass DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4': lambda objs: objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4,
     ">=1 muon": lambda objs: ak.num(objs["muons"]) >= 1,
     "PV filter": lambda objs: ak.flatten(objs["pvs"].npvsGood) >= 1,
     #"Cosmic veto": lambda objs: objs["cosmicveto"].result,
