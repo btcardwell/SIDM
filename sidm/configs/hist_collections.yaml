@@ -300,10 +300,6 @@ genA_base: &genA_base
   - "genA_egmLj_ptRatio_oneEoneP"
   #- "genE_fromA_deltaR_matchedToZdwPhotonsNear"
   # - "genE_fromA_deltaR_matchedToZdwPhotonsNear_ratio"
-  - "genAs_toE_lxy_dR_lowRange_all"
-  - "genAs_toE_lxy_dR_lowRange_matched"
-  - "genAs_toE_lxy_dR_all"
-  - "genAs_toE_lxy_dR_matched"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"
