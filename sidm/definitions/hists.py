@@ -2304,7 +2304,7 @@ hist_defs = {
     "genAToMus_passingCurrentTrigger_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2317,7 +2317,7 @@ hist_defs = {
     "genAToMus_passingCurrentTrigger_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2330,7 +2330,7 @@ hist_defs = {
     "genAToMus_passingCurrentTriggerPlusMu50_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2344,7 +2344,7 @@ hist_defs = {
     "genAToMus_passingCurrentTriggerPlusMu50_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2358,7 +2358,7 @@ hist_defs = {
     "genAToMus_passingCurrentTriggerPlusPhoton200_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2372,7 +2372,7 @@ hist_defs = {
     "genAToMus_passingCurrentTriggerPlusPhoton200_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2386,7 +2386,7 @@ hist_defs = {
     "genAToMus_passingCurrentTriggerPlusMuPho_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2400,7 +2400,7 @@ hist_defs = {
     "genAToMus_passingCurrentTriggerPlusMuPho_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2414,21 +2414,21 @@ hist_defs = {
     "genAToMus_passingMuPhoOnly_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
     "genAToMus_passingMuPhoOnly_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toMu"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toMu"][mask]) ),
         ],
         evt_mask=lambda objs: (objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
     "genAToEs_passingCurrentTrigger_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2441,7 +2441,7 @@ hist_defs = {
     "genAToEs_passingCurrentTrigger_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2454,7 +2454,7 @@ hist_defs = {
     "genAToEs_passingCurrentTriggerPlusMu50_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2468,7 +2468,7 @@ hist_defs = {
     "genAToEs_passingCurrentTriggerPlusMu50_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2482,7 +2482,7 @@ hist_defs = {
     "genAToEs_passingCurrentTriggerPlusPhoton200_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2496,7 +2496,7 @@ hist_defs = {
     "genAToEs_passingCurrentTriggerPlusPhoton200_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2510,7 +2510,7 @@ hist_defs = {
     "genAToEs_passingCurrentTriggerPlusMuPho_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2524,7 +2524,7 @@ hist_defs = {
     "genAToEs_passingCurrentTriggerPlusMuPho_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (
           objs["hlt"].DoubleL2Mu23NoVtx_2Cha
@@ -2538,14 +2538,14 @@ hist_defs = {
     "genAToEs_passingMuPhoOnly_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 700, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
     "genAToEs_passingMuPhoOnly_lxy_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 10, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
-                   lambda objs, mask: lxy(["genAs_toE"][mask]) ),
+                   lambda objs, mask: lxy(objs["genAs_toE"][mask]) ),
         ],
         evt_mask=lambda objs: (objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
