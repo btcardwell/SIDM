@@ -305,6 +305,10 @@ genA_base: &genA_base
   - "genAToEs_passingCurrentTriggerPlusMuPho_lxy_lowRange"
   - "genAToEs_passingMuPhoOnly_lxy"
   - "genAToEs_passingMuPhoOnly_lxy_lowRange"
+  - "genAs_toMu_lxy"
+  - "genAs_toMu_lxy_lowRange"
+  - "genAs_toE_lxy"
+  - "genAs_toE_lxy_lowRange"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"
