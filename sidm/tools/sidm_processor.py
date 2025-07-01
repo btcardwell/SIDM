@@ -10,6 +10,7 @@ from coffea.nanoevents.methods import vector as cvec
 import awkward as ak
 import fastjet
 import vector
+import lzma
 #local
 from sidm import BASE_DIR
 from sidm.tools import selection, cutflow, utilities
@@ -143,7 +144,7 @@ class SidmProcessor(processor.ProcessorABC):
                 for name, counter in counter_defs.items():
                     try:
                         counters[lj_reco][channel][name] = counter(sel_objs)
-                    except (KeyError, AttributeError) as e:
+                    except (KeyError, AttributeError, lzma.LZMAError) as e:
                         print(f"Warning: cannot fill counter {name}. Skipping.")
 
         # lose lj_reco dimension to cutflows if only one reco was run
