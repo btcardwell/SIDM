@@ -1595,7 +1595,7 @@ hist_defs = {
     ),
     "genAs_toE_lxy": obj_attr("genAs_toE", "lxy", xmax=700, nbins=50),
     "genAs_toE_lxy_highRange": obj_attr("genAs_toE", "lxy", xmax=500),
-    "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=10),
+    "genAs_toE_lxy_lowRange": obj_attr("genAs_toE", "lxy", xmax=10, nbins=50),
     "genAs_toE_lxy_midRange": obj_attr("genAs_toE", "lxy", xmin=40, xmax=80),
     "genAs_toE_lxy_ecal": obj_attr("genAs_toE", "lxy", xmin=125, xmax=135),
     "genAs_toE_pt": obj_attr("genAs_toE", "pt", xmax=200, nbins=50),
@@ -2549,50 +2549,4 @@ hist_defs = {
         ],
         evt_mask=lambda objs: (objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
-}
-
-# define counters
-counter_defs = {
-    "Total LJs": lambda objs: ak.count(objs["ljs"].pt),
-    "Gen As to muons": lambda objs: ak.count(objs["genAs_toMu"].pt),
-    "Gen As to electrons": lambda objs: ak.count(objs["genAs_toE"].pt),
-    "Matched gen As to muons": lambda objs: ak.count(derived_objs["genAs_toMu_matched_lj"](objs, 0.4).pt),
-    "Matched gen As to electrons": lambda objs: ak.count(derived_objs["genAs_toE_matched_lj"](objs, 0.4).pt),
-    'Num Evts': lambda objs: len(objs['gens']),
-    'Passing Current Triggers': lambda objs: ak.sum(
-          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
-    ),
-    'Passing Current Triggers + Mu50': lambda objs: ak.sum(
-          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
-        | objs['hlt'].Mu50
-    ),
-    'Passing Current Triggers + Photon200': lambda objs: ak.sum(
-          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
-        | objs['hlt'].Photon200
-    ),
-    'Passing Current Triggers + MuPho': lambda objs: ak.sum(
-          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
-        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
-        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
-        | objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL
-    ),
-    'Passing MuPho Only': lambda objs: ak.sum(objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
 }
