@@ -45,6 +45,12 @@ electron_base: &electron_base
   - "electron_eInvMinusPInv"
   - "electron_lostHits"
   - "electron_deltaEtaSC"
+  - "electron_dxy_XXXXLowRange"
+  - "electron_dxy_XXXLowRange"
+  - "electron_dxy_XXLowRange"
+  - "electron_dxy_XLowRange"
+  - "electron_dxy_lowRange"
+  - "electron_dxy"
 
 photon_base: &photon_base
   - "photon_n"
@@ -64,6 +70,11 @@ muon_base: &muon_base
   - "muon_absD0_lowRange"
   - "muon_numOverlapSegments_matchedDSAMuons"
   - "muon_numOverlapSegments_goodMatchedDSAMuons"
+  - "muon_dxy_XXXXLowRange"
+  - "muon_dxy_XXXLowRange"
+  - "muon_dxy_XXLowRange"
+  - "muon_dxy_XLowRange"
+  - "muon_dxy_lowRange"
 
 dsaMuon_base: &dsaMuon_base
   - "dsaMuon_n"
@@ -199,10 +210,10 @@ isolation_base: &isolation_base
   - "mu_matched_jet_pt"
   - "pfmu_matched_jet_pt"
   - "dsamu_matched_jet_pt"
-  - "egm_matched_jet_pt"  
+  - "egm_matched_jet_pt"
   - "electron_matched_jet_pt"
   - "photon_matched_jet_pt"
-  
+
   - "matched_jet_lepfraction"
   - "mu_matched_jet_lepfraction"
   - "pfmu_matched_jet_lepfraction"
@@ -210,7 +221,7 @@ isolation_base: &isolation_base
   - "egm_matched_jet_lepfraction"
   - "electron_matched_jet_lepfraction"
   - "photon_matched_jet_lepfraction"
-  
+
   - "matched_jet_lj_dR"
   - "mu_matched_jet_lj_dR"
   - "pfmu_matched_jet_lj_dR"
@@ -218,7 +229,7 @@ isolation_base: &isolation_base
   - "egm_matched_jet_lj_dR"
   - "electron_matched_jet_lj_dR"
   - "photon_matched_jet_lj_dR"
-  
+
   - "lj_isolation"
   - "lj_isolation_zoom"
   - "mu_lj_isolation"
@@ -538,6 +549,18 @@ displacement_base: &displacement_base
   - "lj_iso"
   - "egm_lj_iso"
   - "mu_lj_iso"
+  - "muon_dxy_XXXXLowRange"
+  - "muon_dxy_XXXLowRange"
+  - "muon_dxy_XXLowRange"
+  - "muon_dxy_XLowRange"
+  - "muon_dxy_lowRange"
+  - "muon_dxy"
+  - "electron_dxy_XXXXLowRange"
+  - "electron_dxy_XXXLowRange"
+  - "electron_dxy_XXLowRange"
+  - "electron_dxy_XLowRange"
+  - "electron_dxy_lowRange"
+  - "electron_dxy"
 
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
