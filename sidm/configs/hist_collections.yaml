@@ -281,6 +281,9 @@ genE_base: &genE_base
   - "genE_genE_pt"
   - "electron_genE_dR"
   - "photon_genE_dR"
+  - "genE_matched_electron_dxy"
+  - "genE_matched_electron_dxy_lowRange"
+  - "genE_matched_electron_dxy_XLowRange"
 
 genMu_base: &genMu_base
   - "genMu_n"
@@ -317,6 +320,9 @@ genMu_base: &genMu_base
   - "genMu1_pt_highRange_MuMudR"
   - "genMu1_pt_highRange_MuMudR_XLowRange"
   - "genMu1_pt_highRange_MuMudR_XXLowRange"
+  - "genMu_matched_muon_dxy"
+  - "genMu_matched_muon_dxy_lowRange"
+  - "genMu_matched_muon_dxy_XLowRange"
 
 genA_base: &genA_base
   - "genAs_n"
@@ -546,6 +552,12 @@ displacement_base: &displacement_base
   - "genMu_dxy_lowRange"
   - "genMu_dxy_XLowRange"
   - "genMu_dxy_XXLowRange"
+  - "genMu_matched_muon_dxy"
+  - "genMu_matched_muon_dxy_lowRange"
+  - "genMu_matched_muon_dxy_XLowRange"
+  - "genE_matched_electron_dxy"
+  - "genE_matched_electron_dxy_lowRange"
+  - "genE_matched_electron_dxy_XLowRange"
   - "lj_iso"
   - "egm_lj_iso"
   - "mu_lj_iso"
