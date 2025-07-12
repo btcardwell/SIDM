@@ -573,7 +573,16 @@ displacement_base: &displacement_base
   - "electron_dxy_XLowRange"
   - "electron_dxy_lowRange"
   - "electron_dxy"
-
+  - "genE_matched_electron_status"
+  - "genMu_matched_muon_status"
+  - "genMu0_dxy"
+  - "genMu1_dxy"
+  - "genMu0_dxy_lowRange"
+  - "genMu1_dxy_lowRange"
+  - "genE0_dxy"
+  - "genE1_dxy"
+  - "genE0_dxy_lowRange"
+  - "genE1_dxy_lowRange"
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
