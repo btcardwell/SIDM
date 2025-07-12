@@ -1382,21 +1382,28 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(100, 0, 0.1, name="genE_matched_electron_dxy",
                                      label="genE_matched_electron_dxy"),
-                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen, ref=objs["pvs"]))),
+                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen[objs["electrons"].matched_gen.status == 1], ref=objs["pvs"]))),
         ],
     ),
     "genE_matched_electron_dxy_lowRange":  h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 0.05, name="genE_matched_electron_dxy",
                                      label="genE_matched_electron_dxy"),
-                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen, ref=objs["pvs"]))),
+                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen[objs["electrons"].matched_gen.status == 1], ref=objs["pvs"]))),
         ],
     ),
     "genE_matched_electron_dxy_XLowRange":  h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 0.01, name="genE_matched_electron_dxy",
                                      label="genE_matched_electron_dxy"),
-                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen, ref=objs["pvs"]))),
+                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen[objs["electrons"].matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
+    "genE_matched_electron_status":  h.Histogram(
+        [
+            h.Axis(hist.axis.Integer(0, 50, name="genE_matched_electron_status",
+                                     label="genE_matched_electron_status"),
+                   lambda objs, mask: objs["electrons"].matched_gen.status),
         ],
     ),
     "genE0_pt": h.Histogram(
@@ -1415,6 +1422,22 @@ hist_defs = {
         ],
         evt_mask=lambda objs: ak.num(objs["genEs"]) > 0,
     ),
+    "genE0_dxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genE0_dxy",
+                                     label=r"Leading gen-level electron $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genEs"][mask, 0], ref=objs["pvs"]))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs"]) > 0,
+    ),
+    "genE0_dxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name="genE0_dxy",
+                                     label=r"Leading gen-level electron $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genEs"][mask, 0], ref=objs["pvs"]))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs"]) > 0,
+    ),
     "genE1_pt": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 200, name="genE1_pt",
@@ -1428,6 +1451,22 @@ hist_defs = {
             h.Axis(hist.axis.Regular(70, 0, 700, name="genE_pt",
                                      label=r"Sub-leading gen-level electron $p_{T}$ [GeV]"),
                    lambda objs, mask: objs["genEs"][mask, 1].pt),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs"]) > 1,
+    ),
+    "genE1_dxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genE1_dxy",
+                                     label=r"Sub-leading gen-level electron $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genEs"][mask, 1], ref=objs["pvs"]))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs"]) > 1,
+    ),
+    "genE1_dxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name="genE1_dxy",
+                                     label=r"Sub-leading gen-level electron $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genEs"][mask, 1], ref=objs["pvs"]))),
         ],
         evt_mask=lambda objs: ak.num(objs["genEs"]) > 1,
     ),
@@ -1524,21 +1563,28 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(100, 0, 0.1, name="genMu_matched_muon_dxy",
                                      label="genMu_matched_muon_dxy"),
-                   lambda objs, mask: abs(dxy(objs["muons"].matched_gen, ref=objs["pvs"]))),
+                   lambda objs, mask: abs(dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]))),
         ],
     ),
     "genMu_matched_muon_dxy_lowRange":  h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 0.05, name="genMu_matched_muon_dxy",
                                      label="genMu_matched_muon_dxy"),
-                   lambda objs, mask: abs(dxy(objs["muons"].matched_gen, ref=objs["pvs"]))),
+                   lambda objs, mask: abs(dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]))),
         ],
     ),
     "genMu_matched_muon_dxy_XLowRange":  h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 0.01, name="genMu_matched_muon_dxy",
                                      label="genMu_matched_muon_dxy"),
-                   lambda objs, mask: abs(dxy(objs["muons"].matched_gen, ref=objs["pvs"]))),
+                   lambda objs, mask: abs(dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
+    "genMu_matched_muon_status":  h.Histogram(
+        [
+            h.Axis(hist.axis.Integer(0, 50, name="genMu_matched_muon_status",
+                                     label="genMu_matched_muon_status"),
+                   lambda objs, mask: objs["muons"].matched_gen.status),
         ],
     ),
     "genMu0_pt": h.Histogram(
@@ -1546,6 +1592,22 @@ hist_defs = {
             h.Axis(hist.axis.Regular(200, 0, 200, name="genMu0_pt",
                                      label=r"Leading gen-level muon $p_{T}$ [GeV]"),
                    lambda objs, mask: objs["genMus"][mask, 0].pt),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus"]) > 0,
+    ),
+    "genMu0_dxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genMu0_dxy",
+                                     label=r"Leading gen-level muon $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genMus"][mask, 0], ref=objs["pvs"]))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus"]) > 0,
+    ),
+    "genMu0_dxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name="genMu0_dxy",
+                                     label=r"Leading gen-level muon $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genMus"][mask, 0], ref=objs["pvs"]))),
         ],
         evt_mask=lambda objs: ak.num(objs["genMus"]) > 0,
     ),
@@ -1562,6 +1624,22 @@ hist_defs = {
             h.Axis(hist.axis.Regular(100, 0, 200, name="genMu1_pt",
                                      label=r"Sub-leading gen-level muon $p_{T}$ [GeV]"),
                    lambda objs, mask: objs["genMus"][mask, 1].pt),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus"]) > 1,
+    ),
+    "genMu1_dxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genMu1_dxy",
+                                     label=r"Sub-leading gen-level muon $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genMus"][mask, 1], ref=objs["pvs"]))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus"]) > 1,
+    ),
+    "genMu1_dxy_lowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name="genMu1_dxy",
+                                     label=r"Sub-leading gen-level muon $d_{xy}$ [cm]"),
+                   lambda objs, mask: abs(dxy(objs["genMus"][mask, 1], ref=objs["pvs"]))),
         ],
         evt_mask=lambda objs: ak.num(objs["genMus"]) > 1,
     ),
