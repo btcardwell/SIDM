@@ -53,3 +53,17 @@ cd SIDM/
 pip install pipreqs
 pipreqs . --force # overwrites current requirements.txt
 ```
+
+### How to use DASK
+1. In your jupyter notebook make sure you import `scaleout` from `sidm.tools`
+2. Modify the dependencies in  `scaleout.py` from `sidm/tools` so that DASK points to your branch from your fork. i.e.
+```
+dependencies = [
+        "git+https://github.com/YOURUSERNAME/SIDM.git@YOURBRANCH",
+    ]
+```
+3. In a cell of your Jupyter Notebook, instantiate the DASK Client:
+```
+client = scaleout.make_dask_client("tls://localhost:8786")
+```
+4. In your `processor.Runner()` function make sure `executor=processor.DaskExecutor(client=client)`
