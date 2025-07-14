@@ -3,7 +3,7 @@
 # columnar analysis
 import hist
 import awkward as ak
-import lzma
+
 
 class Histogram:
     """Class to represent histograms
@@ -61,7 +61,7 @@ class Histogram:
         # Create fill args, warning user and skipping hists that cannot be filled
         try:
             fill_args = {a.name: a.fill_func(objs, self.evt_mask(objs)) for a in self.axes}
-        except (AttributeError, KeyError, ValueError, lzma.LZMAError) as e:
+        except (AttributeError, KeyError, ValueError) as e:
             print(f"Warning: a histogram with the name {self.name} could not be filled and will be skipped")
             return
 
@@ -75,7 +75,7 @@ class Histogram:
         # Fill hist, warning user and skipping hists that cannot be filled
         try:
             self.hist.fill(**fill_args)
-        except (ValueError, lzma.LZMAError):
+        except ValueError:
             print(f"Warning: a histogram with the name {self.name} could not be filled and will be skipped")
 
 class Axis:

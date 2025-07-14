@@ -133,7 +133,6 @@ obj_cut_defs = {
         'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
         "missing_hits == 0" : lambda objs: objs["electrons"].lostHits == 0,
         "missing_hits == 1" : lambda objs: objs["electrons"].lostHits == 1,
-
     },
     "muons": {
         "looseID": lambda objs: objs["muons"].looseId,

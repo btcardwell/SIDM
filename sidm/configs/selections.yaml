@@ -77,7 +77,7 @@ baseNoLj_egLj: &baseNoLj_egLj
       - "egLj"
   evt_cuts:
     - *evt_baseNoLj
-
+    
 # add obj-level LJ cuts
 base_ljObjCut: &base_ljObjCut
   obj_cuts:
@@ -99,55 +99,6 @@ base: &base
   evt_cuts: &evt_base
     - *evt_baseNoLj
     - ">=2 LJs"
-
-## LJ PT Study ##
-## Changes the LJ PT requirement and removes >= 2 LJs ##
-base_LJPTGT30: &base_LJPTGT30
-  <<: *base
-  postLj_obj_cuts:
-    <<: *base_postLj_obj_cuts
-    ljs:
-      - "pT > 30 GeV"
-      - "|eta| < 2.4"
-      - "mu_charge == 0"
-  evt_cuts:
-    - *evt_baseNoLj  
-
-base_LJPTGT40: &base_LJPTGT40
-  <<: *base
-  postLj_obj_cuts:
-    <<: *base_postLj_obj_cuts
-    ljs:
-      - "pT > 40 GeV"
-      - "|eta| < 2.4"
-      - "mu_charge == 0"
-  evt_cuts:
-    - *evt_baseNoLj  
-
-    
-base_LJPTGT50: &base_LJPTGT50
-  <<: *base
-  postLj_obj_cuts:
-    <<: *base_postLj_obj_cuts
-    ljs:
-      - "pT > 50 GeV"
-      - "|eta| < 2.4"
-      - "mu_charge == 0"
-  evt_cuts:
-    - *evt_baseNoLj  
-
-base_LJPTGT60: &base_LJPTGT60
-  <<: *base
-  postLj_obj_cuts:
-    <<: *base_postLj_obj_cuts
-    ljs:
-      - "pT > 60 GeV"
-      - "|eta| < 2.4"
-      - "mu_charge == 0"
-  evt_cuts:
-    - *evt_baseNoLj  
-      
-## LJ PT Study END ##
 
 4mu: &4mu
   <<: *base
@@ -965,3 +916,50 @@ baseNoLj_A_mumu_matched_lj_noPfMatch_highLjPt: &baseNoLj_A_mumu_matched_lj_noPfM
   evt_cuts:
     - *evt_pv_cuts
     - "genAs_toMu_matched_muLj"
+
+## LJ PT Study ##
+## Changes the LJ PT requirement and removes >= 2 LJs ##
+base_LJPTGT30: &base_LJPTGT30
+  <<: *base
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+    ljs:
+      - "pT > 30 GeV"
+      - "|eta| < 2.4"
+      - "mu_charge == 0"
+  evt_cuts:
+    - *evt_baseNoLj  
+
+base_LJPTGT40: &base_LJPTGT40
+  <<: *base
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+    ljs:
+      - "pT > 40 GeV"
+      - "|eta| < 2.4"
+      - "mu_charge == 0"
+  evt_cuts:
+    - *evt_baseNoLj  
+
+    
+base_LJPTGT50: &base_LJPTGT50
+  <<: *base
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+    ljs:
+      - "pT > 50 GeV"
+      - "|eta| < 2.4"
+      - "mu_charge == 0"
+  evt_cuts:
+    - *evt_baseNoLj  
+
+base_LJPTGT60: &base_LJPTGT60
+  <<: *base
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+    ljs:
+      - "pT > 60 GeV"
+      - "|eta| < 2.4"
+      - "mu_charge == 0"
+  evt_cuts:
+    - *evt_baseNoLj  
