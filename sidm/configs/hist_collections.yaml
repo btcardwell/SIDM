@@ -317,6 +317,7 @@ genMu_base: &genMu_base
 genA_base: &genA_base
   - "genAs_n"
   - "genAs_pt"
+  - "genAs_pt_highRange"
   - "genAs_eta_phi"
   - "genAs_x_y"
   - "genAs_children_x_y"
