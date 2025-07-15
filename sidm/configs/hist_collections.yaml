@@ -62,6 +62,8 @@ muon_base: &muon_base
   - "muon_eta_phi"
   - "muon_absD0"
   - "muon_absD0_lowRange"
+  - "muon_numOverlapSegments_matchedDSAMuons"
+  - "muon_numOverlapSegments_goodMatchedDSAMuons"
 
 dsaMuon_base: &dsaMuon_base
   - "dsaMuon_n"
@@ -70,6 +72,8 @@ dsaMuon_base: &dsaMuon_base
   - "dsaMuon_eta_phi"
   - "dsaMuon_absD0"
   - "dsaMuon_absD0_lowRange"
+  - "dsaMuon_numOverlapSegments_matchedMuons"
+  - "dsaMuon_numOverlapSegments_goodMatchedMuons"
 
 lj_base: &lj_base
   - "lj_n"
