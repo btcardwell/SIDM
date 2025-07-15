@@ -82,17 +82,6 @@ postLj_objs["two_electron_ljs"] = lambda objs: nEnPhoton(objs["ljs"], 2, 0)
 postLj_objs["one_e_one_p_ljs"] = lambda objs: nEnPhoton(objs["ljs"], 1, 1)
 
 
-## defining categories
-## photon jets
-postLj_objs["one_photon_ljs"] = lambda objs: onePhotonJet(objs["ljs"])
-postLj_objs["two_photon_ljs"] = lambda objs: twoPhotonJet(objs["ljs"])
-## electron jets
-postLj_objs["one_electron_ljs"] = lambda objs: oneElectronJet(objs["ljs"])
-postLj_objs["two_electron_ljs"] = lambda objs: twoElectronJet(objs["ljs"])
-## mixed one pho one elec
-postLj_objs["one_e_one_p_ljs"] = lambda objs: oneEoneP(objs["ljs"])
-
-
 # define objects that depend on extra parameters determined in hist or cut definitions
 derived_objs = {}
 derived_objs["n_electron_ljs"] = lambda objs, n: nE(objs["electron_ljs"], n)
