@@ -2989,7 +2989,7 @@ hist_defs = {
         ],
         evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
-}
+    
     "genAs_toE_matched_one_photon_ljs_lxy": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 150, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
