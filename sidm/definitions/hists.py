@@ -404,6 +404,19 @@ hist_defs = {
                    lambda objs, mask: dR(objs["muons"], objs["genMus"]))
         ],
     ),
+    "muon_resolution": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -15, 15, name="muon_resolution", label=r"(Muon $d_{xy}$ - Gen Muon $d_{xy})$/Gen Muon $d_{xy}$"  ),
+                   lambda objs, mask: (objs["muons"].dxy - dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]))/ dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]) )
+        ],
+    ),
+    "muon_dxy_gen_matched_reco_dxy_diff": h.Histogram(
+        [
+            # dR(mu, nearest gen mu)
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="muon_resolution", label=r"(Muon $d_{xy}$ - Gen Muon $d_{xy}$)"  ),
+                   lambda objs, mask: (objs["muons"].dxy - dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"])) )
+        ],
+    ),
     # dsamuon
     "dsaMuon_n": obj_attr("dsaMuons", "n"),
     "dsaMuon_pt":obj_attr("dsaMuons", "pt", xmax=500),
