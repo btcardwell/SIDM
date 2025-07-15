@@ -89,11 +89,9 @@ lj_base: &lj_base
   - "lj_muonN"
   - "lj_dsaMuN"
   - "lj_pfMuN"
-  #- "genEs_toEgmLJ_pt"
   - "photon_electron_dR_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ_lowThreshold"
   - "photon_electron_dR_from_oneEonePLJ_highThreshold"
-  # - "genE_fromA_deltaR"
   - "mJJ_2mu2e"
 
 mu_lj_base: &mu_lj_base
@@ -169,7 +167,6 @@ egm_lj_base: &egm_lj_base
   - "egm_lj_electron_max_dxy_XXXXLowRange"
   - "egm_lj_electron_lostHits"
   - "genEs_toEgmLJ_pt"
-  #- "photon_to_electron_ptRatio_from_oneEonePLJ"
   - "photon_electron_dR_from_oneEonePLJ"
 
 electron_lj_base: &electron_lj_base
@@ -328,7 +325,6 @@ genA_base: &genA_base
   - "genAs_lxy_lowRange"
   - "genAs_pt_lxy"
   - "genAs_lj_dR"
-  - "genAs_lj_dR_lowRange"
   - "genAs_children_n"
   - "genAs_children_absPdgId"
   - "genAs_genAs_absdphi"
@@ -464,7 +460,7 @@ lepton_genLepton_base: &lepton_genLepton_base
   - "pfMuon1_genMu_ptRatio"
   - "dsaMuon0_genMu0_ptRatio_vs_truept"
   - "muon0_genMu0_ptRatio_vs_truept"
-  #- "egmLj_ptRatio_vs_egm_truept"
+  - "egmLj_ptRatio_vs_egm_truept"
 
 lepton_genLepton_genA_base: &lepton_genLepton_genA_base
   - "genA_dsaMuonLj_ptRatio"
