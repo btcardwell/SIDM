@@ -2864,6 +2864,24 @@ hist_defs = {
         evt_mask=lambda objs: (objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
     #########################
+    "genMusDR": h.Histogram(
+        [
+            # dR(subleading gen Mu, leading gen Mu)
+            h.Axis(hist.axis.Regular(50, 0, 1.0, name="genMu_genMu_dR",
+                                     label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
+                   lambda objs, mask: objs["genMus"][:, 1].delta_r(
+                       objs["genMus"][:, 0])),
+        ],
+    ),
+    "genEsDR": h.Histogram(
+        [
+            # dR(subleading gen Mu, leading gen Mu)
+            h.Axis(hist.axis.Regular(50, 0, 1.0, name="genMu_genMu_dR",
+                                     label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
+                   lambda objs, mask: objs["genEs"][:, 1].delta_r(
+                       objs["genEs"][:, 0])),
+        ],
+    ),
     "genAToMus_passingCurrentTrigger_dR": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),

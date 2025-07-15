@@ -277,6 +277,7 @@ genE_base: &genE_base
   - "genE_genE_dR_matched_Photon"
   - "genE_genE_dR_matched_Photon_lowRange"
   - "genE_genE_dR_matched_Photon_XLowRange"
+  - "genEsDR"
 
 genMu_base: &genMu_base
   - "genMu_n"
@@ -313,6 +314,7 @@ genMu_base: &genMu_base
   - "genMu1_pt_highRange_MuMudR"
   - "genMu1_pt_highRange_MuMudR_XLowRange"
   - "genMu1_pt_highRange_MuMudR_XXLowRange"
+  - "genMusDR"
 
 genA_base: &genA_base
   - "genAs_n"
