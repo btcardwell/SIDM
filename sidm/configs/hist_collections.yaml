@@ -309,6 +309,16 @@ genA_base: &genA_base
   - "genAs_toMu_lxy_lowRange"
   - "genAs_toE_lxy"
   - "genAs_toE_lxy_lowRange"
+  - "genAToMus_passingCurrentTrigger_dR"
+  - "genAToMus_passingCurrentTriggerPlusMu50_dR"
+  - "genAToMus_passingCurrentTriggerPlusPhoton200_dR"
+  - "genAToMus_passingCurrentTriggerPlusMuPho_dR"
+  - "genAToMus_passingMuPhoOnly_dR"
+  - "genAToEs_passingCurrentTrigger_dR"
+  - "genAToEs_passingCurrentTriggerPlusMu50_dR"
+  - "genAToEs_passingCurrentTriggerPlusPhoton200_dR"
+  - "genAToEs_passingCurrentTriggerPlusMuPho_dR"
+  - "genAToEs_passingMuPhoOnly_dR"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"

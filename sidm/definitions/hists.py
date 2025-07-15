@@ -2549,4 +2549,130 @@ hist_defs = {
         ],
         evt_mask=lambda objs: (objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
     ),
+    #########################
+    "genAToMus_passingCurrentTrigger_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4),
+    ),
+    "genAToMus_passingCurrentTriggerPlusMu50_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Mu50),
+    ),
+    "genAToMus_passingCurrentTriggerPlusPhoton200_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Photon200),
+    ),
+    "genAToMus_passingCurrentTriggerPlusMuPho_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
+    ),
+    "genAToMus_passingMuPhoOnly_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
+    ),
+     #########################
+    "genAToEs_passingCurrentTrigger_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4),
+    ),
+    "genAToEs_passingCurrentTriggerPlusMu50_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Mu50),
+    ),
+    "genAToEs_passingCurrentTriggerPlusPhoton200_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Photon200),
+    ),
+    "genAToEs_passingCurrentTriggerPlusMuPho_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: (
+          objs["hlt"].DoubleL2Mu23NoVtx_2Cha
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_NoL2Matched
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed
+        | objs["hlt"].DoubleL2Mu23NoVtx_2Cha_CosmicSeed_NoL2Matched
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_Eta2p4
+        | objs["hlt"].DoubleL2Mu25NoVtx_2Cha_CosmicSeed_Eta2p4
+        | objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
+    ),
+    "genAToEs_passingMuPhoOnly_dR": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+                   lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
+        ],
+        evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
+    ),
 }
