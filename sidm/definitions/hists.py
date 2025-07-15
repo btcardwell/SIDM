@@ -2867,7 +2867,7 @@ hist_defs = {
     "genMusDR": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name="genMu_genMu_dR",
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="genMu_genMu_dR",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genMus"][:, 1].delta_r(
                        objs["genMus"][:, 0])),
@@ -2876,7 +2876,7 @@ hist_defs = {
     "genEsDR": h.Histogram(
         [
             # dR(subleading gen Mu, leading gen Mu)
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name="genMu_genMu_dR",
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name="genMu_genMu_dR",
                                      label=r"$\Delta R$($\mu_0^{gen}$, $\mu_1^{gen}$)"),
                    lambda objs, mask: objs["genEs"][:, 1].delta_r(
                        objs["genEs"][:, 0])),
@@ -2884,7 +2884,7 @@ hist_defs = {
     ),
     "genAToMus_passingCurrentTrigger_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2897,7 +2897,7 @@ hist_defs = {
     ),
     "genAToMus_passingCurrentTriggerPlusMu50_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2911,7 +2911,7 @@ hist_defs = {
     ),
     "genAToMus_passingCurrentTriggerPlusPhoton200_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2925,7 +2925,7 @@ hist_defs = {
     ),
     "genAToMus_passingCurrentTriggerPlusMuPho_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2939,7 +2939,7 @@ hist_defs = {
     ),
     "genAToMus_passingMuPhoOnly_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genMus'][mask,0].delta_r(objs['genMus'][mask,1]) ),
         ],
         evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
@@ -2947,7 +2947,7 @@ hist_defs = {
      #########################
     "genAToEs_passingCurrentTrigger_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2960,7 +2960,7 @@ hist_defs = {
     ),
     "genAToEs_passingCurrentTriggerPlusMu50_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2974,7 +2974,7 @@ hist_defs = {
     ),
     "genAToEs_passingCurrentTriggerPlusPhoton200_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -2988,7 +2988,7 @@ hist_defs = {
     ),
     "genAToEs_passingCurrentTriggerPlusMuPho_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
         ],
         evt_mask=lambda objs: (
@@ -3002,7 +3002,7 @@ hist_defs = {
     ),
     "genAToEs_passingMuPhoOnly_dR": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(50, 0, 1.0, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(50, 0, 0.5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: objs['genEs'][mask,0].delta_r(objs['genEs'][mask,1]) ),
         ],
         evt_mask=lambda objs: ( objs['hlt'].Mu43NoFiltersNoVtx_Photon43_CaloIdL),
