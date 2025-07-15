@@ -583,6 +583,8 @@ displacement_base: &displacement_base
   - "genE1_dxy"
   - "genE0_dxy_lowRange"
   - "genE1_dxy_lowRange"
+  - "muon_resolution"
+  - "muon_dxy_gen_matched_reco_dxy_diff"
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
