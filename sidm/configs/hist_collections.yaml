@@ -585,6 +585,13 @@ displacement_base: &displacement_base
   - "genE1_dxy_lowRange"
   - "muon_resolution"
   - "muon_dxy_gen_matched_reco_dxy_diff"
+  - "muon_genMu_matched_dR"
+  - "electron_genE_matched_dR"
+  - "muon_resolution_leading"
+  - "leading_dxy_gen_matched_reco_dxy_diff"
+  - "genE_matched_electron_pt"
+  - "genMu_matched_muon_pt"
+  - "genMu_matched_leading_muon_pt"
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
