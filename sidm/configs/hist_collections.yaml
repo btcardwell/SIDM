@@ -278,6 +278,8 @@ genE_base: &genE_base
   - "genE_genE_dR_matched_Photon_lowRange"
   - "genE_genE_dR_matched_Photon_XLowRange"
   - "genEsDR"
+  - "genEsDR_lowRange"
+  - "genEsDR_XlowRange"
 
 genMu_base: &genMu_base
   - "genMu_n"
@@ -315,6 +317,8 @@ genMu_base: &genMu_base
   - "genMu1_pt_highRange_MuMudR_XLowRange"
   - "genMu1_pt_highRange_MuMudR_XXLowRange"
   - "genMusDR"
+  - "genMusDR_lowRange"
+  - "genMusDR_XlowRange"
 
 genA_base: &genA_base
   - "genAs_n"
@@ -378,6 +382,26 @@ genA_base: &genA_base
   - "genA_egmLj_ptRatio_oneElectron"
   - "genA_egmLj_ptRatio_twoElectron"
   - "genA_egmLj_ptRatio_oneEoneP"
+  - "genAToMus_passingCurrentTrigger_dR_lowRange"
+  - "genAToMus_passingCurrentTrigger_dR_XlowRange"
+  - "genAToMus_passingCurrentTriggerPlusMu50_dR_lowRange"
+  - "genAToMus_passingCurrentTriggerPlusMu50_dR_XlowRange"
+  - "genAToMus_passingCurrentTriggerPlusPhoton200_dR_lowRange"
+  - "genAToMus_passingCurrentTriggerPlusPhoton200_dR_XlowRange"
+  - "genAToMus_passingCurrentTriggerPlusMuPho_dR_lowRange"
+  - "genAToMus_passingCurrentTriggerPlusMuPho_dR_XlowRange"
+  - "genAToMus_passingMuPhoOnly_dR_lowRange"
+  - "genAToMus_passingMuPhoOnly_dR_XlowRange"
+  - "genAToEs_passingCurrentTrigger_dR_lowRange"
+  - "genAToEs_passingCurrentTrigger_dR_XlowRange"
+  - "genAToEs_passingCurrentTriggerPlusMu50_dR_lowRange"
+  - "genAToEs_passingCurrentTriggerPlusMu50_dR_XlowRange"
+  - "genAToEs_passingCurrentTriggerPlusPhoton200_dR_lowRange"
+  - "genAToEs_passingCurrentTriggerPlusPhoton200_dR_XlowRange"
+  - "genAToEs_passingCurrentTriggerPlusMuPho_dR_lowRange"
+  - "genAToEs_passingCurrentTriggerPlusMuPho_dR_XlowRange"
+  - "genAToEs_passingMuPhoOnly_dR_lowRange"
+  - "genAToEs_passingMuPhoOnly_dR_XlowRange"
 
 genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_n"
