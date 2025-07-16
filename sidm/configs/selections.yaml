@@ -99,6 +99,36 @@ base: &base
     - *evt_baseNoLj
     - ">=2 LJs"
 
+base_noTrigger_no2LJ: &base_noTrigger_no2LJ
+  obj_cuts:
+    <<: *obj_base
+    genMus:
+      - "status 1"
+      - "fromGenA"
+    genEs:
+      - "status 1"
+      - "fromGenA"
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+  evt_cuts:
+    - *evt_pv_cuts  # only PV filter remains
+
+base_noTrigger: &base_noTrigger
+  obj_cuts:
+    <<: *obj_base
+    genMus:
+      - "status 1"
+      - "fromGenA"
+    genEs:
+      - "status 1"
+      - "fromGenA"
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+  evt_cuts:
+    - *evt_pv_cuts  # only PV filter remains
+    - ">=2 LJs"
+
+    
 4mu: &4mu
   <<: *base
   evt_cuts: &evt_4mu
