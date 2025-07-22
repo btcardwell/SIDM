@@ -137,14 +137,18 @@ def plot(hists, skip_label=False, **kwargs):
 
 def get_eff_hist(num_hist, denom_hist):
     """Returns the histogram of num_hist/denom_hist and a 2D numpy array of the up/down errors on the efficiency. Plot the errors using yerr=errors when plotting. """
-    denom_vals  = denom_hist.values()
-    num_vals   = num_hist.values()
-
-    errors = hist.intervals.ratio_uncertainty(num_vals,denom_vals,'efficiency')
+    # make efficiency hist
+    denom_vals = denom_hist.values()
+    num_vals = num_hist.values()
     eff_values = num_vals/denom_vals
-
     eff_hist = hist.Hist(*num_hist.axes)
     eff_hist.values()[:] = eff_values
+
+    # approximate weighted-hist errors based on avg (per-bin) weights
+    num_counts = num_vals**2 / num_hist.variances()
+    denom_counts = denom_vals**2 / denom_hist.variances()
+    errors = hist.intervals.ratio_uncertainty(num_counts, denom_counts, 'efficiency')
+
     return eff_hist, errors
 
 def load_yaml(cfg):
@@ -196,7 +200,7 @@ def plot_ratio(num, den, **kwargs):
         plt.legend(kwargs["legend"])
     plt.subplot(2, 1, 2)
     eff, errors = get_eff_hist(num, den)
-    plot(eff,yerr=errors,skip_label=True,color="black")
+    plot(eff,histtype='errorbar',yerr=errors,skip_label=True,color="black")
     plt.ylabel("Efficiency")
     plt.ylim(0, 1.2)
 
