@@ -13,10 +13,11 @@ import hist
 import awkward as ak
 # local
 from sidm.tools import histogram as h
-from sidm.tools.utilities import dR, lxy, matched, dxy
+from sidm.tools.utilities import dR, lxy, matched, dxy, lepton_dxy_resolution
 from sidm.definitions.objects import derived_objs
 # always reload local modules to pick up changes during development
 importlib.reload(h)
+import numpy as np
 
 
 # define counters
@@ -87,7 +88,6 @@ def obj_eta_phi(obj, nbins_x=None, xmin=None, xmax=None, nbins_y=None, ymin=None
     )
 
 
-# define histograms
 hist_defs = {
     # pv
     "pv_n": obj_attr("pvs", "npvs", nbins=50, label="Number of PVs"),
@@ -418,33 +418,89 @@ hist_defs = {
                    lambda objs, mask: dR(objs["muons"], objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1]))
         ],
     ),
-    "muon_resolution_leading": h.Histogram(
+    "all_muon_resolution": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, -15, 15, name="leading muon_resolution", label=r"leading Muon resolution"),
-                   lambda objs, mask: (objs["muons"][mask, 0].dxy - dxy(objs["muons"][mask, 0].matched_gen[objs["muons"][mask, 0].matched_gen.status == 1], ref=objs["pvs"]))/ dxy(objs["muons"][mask, 0].matched_gen[objs["muons"][mask, 0].matched_gen.status == 1], ref=objs["pvs"]) )
-        ],
-         evt_mask=lambda objs: ak.num(objs["muons"]) > 0,
+            h.Axis(hist.axis.Regular(100, -5, 5, name="all_muon_resolution"),
+               lambda objs, mask: lepton_dxy_resolution(objs["muons"], objs["pvs"], rank="all"))
+        ]
     ),
-    "muon_resolution": h.Histogram(
+    "leading_muon_resolution": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, -15, 15, name="muon_resolution", label=r"(Muon $d_{xy}$ - Gen Muon $d_{xy})$/Gen Muon $d_{xy}$"  ),
-                   lambda objs, mask: (objs["muons"].dxy - dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]))/ dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]) )
+            h.Axis(hist.axis.Regular(100, -5, 5, name="leading_muon_resolution"),
+               lambda objs, mask: lepton_dxy_resolution(objs["muons"], objs["pvs"], rank=0))
         ],
+    evt_mask=lambda objs: ak.num(objs["muons"]) > 0,
     ),
-    "muon_dxy_gen_matched_reco_dxy_diff": h.Histogram(
+    "subleading_muon_resolution": h.Histogram(
         [
-            # dR(mu, nearest gen mu)
-            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="muon_dxy_gen_matched_reco_dxy_diff", label=r"(Muon $d_{xy}$ - Gen Muon $d_{xy}$)"  ),
-                   lambda objs, mask: (objs["muons"].dxy - dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"])) )
+            h.Axis(hist.axis.Regular(100, -5, 5, name="subleading_muon_resolution"),
+               lambda objs, mask: lepton_dxy_resolution(objs["muons"], objs["pvs"], rank=1))
         ],
+    evt_mask=lambda objs: ak.num(objs["muons"]) > 1,
     ),
-    "leading_dxy_gen_matched_reco_dxy_diff": h.Histogram(
+    "all_electron_resolution": h.Histogram(
         [
-            # dR(mu, nearest gen mu)
-            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="leading_dxy_gen_matched_reco_dxy_diff", label=r"(leading Muon $d_{xy}$ - Gen Muon $d_{xy}$)"  ),
-                   lambda objs, mask: (objs["muons"][mask, 0].dxy - dxy(objs["muons"][mask, 0].matched_gen[objs["muons"][mask, 0].matched_gen.status == 1], ref=objs["pvs"])) )
+            h.Axis(hist.axis.Regular(100, -5, 5, name="all_electron_resolution"),
+               lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank="all"))
+        ]
+    ),
+     "leading_electron_resolution": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -5, 5, name="leading_electron_resolution"),
+               lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=0))
         ],
-        evt_mask=lambda objs: ak.num(objs["muons"]) > 0,
+     evt_mask=lambda objs: ak.num(objs["electrons"]) > 0,
+    
+    ),
+     "subleading_electron_resolution": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -5, 5, name="subleading_electron_resolution"),
+               lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=1))
+        ],
+     evt_mask=lambda objs: ak.num(objs["electrons"]) > 1,
+    
+    ),
+    "all_muon_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="all_muon_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["muons"], objs["pvs"], rank="all", diff=True))
+        ]
+    ),
+    "leading_muon_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="leading_muon_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["muons"], objs["pvs"], rank=0, diff=True))
+        ],
+    evt_mask=lambda objs: ak.num(objs["muons"]) > 0,
+    ),
+    "subleading_muon_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="subleading_muon_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["muons"], objs["pvs"], rank=1, diff=True))
+        ],
+    evt_mask=lambda objs: ak.num(objs["muons"]) > 1,
+    ),
+    "all_electron_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="all_electron_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank="all", diff=True))
+        ]
+    ),
+    "leading_electron_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="leading_electron_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=0, diff=True))
+        ],
+     evt_mask=lambda objs: ak.num(objs["electrons"]) > 0,
+    
+    ),
+    "subleading_electron_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="subleading_electron_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=1, diff=True))
+        ],
+     evt_mask=lambda objs: ak.num(objs["electrons"]) > 1,
+    
     ),
     # dsamuon
     "dsaMuon_n": obj_attr("dsaMuons", "n"),
