@@ -61,10 +61,6 @@ class SidmProcessor(processor.ProcessorABC):
             # pt order
             objs[obj_name] = self.order(objs[obj_name])
 
-            # use nanoevents.Muon behaviors for dsa muons
-            if obj_name == "dsaMuons":
-                forms = {f: objs[obj_name][f] for f in objs[obj_name].fields}
-                objs[obj_name] = ak.zip(forms, with_name="Muon", behavior=nanoaod.behavior)
 
             # add lxy attribute to particles with children
             if hasattr(obj, "children"):
@@ -80,6 +76,7 @@ class SidmProcessor(processor.ProcessorABC):
                 counts = ak.ones_like(objs[obj_name].x, dtype=np.int32)
                 objs[obj_name] = ak.unflatten(objs[obj_name], counts)
 
+        
         cutflows = {}
         counters = {}
 
@@ -92,11 +89,19 @@ class SidmProcessor(processor.ProcessorABC):
         # loop through lj reco choices and channels, treating each lj+channel pair as a unique Selection
         for channel, cuts in ch_cuts.items():
             obj_selection = selection.JaggedSelection(cuts["obj"], self.verbose)
+            nested_selection = selection.NestedSelection(cuts["obj"], self.verbose)
 
             for lj_reco in self.lj_reco_choices:
                 # apply pre-LJ object selection
                 sel_objs = obj_selection.apply_obj_cuts(objs)
 
+                # apply selections on matched_muons within the DSA muons and matched_dsa_muons within the PF muons
+                try:
+                    sel_objs["dsaMuons"]["good_matched_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["dsaMuons"].matched_muons, "muons" )
+                    sel_objs["muons"]["good_matched_dsa_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["muons"].matched_dsa_muons,"dsaMuons")
+                except Exception as e:
+                    print(f"Failed to apply selections to the nested matched muon collections. Error message: {e}")
+                
                 # reconstruct lepton jets
                 sel_objs["ljs"] = self.build_lepton_jets(sel_objs, float(lj_reco))
 
@@ -183,7 +188,13 @@ class SidmProcessor(processor.ProcessorABC):
         # Use electron/muon/photon/dsamuon collections with a custom distance parameter
         collections = ["muons", "dsaMuons", "electrons", "photons"]
         fields = [objs[c].fields for c in collections]
+
+        unsafe_fields = ['muonIdxG','dsaIdxG','good_matched_muons','good_matched_dsa_muons']
+        
         all_fields = list(set().union(*fields))
+        for field in unsafe_fields:
+            all_fields.remove(field)
+        
         muon_inputs = self.make_vector(objs, "muons", all_fields,  type_id=3)
         dsa_inputs = self.make_vector(objs, "dsaMuons", all_fields, type_id=8, mass=0.106)
         ele_inputs = self.make_vector(objs, "electrons", all_fields, type_id=2)
@@ -208,11 +219,29 @@ class SidmProcessor(processor.ProcessorABC):
         # add fields to access LJ constituents
         consts = cluster.constituents()
         common_fields = list(set(fields[0]).intersection(*fields[1:]))
-        muon_fields = list(set(objs["muons"].fields).intersection(objs["dsaMuons"].fields))
         ljs["constituents"] = self.make_constituent(consts, [2, 3, 4, 8], "PtEtaPhiMCollection", common_fields)
+
+        
+    ######
+        ## FIX ME! Won't be able to access the dsaMuon matches from the LJ constituent muon, and vice versa 
+        ## (can only access it from the original muon collection in objects)
+
+        safe_pf_fields = list(objs["muons"].fields) 
+        safe_dsa_fields = list(objs["dsaMuons"].fields)
+
+        for field in unsafe_fields:
+            if field in safe_pf_fields:
+                safe_pf_fields.remove(field)
+            if field in safe_dsa_fields:
+                safe_dsa_fields.remove(field)
+                
+        muon_fields = list(set(safe_pf_fields).intersection(safe_dsa_fields))
+
         ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
-        ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", objs["muons"].fields)
-        ljs["dsaMuons"] = self.make_constituent(consts, [8], "Muon", objs["dsaMuons"].fields)
+        ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", safe_pf_fields)
+        ljs["dsaMuons"] = self.make_constituent(consts, [8], "DSAMuon", safe_dsa_fields)
+    ######
+
         ljs["electrons"] = self.make_constituent(consts, [2], "Electron", objs["electrons"].fields)
         ljs["photons"] = self.make_constituent(consts, [4], "Photon", objs["photons"].fields)
 
