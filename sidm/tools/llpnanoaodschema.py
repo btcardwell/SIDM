@@ -51,7 +51,8 @@ class LLPNanoAODSchema(NanoAODSchema):
         from dask_awkward import dask_property
 
        
-        nanoaod.behavior.update(awkward._util.copy_behaviors("PtEtaPhiMCandidate", "DSAMuon", nanoaod.behavior))
+        # nanoaod.behavior.update(awkward._util.copy_behaviors("PtEtaPhiMCandidate", "DSAMuon", nanoaod.behavior))
+        nanoaod.behavior.update(awkward._util.copy_behaviors("Muon", "DSAMuon", nanoaod.behavior))
 
         @awkward.mixin_class(nanoaod.behavior)
         class DSAMuon(candidate.PtEtaPhiMCandidate, base.NanoCollection, base.Systematic):
@@ -92,9 +93,9 @@ class LLPNanoAODSchema(NanoAODSchema):
                 
                 return concat
 
-            @property
-            def mass(self):
-                return awkward.ones_like(self.pt)*0.106
+            # @property
+            # def mass(self):
+            #     return awkward.ones_like(self.pt)*0.106
 
     
         nanoaod._set_repr_name("DSAMuon")
