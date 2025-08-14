@@ -25,7 +25,7 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
-      - "dR(dsa, pf) > 0.2"
+ #     - "dR(dsa, pf) > 0.2"
 
 # require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
