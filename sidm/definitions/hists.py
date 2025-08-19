@@ -1542,6 +1542,27 @@ hist_defs = {
                    lambda objs, mask: abs(dxy(objs["electrons"].matched_gen[objs["electrons"].matched_gen.status == 1], ref=objs["pvs"]))),
         ],
     ),
+    "genE_matched_lj_electron_dxy":  h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genE_matched_lj_electron_dxy",
+                                     label="genE_matched_lj_electron_dxy"),
+                   lambda objs, mask: abs(dxy(objs["egm_ljs"].electrons.matched_gen[objs["egm_ljs"].electrons.matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
+    "genE_matched_lj_electron_dxy_lowRange":  h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.05, name="genE_matched_lj_electron_dxy",
+                                     label="genE_matched_lj_electron_dxy"),
+                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen[objs["electrons"].matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
+    "genE_matched_lj_electron_dxy_XLowRange":  h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name="genE_matched_electron_dxy",
+                                     label="genE_matched_electron_dxy"),
+                   lambda objs, mask: abs(dxy(objs["electrons"].matched_gen[objs["electrons"].matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
     "genE_matched_electron_status":  h.Histogram(
         [
             h.Axis(hist.axis.Integer(0, 50, name="genE_matched_electron_status",
@@ -1736,6 +1757,26 @@ hist_defs = {
             h.Axis(hist.axis.Regular(100, 0, 0.01, name="genMu_matched_muon_dxy",
                                      label="genMu_matched_muon_dxy"),
                    lambda objs, mask: abs(dxy(objs["muons"].matched_gen[objs["muons"].matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),"genMu_matched_lj_muon_dxy":  h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name="genMu_matched_lj_muon_dxy",
+                                     label="genMu_matched_lj_muon_dxy"),
+                   lambda objs, mask: abs(dxy(objs["mu_ljs"].pfMuons.matched_gen[objs["mu_ljs"].pfMuons.matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
+    "genMu_matched_lj_muon_dxy_lowRange":  h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.05, name="genMu_matched_lj_muon_dxy",
+                                     label="genMu_matched_lj_muon_dxy"),
+                   lambda objs, mask: abs(dxy(objs["mu_ljs"].pfMuons.matched_gen[objs["mu_ljs"].pfMuons.matched_gen.status == 1], ref=objs["pvs"]))),
+        ],
+    ),
+    "genMu_matched_lj_muon_dxy_XLowRange":  h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.01, name="genMu_matched_lj_muon_dxy",
+                                     label="genMu_matched_lj_muon_dxy"),
+                   lambda objs, mask: abs(dxy(objs["mu_ljs"].pfMuons.matched_gen[objs["mu_ljs"].pfMuons.matched_gen.status == 1], ref=objs["pvs"]))),
         ],
     ),
     "genMu_matched_muon_status":  h.Histogram(
