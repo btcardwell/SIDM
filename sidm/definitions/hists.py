@@ -492,7 +492,6 @@ hist_defs = {
                lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=0, diff=True))
         ],
      evt_mask=lambda objs: ak.num(objs["electrons"]) > 0,
-    
     ),
     "subleading_electron_resolution_diff": h.Histogram(
         [
@@ -500,7 +499,46 @@ hist_defs = {
                lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=1, diff=True))
         ],
      evt_mask=lambda objs: ak.num(objs["electrons"]) > 1,
-    
+    ),
+    "lj_muon_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="lj_muon_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["mu_ljs"].pfMuons, objs["pvs"], rank="all", diff=True))
+        ]
+    ),
+    "lj_leading_muon_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="lj_muon_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["mu_ljs"].pfMuons, objs["pvs"], rank=0, diff=True))
+        ],
+    evt_mask=lambda objs: ak.num(objs["mu_ljs"].pfMuons) > 0,
+    ),
+    "lj_subleading_muon_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="lj_subleading_muon_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["mu_ljs"].pfMuons, objs["pvs"], rank=1, diff=True))
+        ],
+    evt_mask=lambda objs: ak.num(objs["mu_ljs"].pfMuons) > 1,
+    ),
+    "lj_electron_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="lj_electron_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["egm_ljs"].electrons, objs["pvs"], rank="all", diff=True))
+        ]
+    ),
+    "lj_leading_electron_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="lj_leading_electron_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["egm_ljs"].electrons, objs["pvs"], rank=0, diff=True))
+        ],
+     evt_mask=lambda objs: ak.num(objs["egm_ljs"].electrons) > 0,
+    ),
+    "lj_subleading_electron_resolution_diff": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, -0.01, 0.01, name="lj_subleading_electron_resolution_diff"),
+               lambda objs, mask: lepton_dxy_resolution(objs["egm_ljs"].electrons, objs["pvs"], rank=1, diff=True))
+        ],
+     evt_mask=lambda objs: ak.num(objs["egm_ljs"].electrons) > 1,
     ),
     # dsamuon
     "dsaMuon_n": obj_attr("dsaMuons", "n"),
