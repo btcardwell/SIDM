@@ -606,6 +606,12 @@ displacement_base: &displacement_base
   - "genMu_genMu_dR_lowRange"
   - "genMu_genMu_dR_XLowRange"
   - "genMu_genMu_dR_XXLowRange"
+  - "lj_electron_resolution_diff"
+  - "lj_leading_electron_resolution_diff"
+  - "lj_subleading_electron_resolution_diff"
+  - "lj_muon_resolution_diff"
+  - "lj_leading_muon_resolution_diff"
+  - "lj_subleading_muon_resolution_diff"
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
