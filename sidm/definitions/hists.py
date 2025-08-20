@@ -1,4 +1,6 @@
-"""Define all available histograms
+""" CLEAN BRANCH!!
+
+Define all available histograms
 
 All hists are defined as Histogram objects whose axes are given as a list of Axis objects, which
 bundle a hist.axis with a function that defines how the axis will be filled. The underlying
@@ -353,6 +355,21 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["muons"], objs["genAs_toMu"], 0.5))),
         ],
     ),
+    "muon_numOverlapSegments_matchedDSAMuons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10,0, 10, name="muon_numOverlapSegments_matchedDSAMuons"),
+                   lambda objs, mask: objs["muons"].matched_dsa_muons[:,:,:1].numMatch),#Also works! idk if the result makes sense, but it runs
+        ],
+    ),
+    "muon_numOverlapSegments_goodMatchedDSAMuons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10,0, 10, name="muon_numOverlapSegments_matchedDSAMuons"),
+                   lambda objs, mask: objs["muons"].good_matched_dsa_muons[:,:,:1].numMatch),#Also works! idk if the result makes sense, but it runs
+        ],
+    ),
+
+    
+    
     # pfmuon-genA
     "muon_nearGenA_n_genA_lxy": h.Histogram(
         [
@@ -393,7 +410,20 @@ hist_defs = {
             h.Axis(hist.axis.Integer(0, 10, name="dsaMuon_nearGenA_n"),
                    lambda objs, mask: ak.num(matched(objs["dsaMuons"], objs["genAs_toMu"], 0.5))),
         ],
+    ),    
+    "dsaMuon_numOverlapSegments_matchedMuons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10,0, 10, name="dsaMuon_numOverlapSegments_matchedMuons"),
+                   lambda objs, mask: objs["dsaMuons"].matched_muons[:,:,:1].numMatch),#Also works! idk if the result makes sense, but it runs
+        ],
     ),
+    "dsaMuon_numOverlapSegments_goodMatchedMuons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10,0, 10, name="dsaMuon_numOverlapSegments_goodMatchedMuons"),
+                   lambda objs, mask: objs["dsaMuons"].good_matched_muons[:,:,:1].numMatch),#Also works! idk if the result makes sense, but it runs
+        ],
+    ),
+    
     # dsamuon-genA
     "dsaMuon_nearGenA_n_genA_lxy": h.Histogram(
         [
