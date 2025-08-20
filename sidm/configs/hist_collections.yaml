@@ -618,6 +618,8 @@ displacement_base: &displacement_base
   - "genE_matched_lj_electron_dxy"
   - "genE_matched_lj_electron_dxy_lowRange"
   - "genE_matched_lj_electron_dxy_XLowRange"
+  - "electron_n"
+  - "muon_n"
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
