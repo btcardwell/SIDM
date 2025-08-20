@@ -53,6 +53,12 @@ baseNoLjNoLjsource: &baseNoLjNoLjsource
     - *trigger
     - *evt_pv_cuts
 
+baseNoLjNoLjsource_noTrigger: &baseNoLjNoLjsource_noTrigger
+  obj_cuts:
+    <<: *obj_gen_level_cuts
+  evt_cuts:
+    - *evt_pv_cuts
+
 # apply trigger, gen cuts, pv filter, and lj-source cuts
 baseNoLj: &baseNoLj
   obj_cuts: &obj_baseNoLj
