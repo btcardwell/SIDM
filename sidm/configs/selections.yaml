@@ -90,6 +90,17 @@ base_ljObjCut: &base_ljObjCut
   evt_cuts:
     - *evt_baseNoLj
     
+# Muon Cross Cleaning Studies
+baseNoLj_Seg_Veto_dRouter_NumsegRatio: &baseNoLj_Seg_Veto_dRouter_NumsegRatio
+  obj_cuts: 
+    <<: *obj_baseNoLjNoLjsource
+    <<: *obj_ljsource_cuts
+  preLj_obj_cuts:
+    dsaMuons:
+      - "segmatch veto + dR outer + numseg ratio"
+  evt_cuts: 
+    - *evt_baseNoLjNoljsource
+
 # add >=2 LJ requirement
 base: &base
   obj_cuts: &obj_base
