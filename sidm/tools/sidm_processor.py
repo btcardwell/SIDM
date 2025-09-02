@@ -162,12 +162,11 @@ class SidmProcessor(processor.ProcessorABC):
         return {events.metadata["dataset"]: out}
 
     def make_vector(self, objs, collection, fields, type_id=None, mass=None):
-        shape = ak.ones_like(objs[collection].pt)
+        shape = ak.ones_like(objs[collection].pt, dtype=np.dtype(int))
         # all objects must have the same fields to later concatenate and cluster them
-        # set fields that aren't available for a given object to be None
-        # these additional fields will be removed after clustering
-        nan = ak.full_like(shape, None)
-        forms = {f: objs[collection][f] if f in objs[collection].fields else nan for f in fields}
+        # set fields that aren't available for a given object to be -1
+        # these additional fields will be removed after clustering anyway
+        forms = {f: objs[collection][f] if f in objs[collection].fields else -1*shape for f in fields}
         forms["part_type"] = objs[collection]["type"] if type_id is None else type_id*shape
         forms["mass"] = objs[collection]["mass"] if mass is None else mass*shape
         return vector.zip(forms)
