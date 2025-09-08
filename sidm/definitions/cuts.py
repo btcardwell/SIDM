@@ -136,6 +136,7 @@ obj_cut_defs = {
         'MVANonIsoWPL': lambda objs: objs['electrons'].mvaFall17V2noIso_WPL,
         "missing_hits == 0" : lambda objs: objs["electrons"].lostHits == 0,
         "missing_hits == 1" : lambda objs: objs["electrons"].lostHits == 1,
+        "dxy >= 0.05" : lambda objs: objs["electrons"].dxy >= 1,
     },
     "muons": {
         #Tested the following to try to enable us to apply these cuts to muons *and* matched_muons associated to dsas
@@ -144,6 +145,7 @@ obj_cut_defs = {
         "|eta| < 2.4": lambda objs, muons: abs(muons.eta) < 2.4,
         "dR(mu, A) < 0.5": lambda objs, muons: dR(muons, objs["genAs_toMu"]) < 0.5,
         "dR(mu, A) < 0.5 nested": lambda objs, muons: dR(muons, objs["genAs_toMu"][:,:,None]) < 0.5,
+        "dxy >= 0.008" : lambda objs: objs["electrons"].dxy >= 0.008,
     },
     "photons":{
         "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,

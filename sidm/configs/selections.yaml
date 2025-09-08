@@ -170,6 +170,22 @@ base_ljObjCut_ljIso0p1: &base_ljObjCut_ljIso0p1
       - "lj_iso < 0.1"
   evt_cuts:
     - *evt_baseNoLj
+    
+base_ljObjCut_ljIso0p1_dxy: &base_ljObjCut_ljIso0p1_dxy
+  obj_cuts: 
+    <<: *obj_baseNoLj
+    electrons: 
+      - *electrons_ljsource_cuts
+      - "dxy >= 0.05"
+    muons: 
+      - *muons_ljsource_cuts
+      - "dxy >= 0.008"
+  postLj_obj_cuts: 
+    ljs: 
+      - *lj_base
+      - "lj_iso < 0.1"
+  evt_cuts:
+    - *evt_baseNoLj
 
 base_ljObjCut_ljIso0p2: &base_ljObjCut_ljIso0p2
   obj_cuts:
