@@ -636,6 +636,18 @@ displacement_base_subset: &displacement_base_subset
   - "mu_lj_muonN"
   - "mu_lj_pfMu_n"
   - "mu_lj_dsaMu_n"
+  - "mu_lj_muon_dxy_lowRange"
+  - "mu_lj_dsaMuon_dxy_lowRange"
+  - "mu_lj_muon_dxy_XLowRange"
+  - "mu_lj_dsaMuon_dxy_XLowRange"
+  - "mu_lj_muon_min_dxy"
+  - "mu_lj_dsaMuon_min_dxy"
+  - "mu_lj_muon_min_dxy_XLowRange"
+  - "mu_lj_dsaMuon_min_dxy_XLowRange"
+  - "mu_lj_muon_max_dxy"
+  - "mu_lj_dsaMuon_max_dxy"
+  - "mu_lj_muon_max_dxy_XLowRange"
+  - "mu_lj_dsaMuon_max_dxy_XLowRange"
 
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
