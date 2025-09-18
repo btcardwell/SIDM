@@ -195,6 +195,18 @@ base_ljObjCut_ljIso0p1_1pf_1dsa: &base_ljObjCut_ljIso0p1_1pf_1dsa
   evt_cuts:
     - *evt_baseNoLj
 
+base_ljObjCut_ljIso0p1_2dsa: &base_ljObjCut_ljIso0p1_2dsa
+  obj_cuts:
+    <<: *obj_baseNoLj
+  postLj_obj_cuts: 
+    ljs: 
+      - *lj_base
+      - "lj_iso < 0.1"
+    mu_ljs:
+      - "dsaMuLj"
+  evt_cuts:
+    - *evt_baseNoLj
+
 base_ljObjCut_ljIso0p1_dxy: &base_ljObjCut_ljIso0p1_dxy
   obj_cuts: 
     <<: *obj_baseNoLj
