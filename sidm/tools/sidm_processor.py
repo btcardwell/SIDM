@@ -15,6 +15,23 @@ from sidm import BASE_DIR
 from sidm.tools import selection, cutflow, utilities
 from sidm.definitions.hists import hist_defs, counter_defs
 from sidm.definitions.objects import preLj_objs, postLj_objs
+import coffea.nanoevents.transforms as tr
+
+def _patched_local2global(stack):
+    """
+    Original: index,target_offsets,!local2global
+    Turn jagged local index into global index
+    """
+    target_offsets = ak.Array(stack.pop())
+    index = ak.Array(stack.pop())
+    index = index.mask[index >= 0] + target_offsets[:-1]
+    index = index.mask[index < target_offsets[1:]]
+
+    out = ak.flatten(ak.fill_none(index, -1), axis=None)
+    out = ak.values_astype(out, np.int64)
+
+    stack.append(out)
+tr.local2global = _patched_local2global
 
 class SidmProcessor(processor.ProcessorABC):
     """Class to apply selections, make histograms, and make cutflows
@@ -76,7 +93,7 @@ class SidmProcessor(processor.ProcessorABC):
                 counts = ak.ones_like(objs[obj_name].x, dtype=np.int32)
                 objs[obj_name] = ak.unflatten(objs[obj_name], counts)
 
-        
+
         cutflows = {}
         counters = {}
 
@@ -101,11 +118,11 @@ class SidmProcessor(processor.ProcessorABC):
                     sel_objs["muons"]["good_matched_dsa_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["muons"].matched_dsa_muons,"dsaMuons")
                 except Exception as e:
                     print(f"Failed to apply selections to the nested matched muon collections. Error message: {e}")
-                    
+
                 # apply selections to muons which already contains good matched information
                 prelj_selection = selection.JaggedSelection(cuts["preLj_obj"], self.verbose)
                 sel_objs = prelj_selection.apply_obj_cuts_preLj(sel_objs)
-                
+
                 # reconstruct lepton jets
                 sel_objs["ljs"] = self.build_lepton_jets(sel_objs, float(lj_reco))
 
@@ -194,11 +211,11 @@ class SidmProcessor(processor.ProcessorABC):
         fields = [objs[c].fields for c in collections]
 
         unsafe_fields = ['muonIdxG','dsaIdxG','good_matched_muons','good_matched_dsa_muons']
-        
+
         all_fields = list(set().union(*fields))
         for field in unsafe_fields:
             all_fields.remove(field)
-        
+
         muon_inputs = self.make_vector(objs, "muons", all_fields,  type_id=3)
         dsa_inputs = self.make_vector(objs, "dsaMuons", all_fields, type_id=8, mass=0.106)
         ele_inputs = self.make_vector(objs, "electrons", all_fields, type_id=2)
@@ -225,14 +242,14 @@ class SidmProcessor(processor.ProcessorABC):
         common_fields = list(set(fields[0]).intersection(*fields[1:]))
         ljs["constituents"] = self.make_constituent(consts, [2, 3, 4, 8], "PtEtaPhiMCollection", common_fields)
 
-        
+
     ######
-        ## FIX ME! Won't be able to access the dsaMuon matches from the LJ constituent muon, and vice versa 
+        ## FIX ME! Won't be able to access the dsaMuon matches from the LJ constituent muon, and vice versa
         ## (can only access it from the original muon collection in objects)
 
         objs["dsaMuons"]["mass"] = ak.full_like(objs["dsaMuons"].pt, 0.105712890625)
 
-        safe_pf_fields = list(objs["muons"].fields) 
+        safe_pf_fields = list(objs["muons"].fields)
         safe_dsa_fields = list(objs["dsaMuons"].fields)
 
         for field in unsafe_fields:
@@ -240,7 +257,7 @@ class SidmProcessor(processor.ProcessorABC):
                 safe_pf_fields.remove(field)
             if field in safe_dsa_fields:
                 safe_dsa_fields.remove(field)
-                
+
         muon_fields = list(set(safe_pf_fields).intersection(safe_dsa_fields))
 
         ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
@@ -268,9 +285,9 @@ class SidmProcessor(processor.ProcessorABC):
             ljs["constituents"].metric_table(ljs["constituents"], axis=2), axis=-1), axis=-1)
 
         # LJ isolation
-        ljs["matched_jet"] = ljs.nearest(objs["jets"], threshold=0.4)       
+        ljs["matched_jet"] = ljs.nearest(objs["jets"], threshold=0.4)
         ljs["isolation"] = ak.fill_none((ljs["matched_jet"].energy / ljs.energy) * (1 - (ljs["matched_jet"].chEmEF + ljs["matched_jet"].neEmEF + ljs["matched_jet"].muEF)), 0)
-        
+
         # todo: add LJ displacement
 
         # pt order the new LJs
@@ -299,7 +316,7 @@ class SidmProcessor(processor.ProcessorABC):
                 if obj not in ch_cuts[channel]["obj"]:
                     ch_cuts[channel]["obj"][obj] = []
                 ch_cuts[channel]["obj"][obj] = utilities.flatten(obj_cuts)
-            
+
             if "preLj_obj_cuts" in cuts:
                 for obj, obj_cuts in cuts["preLj_obj_cuts"].items():
                     ch_cuts[channel]["preLj_obj"][obj] = utilities.flatten(obj_cuts)

@@ -67,9 +67,13 @@ def dR(obj1, obj2):
     dr = obj1.nearest(obj2, return_metric=True)[1]
     return ak.fill_none(dr, np.inf)
 
+def dR_general(obj1, obj2):
+    """Return ΔR between obj1 and obj2, filling None with inf"""
+    return ak.fill_none(obj1.delta_r(obj2), np.inf)
+
 def dR_outer(obj1, obj2):
     """Return dR between outer tracks of obj1 and obj2"""
-    return np.sqrt((obj1.outerEta - obj2.outerEta)**2 + (obj1.outerPhi - obj2.outerPhi)**2)
+    return ak.fill_none(np.sqrt((obj1.outerEta - obj2.outerEta)**2 + (obj1.outerPhi - obj2.outerPhi)**2), np.inf)
 
 def drop_none(obj):
     """Remove None entries from an array (not available in Awkward 1)"""
@@ -78,6 +82,17 @@ def drop_none(obj):
 def matched(obj1, obj2, r):
     """Return set of obj1 that have >=1 obj2 within r; remove None entries before returning"""
     return drop_none(obj1[dR(obj1, obj2) < r])
+
+def add_matched_dsamuon_mass(obj):
+    obj["mass"] = ak.full_like(obj.pt, 0.105712890625)
+    return obj
+
+def lj_combination_dR(obj):
+    pair = ak.combinations(obj, 2, axis=1, fields=["lj1", "lj2"])
+    dR = dR_general(pair["lj1"], pair["lj2"])
+    min_dR = ak.min(dR_general(pair["lj1"], pair["lj2"]), axis=1)
+    max_dR = ak.max(dR_general(pair["lj1"], pair["lj2"]), axis=1)
+    return dR, min_dR, max_dR
 
 def rho(obj, ref=None, use_v=False):
     """Return transverse distance between object and reference (default reference is 0,0)"""
@@ -276,7 +291,7 @@ def select_numbersPhoton(number, var1, var2):
     Function to select the numbers where each variable is at least 0b010 except for variable of choice
     """
     selected = True
-    
+
     # number will have 14 bits (2 bits per each cut)
     # starting with MinPtCut at the LSB
     # and ending with PhoIsoWithEALinScalingCut at the MSB
@@ -289,8 +304,8 @@ def select_numbersPhoton(number, var1, var2):
         ('NeuHadIsoWithEAQuadScalingCut', 10),
         ('PhoIsoWithEALinScalingCut', 12),
     ]
-    
-    # Check each variable except variable of choice 
+
+    # Check each variable except variable of choice
     for var, start_bit in variables:
         # Get the 2 bits corresponding to this variable
         value = (number >> start_bit) & 0b11  # Extract 2 bits
@@ -298,7 +313,7 @@ def select_numbersPhoton(number, var1, var2):
             if not check_variablePhoton(value):
                 selected = False
                 break
-    
+
     return selected
 
 

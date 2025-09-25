@@ -4,7 +4,7 @@
 from coffea.analysis_tools import PackedSelection
 # local
 from sidm.definitions.cuts import evt_cut_defs, obj_cut_defs, preLj_obj_cut_defs
-import traceback 
+import traceback
 
 
 class Selection:
@@ -57,7 +57,7 @@ class JaggedSelection:
     def __init__(self, cuts, verbose=False):
         self.obj_cuts = cuts # dict of cuts to be applied
         self.verbose = verbose
-    
+
     def apply_obj_cuts(self, objs):
         """Apply object cuts sequentially"""
         sel_objs = objs.copy()
@@ -105,9 +105,9 @@ class JaggedSelection:
 class NestedSelection:
     """Class to represent the collection of cuts that define a NestedSelection
 
-    A NestedSelection consists of object-level cuts to the matched objects 
+    A NestedSelection consists of object-level cuts to the matched objects
     (for example, the pf muons matched to dsa muons).
-    
+
     All available cuts are defined in sidm.definitions.cuts. The specific cuts that define each
     selection are accepted by NestedSelection() as lists of strings.
     """
@@ -115,18 +115,18 @@ class NestedSelection:
     def __init__(self, cuts, verbose=False):
         self.obj_cuts = cuts # dict of cuts to be applied
         self.verbose = verbose
-    
-    def apply_obj_cuts(self, all_objs, nested_objs, obj_name): 
+
+    def apply_obj_cuts(self, all_objs, nested_objs, obj_name):
         """Apply object cuts sequentially"""
         # For example, all_objs would be the full sel_objs in the processor
         # and nested_objs could be sel_objs["dsaMuons"].matched_muons in the processor
         # Then obj_name would be "muons", because we want the *muon* cuts applied to these objects
 
         sel_nested_objs = nested_objs
-        
+
         for obj, cuts in self.obj_cuts.items():
             if obj == obj_name:
-                
+
                 if self.verbose: print(f"Applying cuts to the nested {obj} collection")
 
                 for cut in cuts:
@@ -135,10 +135,11 @@ class NestedSelection:
                     except Exception as e:
                         print(f"Warning: Unable to apply {cut} for nested {obj_name} collection. Skipping.... {e}")
                 return sel_nested_objs
- 
 
-        if self.verbose: 
+
+
+        if self.verbose:
             print(f"Warning: Did not find cuts for {obj_name} in the config. "
                       f"No cuts will be applied to the nested objects")
         return sel_nested_objs
- 
+
