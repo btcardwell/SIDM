@@ -948,6 +948,9 @@ baseNoLj_A_mumu_highPtA: &baseNoLj_A_mumu_highPtA
     <<: *obj_baseNoLj
     genAs_toMu:
       - "pT > 30 GeV"
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
   evt_cuts:
     - *evt_pv_cuts
     - "genAs_toMu"
@@ -958,6 +961,9 @@ baseNoLj_A_mumu_matched_lj_highPT: &baseNoLj_A_mumu_matched_lj_highPT
     <<: *obj_baseNoLj
     genAs_toMu:
       - "pT > 30 GeV"
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -973,6 +979,9 @@ baseNoLj_A_mumu_matched_pflj_highPT: &baseNoLj_A_mumu_matched_pflj_highPT
     <<: *obj_baseNoLj
     genAs_toMu:
       - "pT > 30 GeV"
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -990,6 +999,9 @@ baseNoLj_A_mumu_matched_dsalj_highPT: &baseNoLj_A_mumu_matched_dsalj_highPT
     <<: *obj_baseNoLj
     genAs_toMu:
       - "pT > 30 GeV"
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -1007,6 +1019,9 @@ baseNoLj_A_mumu_matched_pfDsalj_highPT: &baseNoLj_A_mumu_matched_pfDsalj_highPT
     <<: *obj_baseNoLj
     genAs_toMu:
       - "pT > 30 GeV"
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
   postLj_obj_cuts:
     ljs:
       - *lj_base
