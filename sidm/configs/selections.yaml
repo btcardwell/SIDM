@@ -227,6 +227,22 @@ base_ljObjCut_ljIso0p1_2dsa: &base_ljObjCut_ljIso0p1_2dsa
   evt_cuts:
     - *evt_baseNoLj
 
+base_ljObjCut_ljIso0p1_2dsa_2lj: &base_ljObjCut_ljIso0p1_2dsa_2lj
+  obj_cuts:
+    <<: *obj_baseNoLj
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+      - "lj_iso < 0.1"
+    mu_ljs:
+      - "dsaMuLj"
+  evt_cuts:
+    - *evt_baseNoLj
+    - ">=2 LJs"
+
 base_ljObjCut_ljIso0p1_dxy: &base_ljObjCut_ljIso0p1_dxy
   obj_cuts: 
     <<: *obj_baseNoLj
