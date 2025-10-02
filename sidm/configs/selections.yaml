@@ -199,6 +199,22 @@ base_ljObjCut_ljIso0p1_2pf_2lj: &base_ljObjCut_ljIso0p1_2pf_2lj
     - *evt_baseNoLj
     - ">=2 LJs"
 
+base_ljObjCut_ljIso0p1_2pf_2lj_inv: &base_ljObjCut_ljIso0p1_2pf_2lj_inv
+  obj_cuts:
+    <<: *obj_baseNoLj
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+      - "lj_iso < 0.1"
+      - "lj_lj_invar_mass > 300 GeV"
+    mu_ljs:
+      - "pfMuLj"
+  evt_cuts:
+    - *evt_baseNoLj
+    - ">=2 LJs"
 base_ljObjCut_ljIso0p1_1pf_1dsa_2lj: &base_ljObjCut_ljIso0p1_1pf_1dsa_2lj
   obj_cuts:
     <<: *obj_baseNoLj
