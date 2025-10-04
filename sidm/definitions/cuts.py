@@ -50,7 +50,7 @@ obj_cut_defs = {
         "pfMuLj": lambda objs: (objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n == 0),
         "dsaMuLj": lambda objs: (objs["mu_ljs"].pfMu_n == 0) & (objs["mu_ljs"].dsaMu_n > 0),
         "pf_dsa_muLj": lambda objs: (objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n > 0),
-        "1dsa": lambda objs: objs["mu_ljs"].dsaMu_n > 0,
+        "1dsaMuLj": lambda objs: objs["mu_ljs"].dsaMu_n > 0,
         "mu_lj_iso < 0.1": lambda objs: objs["mu_ljs"].isolation < 0.1,
     },
     "genMus":{
