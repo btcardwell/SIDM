@@ -177,9 +177,11 @@ base_ljObjCut_ljIso0p1_2pf: &base_ljObjCut_ljIso0p1_2pf
   postLj_obj_cuts:
     ljs:
       - *lj_base
-      - "lj_iso < 0.1"
     mu_ljs:
       - "pfMuLj"
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
   evt_cuts:
     - *evt_baseNoLj
 
@@ -192,12 +194,15 @@ base_ljObjCut_ljIso0p1_2pf_2lj: &base_ljObjCut_ljIso0p1_2pf_2lj
   postLj_obj_cuts:
     ljs:
       - *lj_base
-      - "lj_iso < 0.1"
     mu_ljs:
       - "pfMuLj"
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
   evt_cuts:
     - *evt_baseNoLj
-    - ">=2 LJs"
+    - ">=1 egm_ljs"
+    - ">=1 mu_ljs"
 
 base_ljObjCut_ljIso0p1_1dsa_2lj: &base_ljObjCut_ljIso0p1_1dsa_2lj
   obj_cuts:
@@ -227,22 +232,27 @@ base_ljObjCut_ljIso0p1_1pf_1dsa_2lj: &base_ljObjCut_ljIso0p1_1pf_1dsa_2lj
   postLj_obj_cuts:
     ljs:
       - *lj_base
-      - "lj_iso < 0.1"
     mu_ljs:
       - "pf_dsa_muLj"
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
   evt_cuts:
     - *evt_baseNoLj
-    - ">=2 LJs"
+    - ">=1 egm_ljs"
+    - ">=1 mu_ljs"
 
 base_ljObjCut_ljIso0p1_2dsa: &base_ljObjCut_ljIso0p1_2dsa
   obj_cuts:
     <<: *obj_baseNoLj
-  postLj_obj_cuts: 
-    ljs: 
+  postLj_obj_cuts:
+    ljs:
       - *lj_base
-      - "lj_iso < 0.1"
     mu_ljs:
       - "dsaMuLj"
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
   evt_cuts:
     - *evt_baseNoLj
 
@@ -255,12 +265,15 @@ base_ljObjCut_ljIso0p1_2dsa_2lj: &base_ljObjCut_ljIso0p1_2dsa_2lj
   postLj_obj_cuts:
     ljs:
       - *lj_base
-      - "lj_iso < 0.1"
     mu_ljs:
       - "dsaMuLj"
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
   evt_cuts:
     - *evt_baseNoLj
-    - ">=2 LJs"
+    - ">=1 egm_ljs"
+    - ">=1 mu_ljs"
 
 base_ljObjCut_ljIso0p1_dxy: &base_ljObjCut_ljIso0p1_dxy
   obj_cuts: 
