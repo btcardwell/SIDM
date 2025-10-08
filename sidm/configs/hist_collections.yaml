@@ -201,6 +201,8 @@ dsaMuon_lj_base: &dsaMuon_lj_base
 lj_lj_base: &lj_lj_base
   - "lj_lj_absdphi"
   - "lj_lj_invmass"
+  - "dsaMulj_egmlj_invmass"
+  - "pfMulj_egmlj_invmass"
   - "lj_lj_invmass_lowRange"
   - "lj_lj_absdR"
   - "lj_lj_absdeta"
