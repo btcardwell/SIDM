@@ -382,8 +382,8 @@ hist_defs = {
         ],
     ),
 
-    
-    
+
+
     # pfmuon-genA
     "muon_nearGenA_n_genA_lxy": h.Histogram(
         [
@@ -450,7 +450,7 @@ hist_defs = {
                lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=0))
         ],
      evt_mask=lambda objs: ak.num(objs["electrons"]) > 0,
-    
+
     ),
      "subleading_electron_resolution": h.Histogram(
         [
@@ -458,7 +458,7 @@ hist_defs = {
                lambda objs, mask: lepton_dxy_resolution(objs["electrons"], objs["pvs"], rank=1))
         ],
      evt_mask=lambda objs: ak.num(objs["electrons"]) > 1,
-    
+
     ),
     "all_muon_resolution_diff": h.Histogram(
         [
@@ -553,7 +553,7 @@ hist_defs = {
             h.Axis(hist.axis.Integer(0, 10, name="dsaMuon_nearGenA_n"),
                    lambda objs, mask: ak.num(matched(objs["dsaMuons"], objs["genAs_toMu"], 0.5))),
         ],
-    ),    
+    ),
     "dsaMuon_numOverlapSegments_matchedMuons": h.Histogram(
         [
             h.Axis(hist.axis.Regular(10,0, 10, name="dsaMuon_numOverlapSegments_matchedMuons"),
@@ -566,7 +566,7 @@ hist_defs = {
                    lambda objs, mask: objs["dsaMuons"].good_matched_muons[:,:,:1].numMatch),#Also works! idk if the result makes sense, but it runs
         ],
     ),
-    
+
     # dsamuon-genA
     "dsaMuon_nearGenA_n_genA_lxy": h.Histogram(
         [
@@ -1145,6 +1145,22 @@ hist_defs = {
                    lambda objs, mask: objs["ljs"][mask, :2].sum().mass),
         ],
         evt_mask=lambda objs: ak.num(objs["ljs"]) > 1,
+    ),
+    "pfMulj_egmlj_invmass": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 1200, name="ljlj_mass",
+                                     label=r"Invariant Mass ($LJ_{0}$, $LJ_{1}$)"),
+                   lambda objs, mask: ((objs["pfmu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["pfmu_ljs"]) > 0) & (ak.num(objs["egm_ljs"]) > 0),
+    ),
+    "dsaMulj_egmlj_invmass": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 1200, name="ljlj_mass",
+                                     label=r"Invariant Mass ($LJ_{0}$, $LJ_{1}$)"),
+                   lambda objs, mask: ((objs["dsamu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["dsamu_ljs"]) > 0) & (ak.num(objs["egm_ljs"]) > 0),
     ),
     "lj_lj_invmass_lowRange": h.Histogram(
         [
