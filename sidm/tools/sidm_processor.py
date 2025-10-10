@@ -147,7 +147,7 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs["lj_reco"] = lj_reco
 
                 # define event weights
-                evt_weights =  self.obj_defs["weight"](events)*events.metadata["skim_factor"]
+                evt_weights =  self.obj_defs["weight"](events)
 
                 # make cutflow
                 if lj_reco not in cutflows:
@@ -182,6 +182,7 @@ class SidmProcessor(processor.ProcessorABC):
             "counters": counters,
             "metadata": {
                 "n_evts": events.metadata["entrystop"] - events.metadata["entrystart"],
+                "scaled_sum_weights": ak.sum(evt_weights)/events.metadata["skim_factor"],
             },
         }
 
@@ -362,8 +363,8 @@ class SidmProcessor(processor.ProcessorABC):
         """Modify accumulator after process has run on all chunks"""
         # scale cutflow and hists according to lumi*xs
         for sample, output in accumulator.items():
-            n_evts = output["metadata"]["n_evts"]
-            lumixs_weight = utilities.get_lumixs_weight(sample, self.year, n_evts)
+            sum_weights = output["metadata"]["scaled_sum_weights"]
+            lumixs_weight = utilities.get_lumixs_weight(sample, self.year, sum_weights)
             for name in output["cutflow"]:
                 accumulator[sample]["cutflow"][name].scale(lumixs_weight)
             if not self.unweighted_hist:
