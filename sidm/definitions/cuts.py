@@ -178,11 +178,6 @@ obj_cut_defs = {
         "dR(mu, A) < 0.5": lambda objs, dsa: dR(dsa, objs["genAs_toMu"]) < 0.5,
         "dR(mu, A) < 0.5 nested": lambda objs, dsa: dR(dsa, objs["genAs_toMu"][:,:,None]) < 0.5,
         "dR(dsa, pf) > 0.2": lambda objs, dsa: dR(dsa, objs["muons"]) > 0.2,
-    },
-}
-
-preLj_obj_cut_defs = {
-    "dsaMuons": {
         "segmatch veto": lambda objs: ak.all((objs["dsaMuons"].good_matched_muons.numMatch < 1) | (ak.is_none(objs["dsaMuons"].good_matched_muons, axis=2)), axis=2),
         "segmatch veto + charge": lambda objs: ak.all((objs["dsaMuons"].good_matched_muons.numMatch < 1) | (objs["dsaMuons"].charge[:,:,None] != objs["dsaMuons"].good_matched_muons.charge) | (ak.is_none(objs["dsaMuons"].good_matched_muons, axis=2)), axis=2),
         "segmatch veto + dR outer": lambda objs: ak.all((objs["dsaMuons"].good_matched_muons.numMatch < 1) | (dR_outer(objs["dsaMuons"][:,:,None], objs["dsaMuons"].good_matched_muons) > 0.1) | (ak.is_none(objs["dsaMuons"].good_matched_muons, axis=2)), axis=2),

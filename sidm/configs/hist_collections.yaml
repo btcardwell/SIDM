@@ -229,11 +229,6 @@ isolation_base: &isolation_base
   - "photon_lj_isolation"
   - "photon_lj_isolation_zoom"
 
-  - "lj_isolation_sum"
-  - "dlj_isolation"
-  - "lj_isolation_ratio1"
-  - "lj_isolation_ratio2"
-
 abcd_base: &abcd_base
   - "lj_lj_absdphi_invmass"
   - "lj_lj_absdphi_absdR"

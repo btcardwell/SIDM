@@ -25,7 +25,9 @@ ljsource_cuts: &ljsource_cuts
       - "pT > 10 GeV"
       - "|eta| < 2.4"
       - "displaced ID"
- #     - "dR(dsa, pf) > 0.2"
+  preLj_obj_cuts: &preLj_obj_ljsource_cuts
+    dsaMuons: &dsaMuons_crosscleaning_cuts
+      - "all"
 
 # require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
