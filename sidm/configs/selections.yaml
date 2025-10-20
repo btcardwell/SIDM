@@ -161,15 +161,23 @@ base_ljObjCut_1e_lostHits: &base_ljObjCut_1e_lostHits
   evt_cuts:
     - *evt_baseNoLj
 
-base_ljObjCut_ljIso0p1: &base_ljObjCut_ljIso0p1
+base_ljObjCut_ljIso_2lj: &base_ljObjCut_ljIso_2lj
   obj_cuts:
     <<: *obj_baseNoLj
+  preLj_obj_cuts:
+    dsaMuons:
+      - "all"
   postLj_obj_cuts:
     ljs:
       - *lj_base
-      - "lj_iso < 0.1"
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
   evt_cuts:
     - *evt_baseNoLj
+    - ">=1 egm_ljs"
+    - ">=1 mu_ljs"
 
 base_ljObjCut_ljIso0p1_2pf: &base_ljObjCut_ljIso0p1_2pf
   obj_cuts:
