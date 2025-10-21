@@ -64,36 +64,7 @@ class SidmProcessor(processor.ProcessorABC):
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
-        # create object collections
-        # fixme: only include objs used in cuts or hists
-        objs = {}
-        for obj_name, obj_def in self.obj_defs.items():
-            try:
-                obj = obj_def(events)
-            except AttributeError:
-                print(f"Warning: {obj_name} not found in this sample. Skipping.")
-                continue
-            objs[obj_name] = obj
-
-            # pt order
-            objs[obj_name] = self.order(objs[obj_name])
-
-
-            # add lxy attribute to particles with children
-            if hasattr(obj, "children"):
-                objs[obj_name]["lxy"] = utilities.lxy(objs[obj_name])
-
-            # add dxy wrt beamspot for all objs that don't already have it
-            if hasattr(obj, "vx") and not hasattr(obj, "dxy") and "bs" in objs:
-                objs[obj_name]["dxy"] = utilities.dxy(objs[obj_name], ref=objs["bs"])
-
-            # add dimension to one-per-event objects to allow independent obj and evt cuts
-            # skip objects with no fields
-            if objs[obj_name].ndim == 1 and "x" in obj.fields:
-                counts = ak.ones_like(objs[obj_name].x, dtype=np.int32)
-                objs[obj_name] = ak.unflatten(objs[obj_name], counts)
-
-
+        objs = self.build_objects(events)
         cutflows = {}
         counters = {}
 
@@ -187,6 +158,37 @@ class SidmProcessor(processor.ProcessorABC):
         }
 
         return {events.metadata["dataset"]: out}
+
+    def build_objects(self, events):
+        """Create object collections"""
+        objs = {}
+        for obj_name, obj_def in self.obj_defs.items():
+            try:
+                obj = obj_def(events)
+            except AttributeError:
+                print(f"Warning: {obj_name} not found in this sample. Skipping.")
+                continue
+            objs[obj_name] = obj
+
+            # pt order
+            objs[obj_name] = self.order(objs[obj_name])
+
+
+            # add lxy attribute to particles with children
+            if hasattr(obj, "children"):
+                objs[obj_name]["lxy"] = utilities.lxy(objs[obj_name])
+
+            # add dxy wrt beamspot for all objs that don't already have it
+            if hasattr(obj, "vx") and not hasattr(obj, "dxy") and "bs" in objs:
+                objs[obj_name]["dxy"] = utilities.dxy(objs[obj_name], ref=objs["bs"])
+
+            # add dimension to one-per-event objects to allow independent obj and evt cuts
+            # skip objects with no fields
+            if objs[obj_name].ndim == 1 and "x" in obj.fields:
+                counts = ak.ones_like(objs[obj_name].x, dtype=np.int32)
+                objs[obj_name] = ak.unflatten(objs[obj_name], counts)
+
+        return objs
 
     def make_vector(self, objs, collection, fields, type_id=None, mass=None):
         shape = ak.ones_like(objs[collection].pt, dtype=np.dtype(int))
