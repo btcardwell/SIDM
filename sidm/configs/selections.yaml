@@ -77,7 +77,7 @@ baseNoLj_noTrigger: &baseNoLj_noTrigger
     - *evt_pv_cuts
 
 baseNoLj_noTrigger_distinct_parent: &baseNoLj_noTrigger_distinct_parent
-  obj_cuts: 
+  obj_cuts:
     <<: *obj_ljsource_cuts
     genMus:
       - "fromGenA"
@@ -164,9 +164,8 @@ base_ljObjCut_1e_lostHits: &base_ljObjCut_1e_lostHits
 base_ljObjCut_ljIso_2lj: &base_ljObjCut_ljIso_2lj
   obj_cuts:
     <<: *obj_baseNoLj
-  preLj_obj_cuts:
-    dsaMuons:
-      - "all"
+  preLj_obj_cuts: &preLj_obj_base
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -196,9 +195,8 @@ base_ljObjCut_ljIso0p1_2pf: &base_ljObjCut_ljIso0p1_2pf
 base_ljObjCut_ljIso0p1_2pf_2lj: &base_ljObjCut_ljIso0p1_2pf_2lj
   obj_cuts:
     <<: *obj_baseNoLj
-  preLj_obj_cuts:
-    dsaMuons:
-      - "all"
+  preLj_obj_cuts: &preLj_obj_base
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -215,9 +213,8 @@ base_ljObjCut_ljIso0p1_2pf_2lj: &base_ljObjCut_ljIso0p1_2pf_2lj
 base_ljObjCut_ljIso0p1_1dsa_2lj: &base_ljObjCut_ljIso0p1_1dsa_2lj
   obj_cuts:
     <<: *obj_baseNoLj
-  preLj_obj_cuts:
-    dsaMuons:
-      - "all"
+  preLj_obj_cuts: &preLj_obj_base
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -234,9 +231,8 @@ base_ljObjCut_ljIso0p1_1dsa_2lj: &base_ljObjCut_ljIso0p1_1dsa_2lj
 base_ljObjCut_ljIso0p1_1pf_1dsa_2lj: &base_ljObjCut_ljIso0p1_1pf_1dsa_2lj
   obj_cuts:
     <<: *obj_baseNoLj
-  preLj_obj_cuts:
-    dsaMuons:
-      - "all"
+  preLj_obj_cuts: &preLj_obj_base
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -253,6 +249,8 @@ base_ljObjCut_ljIso0p1_1pf_1dsa_2lj: &base_ljObjCut_ljIso0p1_1pf_1dsa_2lj
 base_ljObjCut_ljIso0p1_2dsa: &base_ljObjCut_ljIso0p1_2dsa
   obj_cuts:
     <<: *obj_baseNoLj
+  preLj_obj_cuts: &preLj_obj_base
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -267,9 +265,8 @@ base_ljObjCut_ljIso0p1_2dsa: &base_ljObjCut_ljIso0p1_2dsa
 base_ljObjCut_ljIso0p1_2dsa_2lj: &base_ljObjCut_ljIso0p1_2dsa_2lj
   obj_cuts:
     <<: *obj_baseNoLj
-  preLj_obj_cuts:
-    dsaMuons:
-      - "all"
+  preLj_obj_cuts: &preLj_obj_base
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -284,16 +281,16 @@ base_ljObjCut_ljIso0p1_2dsa_2lj: &base_ljObjCut_ljIso0p1_2dsa_2lj
     - ">=1 mu_ljs"
 
 base_ljObjCut_ljIso0p1_dxy: &base_ljObjCut_ljIso0p1_dxy
-  obj_cuts: 
+  obj_cuts:
     <<: *obj_baseNoLj
-    electrons: 
+    electrons:
       - *electrons_ljsource_cuts
       - "dxy >= 0.05"
-    muons: 
+    muons:
       - *muons_ljsource_cuts
       - "dxy >= 0.008"
-  postLj_obj_cuts: 
-    ljs: 
+  postLj_obj_cuts:
+    ljs:
       - *lj_base
       - "lj_iso < 0.1"
   evt_cuts:
