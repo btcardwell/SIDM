@@ -355,10 +355,11 @@ class SidmProcessor(processor.ProcessorABC):
 
     def order(self, obj):
         """Explicitly order objects"""
-        # pt order objects with a pt attribute
-        if hasattr(obj, "pt"):
-            obj = obj[ak.argsort(obj.pt, ascending=False)]
-        # fixme: would be good to explicitly order other objects as well
+        ## pt order objects with a pt attribute
+        #if hasattr(obj, "pt"):
+        #    obj = obj[ak.argsort(obj.pt, ascending=False)]
+        ## fixme: would be good to explicitly order other objects as well
+        print("not pt ordering")
         return obj
 
     def postprocess(self, accumulator):
