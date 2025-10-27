@@ -509,7 +509,7 @@ base_plus_gen_resolution: &base_plus_gen_resolution
   - *lepton_genLepton_base
   - *lepton_genLepton_genA_base
 
-displacement_base: &displacement_base
+displacement_base_old: &displacement_base_old
   - "egm_lj_electronN"
   - "egm_lj_pt"
   - "egm_lj_photonN"
@@ -665,8 +665,34 @@ electron_displacement: &electron_displacement
   - "egm_lj_iso"
   - "egm_lj_electronN"
   - "egm_lj_photonN"
+  
 lj_displacement: &lj_displacement
   - "lj_lj_invmass"
+
+new_histograms: &new_histograms
+  - "eLj_electron_lostHits"
+  - "egLj_electron_lostHits"
+  - "egm_lj_electron_lostHits"
+  - "eLj_electron_min_dxy_XXXLowRange"
+  - "egLj_electron_min_dxy_XXXLowRange"
+  - "egm_lj_electron_min_dxy_XXXLowRange"
+  - "mu_lj_dsaMu_nSegments"
+  - "mu_lj_dsaMu_nDTSegments"
+  - "mu_lj_dsaMu_nCSCSegments"
+  - "mu_lj_pfMu_trkNumPlanes"
+  - "mu_lj_pfMu_trkNumHits"
+  - "mu_lj_pfMu_trkNumDTHits"
+  - "mu_lj_pfMu_trkNumCSCHits"
+  - "mu_lj_pfMu_trkNumPixelHits"
+  - "mu_lj_pfMu_trkNumTrkLayers"
+  - "mu_lj_pfMuon_min_dxy_XLowRange"
+
+displacement_base: &displacement_base
+  - *lj_displacement
+  - *electron_displacement
+  - *muon_displacement
+
+
 
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
