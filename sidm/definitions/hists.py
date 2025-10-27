@@ -765,6 +765,18 @@ hist_defs = {
                    lambda objs, mask: ak.max(abs(objs["egm_ljs"].electrons.dxy), axis=-1)),
         ],
     ),
+    "eLj_electron_min_dxy_XXXLowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, .1, name=r"egm- type LJ e max dxy (cm)"),
+                   lambda objs, mask: ak.min(abs(objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0)].electrons.dxy), axis=-1)),
+        ],
+    ),
+    "egLj_electron_min_dxy_XXXLowRange": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, .1, name=r"egm- type LJ e max dxy (cm)"),
+                   lambda objs, mask: ak.min(abs(objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n > 0)].electrons.dxy), axis=-1)),
+        ],
+    ),
     "egm_lj_electron_dxy_XXXXLowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(50, 0, .01, name=r"egm- type LJ e dxy (cm)"),
@@ -787,6 +799,18 @@ hist_defs = {
         [
             h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e lostHits"),
                    lambda objs, mask: objs["egm_ljs"].electrons.lostHits),
+        ],
+    ),
+    "eLj_electron_lostHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e lostHits"),
+                   lambda objs, mask: objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0)].electrons.lostHits),
+        ],
+    ),
+    "egLj_electron_lostHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e lostHits"),
+                   lambda objs, mask: objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n > 0)].electrons.lostHits),
         ],
     ),
     "mu_lj_muon_pt": h.Histogram(
