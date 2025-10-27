@@ -767,13 +767,13 @@ hist_defs = {
     ),
     "eLj_electron_min_dxy_XXXLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, .1, name=r"egm- type LJ e max dxy (cm)"),
+            h.Axis(hist.axis.Regular(100, 0, .1, name=r"egm- type LJ e min  dxy (cm)"),
                    lambda objs, mask: ak.min(abs(objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0)].electrons.dxy), axis=-1)),
         ],
     ),
     "egLj_electron_min_dxy_XXXLowRange": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(100, 0, .1, name=r"egm- type LJ e max dxy (cm)"),
+            h.Axis(hist.axis.Regular(100, 0, .1, name=r"egm- type LJ e min dxy (cm)"),
                    lambda objs, mask: ak.min(abs(objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n > 0)].electrons.dxy), axis=-1)),
         ],
     ),
