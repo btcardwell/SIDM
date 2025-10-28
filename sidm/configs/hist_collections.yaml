@@ -654,45 +654,37 @@ displacement_base_subset: &displacement_base_subset
 muon_displacement: &muon_displacement
   - "mu_lj_pfMuon_max_dxy_XLowRange"
   - "mu_lj_pfMuon_min_dxy_XLowRange"
+  - "pf_mu_lj_pfMuon_min_dxy_XLowRange"
+  - "pf_dsa_mu_lj_pfMuon_min_dxy_XLowRange"
   - "mu_lj_muonN"
   - "mu_lj_pfMu_n"
   - "mu_lj_dsaMu_n"
+  - "mu_lj_pfMu_trkNumPixelHits"
+  - "mu_lj_pfMu_trkNumTrkLayers"
+  - "pf_mu_lj_pfMu_trkNumPixelHits"
+  - "pf_dsa_mu_lj_pfMu_trkNumPixelHits"
+  - "pf_mu_lj_pfMu_trkNumTrkLayers"
+  - "pf_dsa_mu_lj_pfMu_trkNumTrkLayers"
   
 electron_displacement: &electron_displacement
   - "egm_lj_electron_min_dxy_XXXLowRange"
+  - "eLj_electron_min_dxy_XXXLowRange"
+  - "egLj_electron_min_dxy_XXXLowRange"
   - "egm_lj_electron_lostHits"
+  - "eLj_electron_lostHits"
+  - "egLj_electron_lostHits"
   - "electron_n"
   - "egm_lj_iso"
   - "egm_lj_electronN"
   - "egm_lj_photonN"
   
 lj_displacement: &lj_displacement
-  - "lj_lj_invmass"
-
-new_histograms: &new_histograms
-  - "eLj_electron_lostHits"
-  - "egLj_electron_lostHits"
-  - "egm_lj_electron_lostHits"
-  - "eLj_electron_min_dxy_XXXLowRange"
-  - "egLj_electron_min_dxy_XXXLowRange"
-  - "egm_lj_electron_min_dxy_XXXLowRange"
-  - "mu_lj_dsaMu_nSegments"
-  - "mu_lj_dsaMu_nDTSegments"
-  - "mu_lj_dsaMu_nCSCSegments"
-  - "mu_lj_pfMu_trkNumPlanes"
-  - "mu_lj_pfMu_trkNumHits"
-  - "mu_lj_pfMu_trkNumDTHits"
-  - "mu_lj_pfMu_trkNumCSCHits"
-  - "mu_lj_pfMu_trkNumPixelHits"
-  - "mu_lj_pfMu_trkNumTrkLayers"
-  - "mu_lj_pfMuon_min_dxy_XLowRange"
+  - "mulj_egmlj_invmass"
 
 displacement_base: &displacement_base
   - *lj_displacement
   - *electron_displacement
   - *muon_displacement
-
-
 
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
