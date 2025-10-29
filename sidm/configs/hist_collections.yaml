@@ -665,6 +665,8 @@ muon_displacement: &muon_displacement
   - "pf_dsa_mu_lj_pfMu_trkNumPixelHits"
   - "pf_mu_lj_pfMu_trkNumTrkLayers"
   - "pf_dsa_mu_lj_pfMu_trkNumTrkLayers"
+  - "mu_lj_pfMu_nTrackerLayers"
+  - "mu_lj_pfMu_nStations"
   
 electron_displacement: &electron_displacement
   - "egm_lj_electron_min_dxy_XXXLowRange"

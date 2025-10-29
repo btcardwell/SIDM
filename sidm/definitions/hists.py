@@ -993,6 +993,12 @@ hist_defs = {
                    lambda objs, mask: objs["mu_ljs"].pfMuons.nTrackerLayers),
         ],
     ),
+    "mu_lj_pfMu_nStations": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ PF $\mu$ nStations"),
+                   lambda objs, mask: objs["mu_ljs"].pfMuons.nStations),
+        ],
+    ),
     "mu_lj_dsaMu_trkNumPlanes": h.Histogram(
         [
             h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ DSA $\mu$ trkNumPlanes"),
