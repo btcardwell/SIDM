@@ -677,6 +677,13 @@ muon_displacement: &muon_displacement
   - "mu_lj_pfMu_max_trkNumTrkLayers"
   - "mu_lj_pfMu_min_nTrackerLayers"
   - "mu_lj_pfMu_max_nTrackerLayers"
+  - "mu_lj_pfMu_trkNumTrkLayers_trkNumPixelHits"
+  - "mu_lj_pfMu_max_trkNumTrkLayers_max_trkNumPixelHits"
+  - "mu_lj_pfMu_min_trkNumTrkLayers_min_trkNumPixelHits"
+  - "pf_mu_lj_pfMuon_max_trkNumTrkLayers_max_trkNumPixelHits"
+  - "pf_dsa_mu_lj_pfMu_max_trkNumTrkLayers"
+  - "pf_dsa_mu_lj_pfMu_min_trkNumTrkLayers"
+  - "pf_dsa_mu_lj_pfMuon_max_trkNumTrkLayers_max_trkNumPixelHits"
   
 electron_displacement: &electron_displacement
   - "egm_lj_electron_min_dxy_XXXLowRange"
