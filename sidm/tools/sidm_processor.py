@@ -10,6 +10,7 @@ from coffea.nanoevents.methods import vector as cvec
 import awkward as ak
 import fastjet
 import vector
+import uproot
 #local
 from sidm import BASE_DIR
 from sidm.tools import selection, cutflow, utilities
@@ -374,3 +375,46 @@ class SidmProcessor(processor.ProcessorABC):
             if not self.unweighted_hist:
                 for name in output["hists"]:
                     accumulator[sample]["hists"][name] *= lumixs_weight
+
+
+class SidmSkimmer(SidmProcessor):
+    def process(self, events, out_format="root"):
+        skim_file = f"skim_test.{out_format}"
+
+        if out_format == "root":
+            print(f"writing events to {skim_file}")
+            with uproot.recreate(skim_file) as fout:
+                fout["Events"] = self.uproot_writeable(events)
+
+        elif out_format == "parquet":
+            print(f"writing events to {skim_file}")
+            ak.to_parquet(events, skim_file)
+
+        print("finished writing")
+        return {}
+
+    def postprocess(self, accumulator):
+        print("postprocess")
+        return accumulator
+
+    def is_rootcompat(self, a):
+        """Is it a flat or 1-d jagged array?"""
+        # following https://github.com/scikit-hep/coffea/discussions/735
+        t = ak.type(a)
+        if isinstance(t, ak.types.ArrayType):
+            if isinstance(t.content, ak.types.NumpyType):
+                return True
+            if isinstance(t.content, ak.types.ListType) and isinstance(t.content.content, ak.types.NumpyType):
+                return True
+        return False
+
+    def uproot_writeable(self, events):
+        """Restrict to columns that uproot can write compactly"""
+        # following https://github.com/scikit-hep/coffea/discussions/735
+        out = {}
+        for bname in events.fields:
+            if events[bname].fields:
+                out[bname] = ak.zip({n: ak.to_packed(ak.without_parameters(events[bname][n])) for n in events[bname].fields if self.is_rootcompat(events[bname][n])})
+            else:
+                out[bname] = ak.to_packed(ak.without_parameters(events[bname]))
+        return out
