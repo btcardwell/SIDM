@@ -803,13 +803,13 @@ hist_defs = {
     ),
     "egm_lj_electron_r9": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e r9"),
+            h.Axis(hist.axis.Regular(100, 0, 40, name=r"egm- type LJ e r9"),
                    lambda objs, mask: objs["egm_ljs"].electrons.r9),
         ],
     ),
     "egm_lj_electron_scEtOverPt": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e scEtOverPt"),
+            h.Axis(hist.axis.Regular(100, 0, 10, name=r"egm- type LJ e scEtOverPt"),
                    lambda objs, mask: objs["egm_ljs"].electrons.scEtOverPt),
         ],
     ),
