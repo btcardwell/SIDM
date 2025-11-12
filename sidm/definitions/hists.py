@@ -801,6 +801,18 @@ hist_defs = {
                    lambda objs, mask: objs["egm_ljs"].electrons.lostHits),
         ],
     ),
+    "egm_lj_electron_r9": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e r9"),
+                   lambda objs, mask: objs["egm_ljs"].electrons.r9),
+        ],
+    ),
+    "egm_lj_electron_scEtOverPt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e scEtOverPt"),
+                   lambda objs, mask: objs["egm_ljs"].electrons.scEtOverPt),
+        ],
+    ),
     "eLj_electron_lostHits": h.Histogram(
         [
             h.Axis(hist.axis.Regular(10, 0, 10, name=r"eLJ e lostHits"),

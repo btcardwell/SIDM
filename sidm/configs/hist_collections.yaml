@@ -702,6 +702,8 @@ electron_displacement: &electron_displacement
   - "egm_lj_iso"
   - "egm_lj_electronN"
   - "egm_lj_photonN"
+  - "egm_lj_electron_r9"
+  - "egm_lj_electron_scEtOverPt"
   
 lj_displacement: &lj_displacement
   - "mulj_egmlj_invmass"
