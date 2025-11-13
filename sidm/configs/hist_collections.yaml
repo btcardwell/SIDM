@@ -704,6 +704,8 @@ electron_displacement: &electron_displacement
   - "egm_lj_photonN"
   - "egm_lj_electron_r9"
   - "egm_lj_electron_scEtOverPt"
+  - "egm_lj_electron_max_lostHits"
+  - "eLj_electron_max_lostHits"
   
 lj_displacement: &lj_displacement
   - "mulj_egmlj_invmass"
