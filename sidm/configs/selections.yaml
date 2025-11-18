@@ -791,6 +791,8 @@ baseNoLj_A_ee_highPtA_lowLxyA: &baseNoLj_A_ee_highPtA_lowLxyA
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   evt_cuts:
     - *evt_pv_cuts
     - "genAs_toE"
@@ -802,6 +804,8 @@ baseNoLj_A_ee_matched_lj_highPT_lowLxyA: &baseNoLj_A_ee_matched_lj_highPT_lowLxy
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -866,6 +870,8 @@ baseNoLj_A_ee_matched_elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_elj_highPT_lowL
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -884,6 +890,8 @@ baseNoLj_A_ee_matched_1elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_1elj_highPT_lo
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -902,6 +910,8 @@ baseNoLj_A_ee_matched_2elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_2elj_highPT_lo
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -920,6 +930,8 @@ baseNoLj_A_ee_matched_glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_glj_highPT_lowL
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -938,6 +950,8 @@ baseNoLj_A_ee_matched_1glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_1glj_highPT_lo
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -956,6 +970,8 @@ baseNoLj_A_ee_matched_2glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_2glj_highPT_lo
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
@@ -974,6 +990,8 @@ baseNoLj_A_ee_matched_eglj_highPT_lowLxyA: &baseNoLj_A_ee_matched_eglj_highPT_lo
     genAs_toE:
       - "pT > 30 GeV"
       - "lxy <= 150 cm"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
   postLj_obj_cuts:
     ljs:
       - *lj_base
