@@ -666,6 +666,8 @@ muon_displacement: &muon_displacement
   - "pf_mu_lj_pfMu_trkNumPixelHits"
   - "pf_mu_lj_pfMu_trkNumTrkLayers"
   - "pf_dsa_mu_lj_pfMu_trkNumPixelHits"
+  - "pf_dsa_mu_lj_pfMuon_min_trkNumPixelHits"
+  - "pf_dsa_mu_lj_pfMuon_max_trkNumPixelHits"
   - "pf_dsa_mu_lj_pfMu_trkNumTrkLayers"
   - "pf_mu_lj_pfMuon_min_trkNumTrkLayers"
   - "pf_mu_lj_pfMuon_max_trkNumTrkLayers"
