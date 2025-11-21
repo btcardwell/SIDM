@@ -135,6 +135,40 @@ base: &base
     - "2mu2e"
 
 #selection on base_ljObjCut
+base_ljObjCut_pixelHits_as_ljSource: &base_ljObjCut_pixelHits_as_ljSource
+  obj_cuts:
+    <<: *obj_baseNoLj
+    muons: 
+      - "looseID"
+      - "pT > 5 GeV"
+      - "|eta| < 2.4"
+      - "trkNumPixelHits <= 2"
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
+  evt_cuts:
+    - *evt_baseNoLj
+
+base_ljObjCut_pixelHits_as_lj_cut: &base_ljObjCut_pixelHits_as_lj_cut
+  obj_cuts:
+    <<: *obj_baseNoLj
+  preLj_obj_cuts:
+    <<: *preLj_obj_baseNoLj
+  postLj_obj_cuts:
+    <<: *base_postLj_obj_cuts
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+      - "pf_pixelhits <= 2"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
+  evt_cuts:
+    - *evt_baseNoLj
+    
 base_ljObjCut_0e_lostHits: &base_ljObjCut_0e_lostHits
   obj_cuts:
     <<: *obj_baseNoLj

@@ -52,6 +52,7 @@ obj_cut_defs = {
         "pf_dsa_muLj": lambda objs: (objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n > 0),
         "1dsaMuLj": lambda objs: objs["mu_ljs"].dsaMu_n > 0,
         "mu_lj_iso < 0.1": lambda objs: objs["mu_ljs"].isolation < 0.1,
+        "pf_pixelhits <= 2": lambda objs: ak.max(objs["mu_ljs"].pfMuons.trkNumPixelHits, axis=-1) <= 2,
     },
     "genMus":{
         "pT >= 10 GeV": lambda objs: objs["genMus"].pt >= 10,
@@ -148,7 +149,8 @@ obj_cut_defs = {
         "|eta| < 2.4": lambda objs, muons: abs(muons.eta) < 2.4,
         "dR(mu, A) < 0.5": lambda objs, muons: dR(muons, objs["genAs_toMu"]) < 0.5,
         "dR(mu, A) < 0.5 nested": lambda objs, muons: dR(muons, objs["genAs_toMu"][:,:,None]) < 0.5,
-        "dxy >= 0.008" : lambda objs: objs["electrons"].dxy >= 0.008,
+        "dxy >= 0.008" : lambda objs, muons: muons.dxy >= 0.008,
+        "trkNumPixelHits <= 2" : lambda objs, muons: muons.trkNumPixelHits <= 2,
     },
     "photons":{
         "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,
