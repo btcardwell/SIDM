@@ -147,7 +147,12 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs["lj_reco"] = lj_reco
 
                 # define event weights
-                evt_weights =  self.obj_defs["weight"](events)
+                # fixme: this should instead be handled by event metadata
+                try:
+                    evt_weights = self.obj_defs["weight"](events)
+                except:
+                    print("Event weights not found. Assuming this is a data sample and setting weights to 1")
+                    evt_weights = ak.ones_like(self.obj_defs["met"](events))
 
                 # make cutflow
                 if lj_reco not in cutflows:
