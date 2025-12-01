@@ -1120,10 +1120,46 @@ hist_defs = {
                    lambda objs, mask: objs["mu_ljs"][(objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n > 0)].pfMuons.trkNumPixelHits),
         ],
     ),
+    "mu_lj_muon_trkNumPixelHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ  $\mu$ trkNumPixelHits"),
+                   lambda objs, mask: objs["mu_ljs"].muons.trkNumPixelHits),
+        ],
+    ),
+    "mu_lj_muon_max_trkNumPixelHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ $\mu$ max trkNumPixelHits"),
+                   lambda objs, mask: ak.max(objs["mu_ljs"].muons.trkNumPixelHits, axis=-1)),
+        ],
+    ),
+    "mu_lj_muon_min_trkNumPixelHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ $\mu$ min trkNumPixelHits"),
+                   lambda objs, mask: ak.min(objs["mu_ljs"].muons.trkNumPixelHits, axis=-1)),
+        ],
+    ),
     "mu_lj_pfMu_trkNumTrkLayers": h.Histogram(
         [
             h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ PF $\mu$ trkNumTrkLayers"),
                    lambda objs, mask: objs["mu_ljs"].pfMuons.trkNumTrkLayers),
+        ],
+    ),
+    "mu_lj_muon_trkNumTrkLayers": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ  $\mu$ trkNumTrkLayers"),
+                   lambda objs, mask: objs["mu_ljs"].muons.trkNumTrkLayers),
+        ],
+    ),
+    "mu_lj_muon_max_trkNumTrkLayers": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ $\mu$ max trkNumTrkLayers"),
+                   lambda objs, mask: ak.max(objs["mu_ljs"].muons.trkNumTrkLayers, axis=-1)),
+        ],
+    ),
+    "mu_lj_muon_min_trkNumTrkLayers": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"$\mu$- type LJ PF $\mu$ min trkNumTrkLayers"),
+                   lambda objs, mask: ak.min(objs["mu_ljs"].muons.trkNumTrkLayers, axis=-1)),
         ],
     ),
     "mu_lj_pfMu_min_trkNumTrkLayers": h.Histogram(
