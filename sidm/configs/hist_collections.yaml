@@ -652,6 +652,7 @@ displacement_base_subset: &displacement_base_subset
   - "mu_lj_dsaMuon_max_dxy_XLowRange"
 
 muon_displacement: &muon_displacement
+  - "mu_lj_pfMuon_dxy_XLowRange"
   - "mu_lj_pfMuon_max_dxy_XLowRange"
   - "mu_lj_pfMuon_min_dxy_XLowRange"
   - "pf_mu_lj_pfMuon_min_dxy_XLowRange"
@@ -700,6 +701,8 @@ muon_displacement: &muon_displacement
   - "mu_lj_muon_min_trkNumPixelHits"
   
 electron_displacement: &electron_displacement
+  - "egm_lj_electron_dxy_XXXLowRange"
+  - "egm_lj_electron_max_dxy_XXXLowRange"
   - "egm_lj_electron_min_dxy_XXXLowRange"
   - "eLj_electron_min_dxy_XXXLowRange"
   - "egLj_electron_min_dxy_XXXLowRange"
