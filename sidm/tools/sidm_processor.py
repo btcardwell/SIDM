@@ -198,6 +198,9 @@ class SidmProcessor(processor.ProcessorABC):
         forms = {f: objs[collection][f] if f in objs[collection].fields else -1*shape for f in fields}
         forms["part_type"] = objs[collection]["type"] if type_id is None else type_id*shape
         forms["mass"] = objs[collection]["mass"] if mass is None else mass*shape
+        if type_id == 8:
+            forms["trkNumPixelHits"] = 0*shape
+            forms["trkNumTrkLayers"] = -1*shape
         return vector.zip(forms)
 
     def make_constituent(self, consts, type_ids, name, fields):
@@ -264,7 +267,9 @@ class SidmProcessor(processor.ProcessorABC):
             if field in safe_dsa_fields:
                 safe_dsa_fields.remove(field)
 
-        muon_fields = list(set(safe_pf_fields).intersection(safe_dsa_fields))
+        extra_muon_fields =  ["trkNumPixelHits","trkNumTrkLayers" ]
+        muon_fields = list(set(safe_pf_fields).intersection(safe_dsa_fields)) + extra_muon_fields
+       
 
         ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
         ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", safe_pf_fields)
