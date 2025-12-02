@@ -200,7 +200,7 @@ class SidmProcessor(processor.ProcessorABC):
         forms["mass"] = objs[collection]["mass"] if mass is None else mass*shape
         if type_id == 8:
             forms["trkNumPixelHits"] = 0*shape
-            forms["trkNumTrkLayers"] = -1*shape
+            forms["trkNumTrkLayers"] = 0*shape
         return vector.zip(forms)
 
     def make_constituent(self, consts, type_ids, name, fields):
