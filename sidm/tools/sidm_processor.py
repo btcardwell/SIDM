@@ -64,6 +64,7 @@ class SidmProcessor(processor.ProcessorABC):
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
+        is_data = events.metadata["is_data"]
         # create object collections
         # fixme: only include objs used in cuts or hists
         objs = {}
@@ -147,12 +148,10 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs["lj_reco"] = lj_reco
 
                 # define event weights
-                # fixme: this should instead be handled by event metadata
-                try:
+                if not is_data:
                     evt_weights = self.obj_defs["weight"](events)
-                except:
-                    print("Event weights not found. Assuming this is a data sample and setting weights to 1")
-                    evt_weights = ak.ones_like(self.obj_defs["met"](events))
+                else:
+                    evt_weights = ak.broadcast_arrays(1.0, self.obj_defs["met"](events))[0]
 
                 # make cutflow
                 if lj_reco not in cutflows:
@@ -190,6 +189,10 @@ class SidmProcessor(processor.ProcessorABC):
                 "scaled_sum_weights": ak.sum(evt_weights)/events.metadata["skim_factor"],
             },
         }
+        # add dictionary key to tag chunk as being from data
+        # note that this is a bit of a hack as the accumulated value isn't actually meaningful
+        if is_data:
+            out["metadata"]["is_data"] = True
 
         return {events.metadata["dataset"]: out}
 
@@ -370,6 +373,9 @@ class SidmProcessor(processor.ProcessorABC):
         """Modify accumulator after process has run on all chunks"""
         # scale cutflow and hists according to lumi*xs
         for sample, output in accumulator.items():
+            if "is_data" in output["metadata"]:
+                print(f"{sample} appears to be data. Not scaling histograms or cutflows.")
+                continue
             sum_weights = output["metadata"]["scaled_sum_weights"]
             lumixs_weight = utilities.get_lumixs_weight(sample, self.year, sum_weights)
             for name in output["cutflow"]:
