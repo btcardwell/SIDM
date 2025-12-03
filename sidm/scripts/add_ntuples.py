@@ -200,7 +200,7 @@ for sample in samples:
 
     if "DoubleMuon_2018" in simple_name:
         output[args.name]["samples"][simple_name]["is_data"] = True
-        output[args.name]["samples"][simple_name]["year"] = 2018
+        output[args.name]["samples"][simple_name]["year"] = "2018"
 
 
 # Avoid yaml references, a la stackoverflow.com/questions/13518819
