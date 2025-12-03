@@ -201,8 +201,6 @@ dsaMuon_lj_base: &dsaMuon_lj_base
 lj_lj_base: &lj_lj_base
   - "lj_lj_absdphi"
   - "lj_lj_invmass"
-  - "dsaMulj_egmlj_invmass"
-  - "pfMulj_egmlj_invmass"
   - "lj_lj_invmass_lowRange"
   - "lj_lj_absdR"
   - "lj_lj_absdeta"
@@ -720,6 +718,11 @@ electron_displacement: &electron_displacement
   
 lj_displacement: &lj_displacement
   - "mulj_egmlj_invmass"
+  - "pf_mulj_egmlj_invmass"
+  - "pf_dsa_mulj_egmlj_invmass"
+  - "dsa_mulj_egmlj_invmass"
+  - "mu_lj_n"
+  - "egm_lj_n"
 
 displacement_base: &displacement_base
   - *lj_displacement
