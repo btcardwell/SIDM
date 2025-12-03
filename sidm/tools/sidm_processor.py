@@ -372,14 +372,16 @@ class SidmProcessor(processor.ProcessorABC):
         """Modify accumulator after process has run on all chunks"""
         # scale cutflow and hists according to lumi*xs
         for sample, output in accumulator.items():
-            year = output["metadata"]["year"]
-            is_data = output["metadata"]["is_data"]
-            if len(is_data) != 1 or len(year) != 1:
+            if len(output["metadata"]["is_data"]) != 1 or len(output["metadata"]["year"]) != 1:
                 print(f"WARNING: {sample} has more than one value for is_data or year. Not scaling histograms or cutflows.")
                 continue
-            if is_data:
+
+            if output["metadata"]["is_data"].pop():
                 print(f"{sample} is data. Not scaling histograms or cutflows.")
                 continue
+
+            print(f"{sample} is simulation. Scaling histograms or cutflows according to lumi*xs.")
+            year = output["metadata"]["year"].pop()
             sum_weights = output["metadata"]["scaled_sum_weights"]
             lumixs_weight = utilities.get_lumixs_weight(sample, year, sum_weights)
             for name in output["cutflow"]:
