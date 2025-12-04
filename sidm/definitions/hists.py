@@ -1481,6 +1481,36 @@ hist_defs = {
                               & (ak.fill_none(ak.firsts(objs["mu_ljs"].pfMu_n) == 0, False))
                               & (ak.fill_none(ak.firsts(objs["mu_ljs"].dsaMu_n) > 0, False))),
     ),
+    "mulj_e_lj_invmass": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 1200, name="ljlj_mass",
+                                     label=r"Invariant Mass ($LJ_{0}$, $LJ_{1}$)"),
+                   lambda objs, mask: ((objs["mu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
+        ],
+       evt_mask=lambda objs: ((ak.num(objs["mu_ljs"]) > 0)& (ak.num(objs["egm_ljs"]) > 0)
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) > 0, False))
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].photon_n) == 0, False))),
+    ),
+    "mulj_eg_lj_invmass": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 1200, name="ljlj_mass",
+                                     label=r"Invariant Mass ($LJ_{0}$, $LJ_{1}$)"),
+                   lambda objs, mask: ((objs["mu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
+        ],
+       evt_mask=lambda objs: ((ak.num(objs["mu_ljs"]) > 0)& (ak.num(objs["egm_ljs"]) > 0)
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) > 0, False))
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].photon_n) > 0, False))),
+    ),
+    "mulj_g_lj_invmass": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 1200, name="ljlj_mass",
+                                     label=r"Invariant Mass ($LJ_{0}$, $LJ_{1}$)"),
+                   lambda objs, mask: ((objs["mu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
+        ],
+       evt_mask=lambda objs: ((ak.num(objs["mu_ljs"]) > 0)& (ak.num(objs["egm_ljs"]) > 0)
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) == 0, False))
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].photon_n) > 0, False))),
+    ),
     "lj_lj_invmass_lowRange": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100, 0, 500, name="ljlj_mass",

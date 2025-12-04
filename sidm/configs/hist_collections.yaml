@@ -721,6 +721,9 @@ lj_displacement: &lj_displacement
   - "pf_mulj_egmlj_invmass"
   - "pf_dsa_mulj_egmlj_invmass"
   - "dsa_mulj_egmlj_invmass"
+  - "mulj_e_lj_invmass"
+  - "mulj_eg_lj_invmass"
+  - "mulj_g_lj_invmass"
   - "mu_lj_n"
   - "egm_lj_n"
 
