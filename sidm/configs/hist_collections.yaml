@@ -721,8 +721,11 @@ electron_displacement: &electron_displacement
   - "egm_lj_iso"
   - "egm_lj_electronN"
   - "egm_lj_photonN"
-  - "egm_lj_electron_max_lostHits"
-  - "eLj_electron_max_lostHits"
+  - "egm_lj_electron_min_lostHits"
+  - "eLj_electron_min_lostHits"
+  - "leading_egm_lj_electron_min_lostHits"
+  - "leading_e_lj_electron_min_lostHits"
+  - "leading_eg_lj_electron_min_lostHits"
   
 lj_displacement: &lj_displacement
   - "mulj_egmlj_invmass"

@@ -801,17 +801,42 @@ hist_defs = {
                    lambda objs, mask: objs["egm_ljs"].electrons.lostHits),
         ],
     ),
-    "egm_lj_electron_max_lostHits": h.Histogram(
+    "egm_lj_electron_min_lostHits": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e lostHits"),
-                   lambda objs, mask: ak.max(objs["egm_ljs"].electrons.lostHits, axis =-1)),
+            h.Axis(hist.axis.Regular(10, 0, 10, name=r"egm- type LJ e min lostHits"),
+                   lambda objs, mask: ak.min(objs["egm_ljs"].electrons.lostHits, axis =-1)),
         ],
     ),
-    "eLj_electron_max_lostHits": h.Histogram(
+    "eLj_electron_min_lostHits": h.Histogram(
         [
-            h.Axis(hist.axis.Regular(10, 0, 10, name=r"eLJ e lostHits"),
-                   lambda objs, mask: ak.max(objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0)].electrons.lostHits, axis=-1)),
+            h.Axis(hist.axis.Regular(10, 0, 10, name=r"eLJ e min lostHits"),
+                   lambda objs, mask: ak.min(objs["egm_ljs"][(objs["egm_ljs"].electron_n > 0) & (objs["egm_ljs"].photon_n == 0)].electrons.lostHits, axis=-1)),
         ]
+    ),
+    "leading_egm_lj_electron_min_lostHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"Leading egm- type LJ e min lostHits"),
+                   lambda objs, mask: ak.min(objs["egm_ljs"][mask, 0].electrons.lostHits, axis=-1)),
+        ],
+         evt_mask=lambda objs: (ak.num(objs["egm_ljs"]) > 0)
+    ),
+    "leading_e_lj_electron_min_lostHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"Leading e- type LJ e min lostHits"),
+                   lambda objs, mask: ak.min(objs["egm_ljs"][mask, 0].electrons.lostHits, axis=-1)),
+        ],
+        evt_mask=lambda objs: ( (ak.num(objs["egm_ljs"]) > 0)
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) > 0, False))
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].photon_n) == 0, False))),
+    ),
+    "leading_eg_lj_electron_min_lostHits": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(40, 0, 40, name=r"Leading eg- type LJ e min lostHits"),
+                   lambda objs, mask: ak.max(objs["egm_ljs"][mask, 0].electrons.lostHits, axis=-1)),
+        ],
+       evt_mask=lambda objs: ( (ak.num(objs["egm_ljs"]) > 0)
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) > 0, False))
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].photon_n) > 0, False))),
     ),
     "egm_lj_electron_r9": h.Histogram(
         [
