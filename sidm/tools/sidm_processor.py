@@ -60,7 +60,6 @@ class SidmProcessor(processor.ProcessorABC):
         self.unweighted_hist = unweighted_hist
         self.obj_defs = preLj_objs
         self.verbose = verbose
-        self.year = "2018" # fixme: may be better to store as event metadata
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
@@ -180,7 +179,6 @@ class SidmProcessor(processor.ProcessorABC):
         if len(self.lj_reco_choices) == 1:
             cutflows = cutflows[self.lj_reco_choices[0]]
 
-        # fixme: add year and is_data using set_accumulator
         out = {
             "cutflow": cutflows,
             "hists": {n: h.hist for n, h in hists.items()}, # output hist.Hists, not Histograms
@@ -188,6 +186,7 @@ class SidmProcessor(processor.ProcessorABC):
             "metadata": {
                 "n_evts": events.metadata["entrystop"] - events.metadata["entrystart"],
                 "scaled_sum_weights": ak.sum(evt_weights)/events.metadata["skim_factor"],
+                # add sample metadata as set_accumulator to only keep unique values during accumulation
                 "year": processor.set_accumulator([events.metadata["year"]]),
                 "is_data": processor.set_accumulator([events.metadata["is_data"]]),
             },
