@@ -1,4 +1,4 @@
-awkward==2.8.7
+awkward>=2.6.10
 coffea==2025.5.0rc2
 dask==2025.3.0
 fastjet==3.4.3.1
