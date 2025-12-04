@@ -619,6 +619,8 @@ displacement_base_old: &displacement_base_old
   - "genE_matched_lj_electron_dxy_XLowRange"
   - "electron_n"
   - "muon_n"
+  - "egm_lj_electron_r9"
+  - "egm_lj_electron_scEtOverPt"
 displacement_base_subset: &displacement_base_subset
   - "mu_lj_pfMuon_min_dxy"
   - "mu_lj_pfMuon_min_dxy_XLowRange"
@@ -711,8 +713,6 @@ electron_displacement: &electron_displacement
   - "egm_lj_iso"
   - "egm_lj_electronN"
   - "egm_lj_photonN"
-  - "egm_lj_electron_r9"
-  - "egm_lj_electron_scEtOverPt"
   - "egm_lj_electron_max_lostHits"
   - "eLj_electron_max_lostHits"
   
