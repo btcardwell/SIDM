@@ -118,9 +118,9 @@ def dxy(obj, ref=None):
     ref_y = y_val*shape
     return (-(obj.vx - ref_x)*obj.py + (obj.vy - ref_y)*obj.px)/obj.pt
 
-def lxy(obj):
+def lxy(obj, use_v=True):
     """Return transverse distance between production and decay vertices"""
-    return rho(obj, ak.firsts(obj.children, axis=2), use_v=True)
+    return rho(obj, ak.firsts(obj.children, axis=2), use_v=use_v)
 
 def set_plot_style(style='cms', dpi=50):
     """Set plotting style using mplhep"""
