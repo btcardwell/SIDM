@@ -61,18 +61,16 @@ class SidmProcessor(processor.ProcessorABC):
         self.unweighted_hist = unweighted_hist
         self.obj_defs = preLj_objs
         self.verbose = verbose
-        self.year = "2018" # fixme: may be better to store as event metadata
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
-        objs = self.build_objects(events)
+        is_data = events.metadata["is_data"]
+
         cutflows = {}
         counters = {}
 
-        # define histograms
+        objs = self.build_objects(events)
         hists = self.build_histograms()
-
-        ### define pre-lj object, lj, post-lj obj, and event cuts per channel
         ch_cuts = self.build_cuts()
 
         # loop through lj reco choices and channels, treating each lj+channel pair as a unique Selection
@@ -81,19 +79,14 @@ class SidmProcessor(processor.ProcessorABC):
             nested_selection = selection.NestedSelection(cuts["obj"], self.verbose)
 
             for lj_reco in self.lj_reco_choices:
-                # apply pre-LJ object selection
-                sel_objs = obj_selection.apply_obj_cuts(objs)
+                sel_objs = objs.copy()
 
                 # apply selections on matched_muons within the DSA muons and matched_dsa_muons within the PF muons
-                try:
-                    sel_objs["dsaMuons"]["good_matched_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["dsaMuons"].matched_muons, "muons" )
-                    sel_objs["muons"]["good_matched_dsa_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["muons"].matched_dsa_muons,"dsaMuons")
-                except Exception as e:
-                    print(f"Failed to apply selections to the nested matched muon collections. Error message: {e}")
+                sel_objs["dsaMuons"]["good_matched_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["dsaMuons"].matched_muons, "muons")
+                sel_objs["muons"]["good_matched_dsa_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["muons"].matched_dsa_muons, "dsaMuons")
 
-                # apply selections to muons which already contains good matched information
-                prelj_selection = selection.JaggedSelection(cuts["preLj_obj"], self.verbose)
-                sel_objs = prelj_selection.apply_obj_cuts_preLj(sel_objs)
+                # apply pre-LJ object selection
+                sel_objs = obj_selection.apply_obj_cuts(sel_objs)
 
                 # reconstruct lepton jets
                 sel_objs["ljs"] = self.build_lepton_jets(sel_objs, float(lj_reco))
@@ -119,7 +112,10 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs["lj_reco"] = lj_reco
 
                 # define event weights
-                evt_weights =  self.obj_defs["weight"](events)
+                if not is_data:
+                    evt_weights = self.obj_defs["weight"](events)
+                else:
+                    evt_weights = ak.broadcast_arrays(1.0, self.obj_defs["met"](events))[0]
 
                 # make cutflow
                 if lj_reco not in cutflows:
@@ -131,7 +127,7 @@ class SidmProcessor(processor.ProcessorABC):
                 if self.unweighted_hist:
                     hist_weights =  ak.ones_like(hist_weights)
                 for h in hists.values():
-                    h.fill(sel_objs, hist_weights)
+                    h.fill(sel_objs, hist_weights, self.verbose)
 
                 # Fill counters
                 if lj_reco not in counters:
@@ -155,6 +151,9 @@ class SidmProcessor(processor.ProcessorABC):
             "metadata": {
                 "n_evts": events.metadata["entrystop"] - events.metadata["entrystart"],
                 "scaled_sum_weights": ak.sum(evt_weights)/events.metadata["skim_factor"],
+                # add sample metadata as set_accumulator to only keep unique values during accumulation
+                "year": processor.set_accumulator([events.metadata["year"]]),
+                "is_data": processor.set_accumulator([events.metadata["is_data"]]),
             },
         }
 
@@ -214,7 +213,7 @@ class SidmProcessor(processor.ProcessorABC):
         collections = ["muons", "dsaMuons", "electrons", "photons"]
         fields = [objs[c].fields for c in collections]
 
-        unsafe_fields = ['muonIdxG','dsaIdxG','good_matched_muons','good_matched_dsa_muons']
+        unsafe_fields = ['muonIdxG','dsaIdxG','matched_muons','matched_dsa_muons','good_matched_muons','good_matched_dsa_muons']
 
         all_fields = list(set().union(*fields))
         for field in unsafe_fields:
@@ -368,8 +367,18 @@ class SidmProcessor(processor.ProcessorABC):
         """Modify accumulator after process has run on all chunks"""
         # scale cutflow and hists according to lumi*xs
         for sample, output in accumulator.items():
+            if len(output["metadata"]["is_data"]) != 1 or len(output["metadata"]["year"]) != 1:
+                print(f"WARNING: {sample} has more than one value for is_data or year. Not scaling histograms or cutflows.")
+                continue
+
+            if output["metadata"]["is_data"].pop():
+                print(f"{sample} is data. Not scaling histograms or cutflows.")
+                continue
+
+            print(f"{sample} is simulation. Scaling histograms or cutflows according to lumi*xs.")
+            year = output["metadata"]["year"].pop()
             sum_weights = output["metadata"]["scaled_sum_weights"]
-            lumixs_weight = utilities.get_lumixs_weight(sample, self.year, sum_weights)
+            lumixs_weight = utilities.get_lumixs_weight(sample, year, sum_weights)
             for name in output["cutflow"]:
                 accumulator[sample]["cutflow"][name].scale(lumixs_weight)
             if not self.unweighted_hist:

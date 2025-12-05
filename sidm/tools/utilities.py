@@ -187,7 +187,10 @@ def make_fileset(samples, ntuple_version, max_files=-1, location_cfg="signal_v8.
         fileset[sample] = {
             "files": file_list,
             "metadata": {
-                "skim_factor": sample_yaml.get("skim_factor", 1.0)}
+                "skim_factor": sample_yaml.get("skim_factor", 1.0),
+                "is_data": sample_yaml.get("is_data", False),
+                "year": sample_yaml.get("year", "2018"),
+            },
         }
     return fileset
 

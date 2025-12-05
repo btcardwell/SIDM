@@ -72,8 +72,8 @@ class JaggedSelection:
                     print(f"Applying {obj} {cut}")
                 try:
                     if obj == "muons" or obj == "dsaMuons":
-                        #Notice the change in syntax here, driven by the need to apply the nested selection in the same way
-                        #Eventually should change every cut to this form
+                        # Notice the change in syntax here, driven by the need to apply the nested selection in the same way
+                        # Eventually should change every cut to this form
                         sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs,sel_objs[obj])]
                     else:
                         sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs)]
@@ -82,25 +82,6 @@ class JaggedSelection:
                     traceback.print_exc()
         return sel_objs
 
-    def apply_obj_cuts_preLj(self, objs):
-        """Apply object cuts sequentially"""
-        sel_objs = objs.copy()
-        for obj, cuts in self.obj_cuts.items():
-            if obj not in objs:
-                print(f"Warning: {obj} not found in sample. "
-                      f"The following cuts will not be applied: {cuts}")
-                continue
-
-            for cut in cuts:
-                if self.verbose:
-                    print(f"Applying {obj} {cut}")
-                try:
-                    sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs)]
-                except Exception as e:
-                    print(f"\n Error applying cut '{cut}' for object '{obj}'")
-                    traceback.print_exc()
-                    print("Skipping...\n")
-        return sel_objs
 
 class NestedSelection:
     """Class to represent the collection of cuts that define a NestedSelection
