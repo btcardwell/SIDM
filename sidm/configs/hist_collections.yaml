@@ -700,6 +700,7 @@ muon_displacement: &muon_displacement
   - "mu_lj_muon_max_trkNumPixelHits"
   - "mu_lj_muon_min_trkNumPixelHits"
   - "leading_mu_lj_muon_max_trkNumPixelHits"
+  - "leading_mu_lj_dsaMu_max_trkNumPixelHits"
   - "leading_pf_mu_lj_pfMu_max_trkNumPixelHits"
   - "leading_pf_dsa_mu_lj_pfMu_max_trkNumPixelHits"
   - "leading_mu_lj_pfMu_max_trkNumPixelHits"
@@ -729,6 +730,8 @@ electron_displacement: &electron_displacement
   
 lj_displacement: &lj_displacement
   - "mulj_egmlj_invmass"
+  - "mulj_egmlj_invmass_pixelHits_lostHits"
+  - "mulj_egmlj_invmass_trkLayers_lostHits"
   - "pf_mulj_egmlj_invmass"
   - "pf_dsa_mulj_egmlj_invmass"
   - "dsa_mulj_egmlj_invmass"
@@ -739,6 +742,8 @@ lj_displacement: &lj_displacement
   - "mulj_e_lj_invmass"
   - "mulj_eg_lj_invmass"
   - "mulj_g_lj_invmass"
+  - "mulj_e_lj_invmass_lostHits"
+  - "mulj_eg_lj_invmass_lostHits"
   - "mu_lj_n"
   - "egm_lj_n"
 
