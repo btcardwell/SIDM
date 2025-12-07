@@ -259,7 +259,7 @@ class SidmProcessor(processor.ProcessorABC):
         objs["dsaMuons"]["mass"] = ak.full_like(objs["dsaMuons"].pt, 0.105712890625)
 
         safe_pf_fields = list(objs["muons"].fields)
-        safe_dsa_fields = list(objs["dsaMuons"].fields)
+        safe_dsa_fields = list(objs["dsaMuons"].fields) +  ["trkNumPixelHits","trkNumTrkLayers" ]
 
         for field in unsafe_fields:
             if field in safe_pf_fields:
