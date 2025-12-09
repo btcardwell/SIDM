@@ -747,7 +747,6 @@ lj_displacement: &lj_displacement
   - "1pf_mulj_egmlj_invmass_trkLayers9"
   - "1pf_mulj_egmlj_invmass_trkLayers8"
   - "1pf_mulj_egmlj_invmass_trkLayers7"
-  - "1pf_mulj_egmlj_invmass_pixelHits4"
   - "pf_mulj_egmlj_invmass_pixelHits"
   - "pf_dsa_mulj_egmlj_invmass_pixelHits"
   - "pf_mulj_egmlj_invmass_trkLayers"
