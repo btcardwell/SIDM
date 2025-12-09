@@ -1590,7 +1590,7 @@ hist_defs = {
                    lambda objs, mask: ((objs["mu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
         ],
        evt_mask=lambda objs: ((ak.num(objs["mu_ljs"]) > 0)& (ak.num(objs["egm_ljs"]) > 0)
-                              & (ak.fill_none(ak.firsts(objs["mu_ljs"].pfMu_n) > 0, False))
+                              & (ak.fill_none(ak.firsts(objs["mu_ljs"].pfMu_n) > 0, False))),
     ),
     "pf_mulj_egmlj_invmass_pixelHits": h.Histogram(
         [
@@ -1798,7 +1798,7 @@ hist_defs = {
                    lambda objs, mask: ((objs["mu_ljs"][mask, 0] + objs["egm_ljs"][mask, 0]).mass)),
         ],
        evt_mask=lambda objs: ((ak.num(objs["mu_ljs"]) > 0)& (ak.num(objs["egm_ljs"]) > 0)
-                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) > 0, False))
+                              & (ak.fill_none(ak.firsts(objs["egm_ljs"].electron_n) > 0, False))),
     ),
     "mulj_e_lj_invmass_lostHits": h.Histogram(
         [
