@@ -112,8 +112,9 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs = objs.copy()
 
                 # apply selections on matched_muons within the DSA muons and matched_dsa_muons within the PF muons
-                sel_objs["dsaMuons"]["good_matched_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["dsaMuons"].matched_muons, "muons")
-                sel_objs["muons"]["good_matched_dsa_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["muons"].matched_dsa_muons, "dsaMuons")
+                # remove None entries from matched PF or DSA muons before applying cuts
+                sel_objs["dsaMuons"]["good_matched_muons"] = nested_selection.apply_obj_cuts(sel_objs, ak.drop_none(sel_objs["dsaMuons"].matched_muons), "muons")
+                sel_objs["muons"]["good_matched_dsa_muons"] = nested_selection.apply_obj_cuts(sel_objs, ak.drop_none(sel_objs["muons"].matched_dsa_muons), "dsaMuons")
 
                 # apply pre-LJ object selection
                 sel_objs = obj_selection.apply_obj_cuts(sel_objs)
