@@ -151,6 +151,8 @@ obj_cut_defs = {
         "dR(mu, A) < 0.5 nested": lambda objs, muons: dR(muons, objs["genAs_toMu"][:,:,None]) < 0.5,
         "dxy >= 0.008" : lambda objs, muons: muons.dxy >= 0.008,
         "trkNumPixelHits <= 2" : lambda objs, muons: muons.trkNumPixelHits <= 2,
+        "barrel": lambda objs, muons: muons.eta <= 1.479,
+        "endcap": lambda objs, muons: ((abs(muons.eta) > 1.479) & (abs(muons.eta) < 2.4)),
     },
     "photons":{
         "pT > 20 GeV": lambda objs: objs["photons"].pt > 20,
@@ -182,6 +184,8 @@ obj_cut_defs = {
                                            & (dsa.trkNumDTHits <= 18)), False, True),
         "normChi2 < 2.5": lambda objs, dsa: dsa.normChi2 < 2.5,
         "ptErrorOverPT < 1": lambda objs, dsa: (dsa.ptErr / dsa.pt) < 1.0,
+        "barrel": lambda objs, dsa: dsa.eta <= 1.479,
+        "endcap": lambda objs, dsa: ((abs(dsa.eta) > 1.479)& (abs(dsa.eta) < 2.4)),
         # just use segment-based matching
        # "no PF match" : lambda objs, dsa: dsa.muonMatch1/dsa.nSegments < 0.667,
         "dR(mu, A) < 0.5": lambda objs, dsa: dR(dsa, objs["genAs_toMu"]) < 0.5,
