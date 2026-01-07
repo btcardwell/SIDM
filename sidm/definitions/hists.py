@@ -1051,7 +1051,7 @@ hist_defs = {
     "mu_lj_dsaMuon_dxy_signi": h.Histogram(
         [
             h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ DSA $\mu$ dxy significance"),
-                   lambda objs, mask: abs(objs["mu_ljs"].dsaMuons.dxy/objs["mu_ljs"].dsaMuons.dxyErr)),
+                   lambda objs, mask: abs(objs["mu_ljs"].dsaMuons.dxy/objs["mu_ljs"].dsaMuons.dxyPVSignedErr)),
         ],
     ),
     "egm_lj_electron_dxy_signi": h.Histogram(
