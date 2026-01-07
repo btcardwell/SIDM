@@ -27,6 +27,48 @@ ljsource_cuts: &ljsource_cuts
       - "displaced ID"
       - "all" # cross-cleaning
 
+ljsource_cuts_barrel: &ljsource_cuts_barrel
+  obj_cuts: &obj_ljsource_cuts_barrel
+    electrons: &electrons_ljsource_cuts_barrel
+      - "pT > 10 GeV"
+      - "barrel"
+      - 'MVANonIsoWPL'
+    muons: &muons_ljsource_cuts_barrel
+      - "looseID"
+      - "pT > 5 GeV"
+      - "barrel"
+    photons: &photons_ljsource_cuts_barrel
+      - "pT > 20 GeV"
+      - "barrel"
+      - 'Custom Cutbased'
+      - "pixelSeed"
+      - 'Photon DR Veto 0p025'
+    dsaMuons: &dsaMuons_ljsource_cuts_barrel
+      - "pT > 10 GeV"
+      - "barrel"
+      - "displaced ID"
+   
+ljsource_cuts_endcap: &ljsource_cuts_endcap
+  obj_cuts: &obj_ljsource_cuts_endcap
+    electrons: &electrons_ljsource_cuts_endcap
+      - "pT > 10 GeV"
+      - "endcap"
+      - 'MVANonIsoWPL'
+    muons: &muons_ljsource_cuts_endcap
+      - "looseID"
+      - "pT > 5 GeV"
+      - "endcap"
+    photons: &photons_ljsource_cuts_endcap
+      - "pT > 20 GeV"
+      - "endcap"
+      - 'Custom Cutbased'
+      - "pixelSeed"
+      - 'Photon DR Veto 0p025'
+    dsaMuons: &dsaMuons_ljsource_cuts_endcap
+      - "pT > 10 GeV"
+      - "endcap"
+      - "displaced ID"
+
 # require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
   obj_cuts: &obj_gen_level_cuts
@@ -218,6 +260,46 @@ base_ljObjCut_ljIso_2lj: &base_ljObjCut_ljIso_2lj
   postLj_obj_cuts:
     ljs:
       - *lj_base
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
+  evt_cuts:
+    - *evt_baseNoLj
+    - ">=1 egm_ljs"
+    - ">=1 mu_ljs"
+
+base_ljObjCut_ljIso_2lj_barrel: &base_ljObjCut_ljIso_2lj_barrel
+  obj_cuts:
+    <<: *obj_ljsource_cuts_barrel
+    <<: *obj_gen_level_cuts
+  preLj_obj_cuts:
+    <<: *preLj_obj_ljsource_cuts
+  postLj_obj_cuts:
+    ljs:
+      - "pT > 30 GeV"
+      - "barrel"
+      - "mu_charge == 0"
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
+  evt_cuts:
+    - *evt_baseNoLj
+    - ">=1 egm_ljs"
+    - ">=1 mu_ljs"
+
+base_ljObjCut_ljIso_2lj_endcap: &base_ljObjCut_ljIso_2lj_endcap
+  obj_cuts:
+    <<: *obj_ljsource_cuts_endcap
+    <<: *obj_gen_level_cuts
+  preLj_obj_cuts:
+    <<: *preLj_obj_ljsource_cuts
+  postLj_obj_cuts:
+    ljs:
+      - "pT > 30 GeV"
+      - "endcap"
+      - "mu_charge == 0"
     mu_ljs:
       - "mu_lj_iso < 0.1"
     egm_ljs:
