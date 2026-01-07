@@ -768,6 +768,11 @@ displacement_base: &displacement_base
   - *electron_displacement
   - *muon_displacement
 
+dxy_significance: &dxy_significance
+  - "mu_lj_pfMuon_dxy_signi"
+  - "mu_lj_dsaMuon_dxy_signi"
+  - "egm_lj_electron_dxy_signi"
+
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
