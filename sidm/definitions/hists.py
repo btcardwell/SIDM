@@ -1048,16 +1048,52 @@ hist_defs = {
                    lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxy/objs["mu_ljs"].pfMuons.dxyErr)),
         ],
     ),
+    "mu_lj_pfMuon_min_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ PF $\mu$ min dxy significance"),
+                   lambda objs, mask: ak.min(abs(objs["mu_ljs"].pfMuons.dxy/objs["mu_ljs"].pfMuons.dxyErr), axis =-1)),
+        ],
+    ),
+    "mu_lj_pfMuon_max_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ PF $\mu$ max dxy significance"),
+                   lambda objs, mask: ak.max(abs(objs["mu_ljs"].pfMuons.dxy/objs["mu_ljs"].pfMuons.dxyErr), axis =-1)),
+        ],
+    ),
     "mu_lj_dsaMuon_dxy_signi": h.Histogram(
         [
             h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ DSA $\mu$ dxy significance"),
                    lambda objs, mask: abs(objs["mu_ljs"].dsaMuons.dxy/objs["mu_ljs"].dsaMuons.dxyPVSignedErr)),
         ],
     ),
+    "mu_lj_dsaMuon_min_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ DSA $\mu$ min dxy significance"),
+                   lambda objs, mask: ak.min(abs(objs["mu_ljs"].dsaMuons.dxy/objs["mu_ljs"].dsaMuons.dxyPVSignedErr), axis =-1)),
+        ],
+    ),
+    "mu_lj_dsaMuon_max_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ DSA $\mu$ max dxy significance"),
+                   lambda objs, mask: ak.max(abs(objs["mu_ljs"].dsaMuons.dxy/objs["mu_ljs"].dsaMuons.dxyPVSignedErr), axis =-1)),
+        ],
+    ),
     "egm_lj_electron_dxy_signi": h.Histogram(
         [
             h.Axis(hist.axis.Regular(200, 0, 200, name=r"$e\gamma$- type LJ $e$ dxy significance"),
                    lambda objs, mask: abs(objs["egm_ljs"].electrons.dxy/objs["egm_ljs"].electrons.dxyErr)),
+        ],
+    ),
+    "egm_lj_electron_min_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 200, name=r"$e\gamma$- type LJ min $e$ dxy significance"),
+                   lambda objs, mask: ak.min(abs(objs["egm_ljs"].electrons.dxy/objs["egm_ljs"].electrons.dxyErr), axis=-1)),
+        ],
+    ),
+    "egm_lj_electron_max_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(200, 0, 200, name=r"$e\gamma$- type LJ max $e$ dxy significance"),
+                   lambda objs, mask: ak.max(abs(objs["egm_ljs"].electrons.dxy/objs["egm_ljs"].electrons.dxyErr), axis=-1)),
         ],
     ),
     "mu_lj_pfMu_nTrackerLayers": h.Histogram(
