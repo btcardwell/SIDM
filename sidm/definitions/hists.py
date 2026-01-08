@@ -1042,6 +1042,24 @@ hist_defs = {
                    lambda objs, mask: ak.max(abs(objs["mu_ljs"].pfMuons.dxy), axis=-1)),
         ],
     ),
+    "mu_lj_pfMuon_dxyErr": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"$\mu$- type LJ PF $\mu$ dxy Err"),
+                   lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxyErr)),
+        ],
+    ),
+    "mu_lj_dsaMuon_dxyErr": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"$\mu$- type LJ DSA $\mu$ dxy Err"),
+                   lambda objs, mask: abs(objs["mu_ljs"].pfMuons.dxyPVSignedErr)),
+        ],
+    ),
+    "egm_lj_electron_dxyErr": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"$\mu$- type LJ DSA $\mu$ dxy Err"),
+                   lambda objs, mask: abs(objs["egm_ljs"].electrons.dxyErr)),
+        ],
+    ),
     "mu_lj_pfMuon_dxy_signi": h.Histogram(
         [
             h.Axis(hist.axis.Regular(200, 0, 200, name=r"$\mu$- type LJ PF $\mu$ dxy significance"),
