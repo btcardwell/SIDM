@@ -778,6 +778,9 @@ dxy_significance: &dxy_significance
   - "mu_lj_dsaMuon_max_dxy_signi"
   - "egm_lj_electron_min_dxy_signi"
   - "egm_lj_electron_max_dxy_signi"
+  - "mu_lj_pfMuon_dxyErr"
+  - "mu_lj_dsaMuon_dxyErr"
+  - "egm_lj_electron_dxyErr"
 
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
