@@ -762,12 +762,7 @@ lj_displacement: &lj_displacement
   - "mulj_eg_lj_invmass_lostHits"
   - "mu_lj_n"
   - "egm_lj_n"
-
-displacement_base: &displacement_base
-  - *lj_displacement
-  - *electron_displacement
-  - *muon_displacement
-
+  
 dxy_significance: &dxy_significance
   - "mu_lj_pfMuon_dxy_signi"
   - "mu_lj_dsaMuon_dxy_signi"
@@ -781,6 +776,14 @@ dxy_significance: &dxy_significance
   - "mu_lj_pfMuon_dxyErr"
   - "mu_lj_dsaMuon_dxyErr"
   - "egm_lj_electron_dxyErr"
+
+displacement_base: &displacement_base
+  - *lj_displacement
+  - *electron_displacement
+  - *muon_displacement
+  - *dxy_significance
+
+
 
 lj_reco_effi_base: &lj_reco_effi_base
   - "genAs_toE_pt"
