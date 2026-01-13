@@ -47,6 +47,7 @@ ljsource_cuts_barrel: &ljsource_cuts_barrel
       - "pT > 10 GeV"
       - "barrel"
       - "displaced ID"
+      - "all" # cross-cleaning
 
 ljsource_cuts_endcap: &ljsource_cuts_endcap
   obj_cuts: &obj_ljsource_cuts_endcap
@@ -68,6 +69,7 @@ ljsource_cuts_endcap: &ljsource_cuts_endcap
       - "pT > 10 GeV"
       - "endcap"
       - "displaced ID"
+      - "all" # cross-cleaning
 
 # require final-state gen e and mu
 gen_level_cuts: &gen_level_cuts
