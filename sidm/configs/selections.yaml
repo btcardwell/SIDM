@@ -890,7 +890,7 @@ baseNoLj_A_ee_lowLxyA: &baseNoLj_A_ee_lowLxyA
     genAs_toE:
       - "lxy <= 150 cm"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE"
 
 baseNoLj_A_ee_matched_lj_lowLxyA: &baseNoLj_A_ee_matched_lj_lowLxyA
@@ -904,7 +904,7 @@ baseNoLj_A_ee_matched_lj_lowLxyA: &baseNoLj_A_ee_matched_lj_lowLxyA
     genAs_toE:
       - "dR(A, LJ) < 0.4"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_elj_highPT_lowLxyA
@@ -922,7 +922,7 @@ baseNoLj_A_ee_matched_elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_elj_highPT_lowL
     egm_ljs:
       - "eLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_1elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_1elj_highPT_lowLxyA
@@ -940,7 +940,7 @@ baseNoLj_A_ee_matched_1elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_1elj_highPT_lo
     egm_ljs:
       - "1eLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_2elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_2elj_highPT_lowLxyA
@@ -958,7 +958,7 @@ baseNoLj_A_ee_matched_2elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_2elj_highPT_lo
     egm_ljs:
       - "2eLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_glj_highPT_lowLxyA
@@ -976,7 +976,7 @@ baseNoLj_A_ee_matched_glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_glj_highPT_lowL
     egm_ljs:
       - "gLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_1glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_1glj_highPT_lowLxyA
@@ -994,7 +994,7 @@ baseNoLj_A_ee_matched_1glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_1glj_highPT_lo
     egm_ljs:
       - "1gLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_2glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_2glj_highPT_lowLxyA
@@ -1012,7 +1012,7 @@ baseNoLj_A_ee_matched_2glj_highPT_lowLxyA: &baseNoLj_A_ee_matched_2glj_highPT_lo
     egm_ljs:
       - "2gLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_matched_eglj_highPT_lowLxyA: &baseNoLj_A_ee_matched_eglj_highPT_lowLxyA
@@ -1030,7 +1030,7 @@ baseNoLj_A_ee_matched_eglj_highPT_lowLxyA: &baseNoLj_A_ee_matched_eglj_highPT_lo
     egm_ljs:
       - "egLj"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_mumu_highPtA: &baseNoLj_A_mumu_highPtA
@@ -1040,7 +1040,7 @@ baseNoLj_A_mumu_highPtA: &baseNoLj_A_mumu_highPtA
     genAs_toMu:
       - "pT > 30 GeV"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toMu"
 
 baseNoLj_A_mumu_matched_lj_highPT: &baseNoLj_A_mumu_matched_lj_highPT
@@ -1056,7 +1056,7 @@ baseNoLj_A_mumu_matched_lj_highPT: &baseNoLj_A_mumu_matched_lj_highPT
       - "dR(A, LJ) < 0.4"
       - "mu_lj_iso < 0.1"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toMu_matched_muLj"
 
 baseNoLj_A_mumu_matched_pflj_highPT: &baseNoLj_A_mumu_matched_pflj_highPT
@@ -1074,7 +1074,7 @@ baseNoLj_A_mumu_matched_pflj_highPT: &baseNoLj_A_mumu_matched_pflj_highPT
       - "pfMuLj"
       - "mu_lj_iso < 0.1"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toMu_matched_muLj"
 
 baseNoLj_A_mumu_matched_dsalj_highPT: &baseNoLj_A_mumu_matched_dsalj_highPT
@@ -1092,7 +1092,7 @@ baseNoLj_A_mumu_matched_dsalj_highPT: &baseNoLj_A_mumu_matched_dsalj_highPT
       - "dsaMuLj"
       - "mu_lj_iso < 0.1"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toMu_matched_muLj"
 
 baseNoLj_A_mumu_matched_pfDsalj_highPT: &baseNoLj_A_mumu_matched_pfDsalj_highPT
@@ -1110,7 +1110,7 @@ baseNoLj_A_mumu_matched_pfDsalj_highPT: &baseNoLj_A_mumu_matched_pfDsalj_highPT
       - "pf_dsa_muLj"
       - "mu_lj_iso < 0.1"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toMu_matched_muLj"
 
 baseNoLj_A_mumu_highPtA_noPfMatch: &baseNoLj_A_mumu_highPtA_noPfMatch
