@@ -856,7 +856,7 @@ baseNoLj_A_ee_matched_lj_highPT_lowLxyA: &baseNoLj_A_ee_matched_lj_highPT_lowLxy
     genAs_toE:
       - "dR(A, LJ) < 0.4"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
 baseNoLj_A_ee_highPtA: &baseNoLj_A_ee_highPtA
@@ -866,7 +866,7 @@ baseNoLj_A_ee_highPtA: &baseNoLj_A_ee_highPtA
     genAs_toE:
       - "pT > 30 GeV"
   evt_cuts:
-    - *evt_pv_cuts
+    - *evt_baseNoLj
     - "genAs_toE"
 
 baseNoLj_A_ee_matched_lj_highPT: &baseNoLj_A_ee_matched_lj_highPT
