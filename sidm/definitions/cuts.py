@@ -48,6 +48,7 @@ obj_cut_defs = {
         "2gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n == 2),
         "egm_lj_iso < 0.2": lambda objs: objs["egm_ljs"].isolation < 0.2,
         "lostHits >= 1": lambda objs: ak.min(objs["egm_ljs"].electrons.trkNumPixelHits, axis=-1) >= 1,
+        "displaced": lambda objs: (ak.min(objs["egm_ljs"].electrons.trkNumPixelHits, axis=-1) >= 1) | (objs["egm_ljs"].photon_n > 0),
     },
     "mu_ljs": {
         "pfMuLj": lambda objs: (objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n == 0),
@@ -56,6 +57,7 @@ obj_cut_defs = {
         "1dsaMuLj": lambda objs: objs["mu_ljs"].dsaMu_n > 0,
         "mu_lj_iso < 0.1": lambda objs: objs["mu_ljs"].isolation < 0.1,
         "pf_pixelhits <= 2": lambda objs: ak.max(objs["mu_ljs"].pfMuons.trkNumPixelHits, axis=-1) <= 2,
+        "displaced": lambda objs: (ak.max(objs["mu_ljs"].pfMuons.trkNumPixelHits, axis=-1) <= 2) | (objs["mu_ljs"].dsaMu_n > 0) ,
     },
     "genMus":{
         "pT >= 10 GeV": lambda objs: objs["genMus"].pt >= 10,
