@@ -891,7 +891,7 @@ baseNoLj_A_ee_matched_lj_highPT_lowLxyA_iso_disp: &baseNoLj_A_ee_matched_lj_high
       - "dR(A, LJ) < 0.4"
     egm_ljs:
       - "egm_lj_iso < 0.2"
-      -  "lostHits >= 1"
+      -  "displaced"
   evt_cuts:
     - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
@@ -1125,7 +1125,7 @@ baseNoLj_A_mumu_matched_lj_highPT_iso_disp: &baseNoLj_A_mumu_matched_lj_highPT_d
       - "dR(A, LJ) < 0.4"
     mu_ljs:
       - "mu_lj_iso < 0.1"
-      - "pf_pixelhits <= 2"
+      - "displaced"
   evt_cuts:
     - *evt_baseNoLj
     - "genAs_toMu_matched_muLj"
