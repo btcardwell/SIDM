@@ -207,20 +207,35 @@ def check_bits(array, bit_nums):
 def get_hist_mean(h):
     """Return mean of 1D histogram"""
     return np.atleast_1d(h.profile(axis=0).view())[0].value
-
+    
 def plot_ratio(num, den, **kwargs):
-    plt.subplots(2, 1, figsize=(10, 10), sharex=True,
-                      gridspec_kw={'height_ratios': [2, 1],'hspace':0})
-    plt.subplot(2, 1, 1)
-    plot(num, flow='none')
-    plot(den, flow='none')
+    fig, (ax1, ax2) = plt.subplots(
+        2, 1, figsize=(15, 12:), sharex=True,
+        gridspec_kw={'height_ratios': [2, 1], 'hspace': 0}
+    )
+    plt.sca(ax1)
+    plot(den, flow='none', color="k", skip_label=True,
+         label=kwargs["legend"][0])
+
+    if not isinstance(num, list):
+        num = [num]
+
+    for i, x in enumerate(num):
+        plot(x, flow='none', label=kwargs["legend"][i + 1])
+
     if "legend" in kwargs:
-        plt.legend(kwargs["legend"])
-    plt.subplot(2, 1, 2)
-    eff, errors = get_eff_hist(num, den)
-    plot(eff,histtype='errorbar',yerr=errors,skip_label=True,color="black")
-    plt.ylabel("Efficiency")
-    plt.ylim(0, 1.2)
+        ax1.legend()
+
+    if "text" in kwargs:
+        hep.label.exp_text(kwargs["text"], loc=2)
+
+    plt.sca(ax2)
+    for x in num:
+        eff, errors = get_eff_hist(x, den)
+        plot(eff, histtype='errorbar', yerr=errors, skip_label=True)
+
+    ax2.set_ylabel("Efficiency")
+    ax2.set_ylim(0, 1.2)
 
 def round_sigfig(val, digits=1):
     """Return a number rounded to a given number of significant figures. Uses magic copied from
