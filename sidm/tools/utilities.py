@@ -210,7 +210,7 @@ def get_hist_mean(h):
     
 def plot_ratio(num, den, **kwargs):
     fig, (ax1, ax2) = plt.subplots(
-        2, 1, figsize=(15, 12:), sharex=True,
+        2, 1, figsize=(15, 12), sharex=True,
         gridspec_kw={'height_ratios': [2, 1], 'hspace': 0}
     )
     plt.sca(ax1)
