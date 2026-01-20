@@ -201,6 +201,8 @@ class SidmProcessor(processor.ProcessorABC):
         if type_id == 8:
             forms["trkNumPixelHits"] = 0*shape
             forms["trkNumTrkLayers"] = 0*shape
+        if type_id == 4:
+            forms["lostHits"] = 999*shape
         return vector.zip(forms)
 
     def make_constituent(self, consts, type_ids, name, fields):
@@ -275,9 +277,13 @@ class SidmProcessor(processor.ProcessorABC):
         ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", safe_pf_fields)
         ljs["dsaMuons"] = self.make_constituent(consts, [8], "DSAMuon", safe_dsa_fields)
     ######
-
-        ljs["electrons"] = self.make_constituent(consts, [2], "Electron", objs["electrons"].fields)
-        ljs["photons"] = self.make_constituent(consts, [4], "Photon", objs["photons"].fields)
+        extra_egamma_fields  = ["lostHits"]
+        safe_electron_fields = list(objs["electrons"].fields)
+        safe_photon_fields = list(objs["photons"].fields)
+        egamma_fields  =  list(set(safe_electron_fields).intersection(safe_photon_fields)) + extra_egamma_fields
+        ljs ["egamma"]  = self.make_constituent(consts, [2, 4], "Egamma", egamma_fields)
+        ljs["electrons"] = self.make_constituent(consts, [2], "Electron",safe_electron_fields )
+        ljs["photons"] = self.make_constituent(consts, [4], "Photon", safe_photon_fields)
 
         # define LJ-level quantities
 
