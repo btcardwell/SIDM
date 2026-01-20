@@ -48,7 +48,7 @@ obj_cut_defs = {
         "2gLj": lambda objs: (objs["egm_ljs"].electron_n == 0) & (objs["egm_ljs"].photon_n == 2),
         "egm_lj_iso < 0.2": lambda objs: objs["egm_ljs"].isolation < 0.2,
         "lostHits >= 1": lambda objs: ak.min(objs["egm_ljs"].electrons.trkNumPixelHits, axis=-1) >= 1,
-        "displaced": lambda objs: (ak.min(objs["egm_ljs"].electrons.trkNumPixelHits, axis=-1) >= 1) | (objs["egm_ljs"].photon_n > 0),
+        "displaced": lambda objs: (ak.min(objs["egm_ljs"].egamma.lostHits, axis=-1) >= 1) 
     },
     "mu_ljs": {
         "pfMuLj": lambda objs: (objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n == 0),
