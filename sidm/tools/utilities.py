@@ -210,8 +210,8 @@ def get_hist_mean(h):
 
 def plot_ratio(num, den, **kwargs):
     fig, (ax1, ax2) = plt.subplots(
-        2, 1, figsize=(15, 12), sharex=True,
-        gridspec_kw={'height_ratios': [2, 1], 'hspace': 0}
+        2, 1, figsize=(12, 12), sharex=True,
+        gridspec_kw={'height_ratios': [3, 1], 'hspace': 0}
     )
     plt.sca(ax1)
     plot(den, flow='none', color="k", skip_label=True,
@@ -224,11 +224,13 @@ def plot_ratio(num, den, **kwargs):
         plot(x, flow='none', label=kwargs["legend"][i + 1])
 
     if "legend" in kwargs:
-        ax1.legend()
+        ax1.legend( title = kwargs["text"], alignment="left", )
 
-    if "text" in kwargs:
-        hep.label.exp_text(kwargs["text"], loc=2)
-
+    if "ylim" in kwargs:
+        plt.ylim(kwargs["ylim"])
+    if "ylabel" in kwargs:
+        plt.ylabel(kwargs["ylabel"])
+    plt.tight_layout()
     plt.sca(ax2)
     for x in num:
         eff, errors = get_eff_hist(x, den)
