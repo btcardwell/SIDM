@@ -207,7 +207,7 @@ def check_bits(array, bit_nums):
 def get_hist_mean(h):
     """Return mean of 1D histogram"""
     return np.atleast_1d(h.profile(axis=0).view())[0].value
-    
+
 def plot_ratio(num, den, **kwargs):
     fig, (ax1, ax2) = plt.subplots(
         2, 1, figsize=(15, 12), sharex=True,
