@@ -392,6 +392,7 @@ genA_toMu_base: &genA_toMu_base
   - "genAs_toMu_matched_muLj_pt_lxy"
   - "genAs_toMu_pt_MuMudR_highRange"
   - "genAs_toMu_pt_highRange_MuMudR_lowRange"
+  - "genAs_toMu_lxy_lowRange"
 
 genA_toE_base: &genA_toE_base
   - "genAs_toE_n"
@@ -704,14 +705,16 @@ genA_toMu_effi_base: &genA_toMu_effi_base
   - "genMu_genMu_dR_lowRange"
   - "genMu_genMu_dR_XLowRange"
   - "genMu_genMu_dR_XXLowRange"
+  - "genAs_toMu_lxy_lowRange"
 
 genA_toE_effi_base: &genA_toE_effi_base
-   - "genAs_toE_pt"
+  - "genAs_toE_pt"
   - "genAs_toE_pt_highRange"
   - "genAs_toE_lxy"
   - "genE_genE_dR_lowRange"
   - "genE_genE_dR_XLowRange"
   - "genE_genE_dR_XXLowRange"
+  - "genAs_toE_lxy_lowRange"
 
 lj_reco_effi_base: &lj_reco_effi_base
   - *genA_toMu_effi_base
