@@ -959,6 +959,7 @@ baseNoLj_A_ee_matched_lj_lowLxyA_iso_disp: &baseNoLj_A_ee_matched_lj_lowLxyA_iso
       - "dR(A, LJ) < 0.4"
     egm_ljs:
       - "egm_lj_iso < 0.2"
+      -  "displaced"
   evt_cuts:
     - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
