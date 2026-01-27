@@ -931,6 +931,39 @@ baseNoLj_A_ee_matched_lj_lowLxyA: &baseNoLj_A_ee_matched_lj_lowLxyA
     - *evt_baseNoLj
     - "genAs_toE_matched_egmLj"
 
+baseNoLj_A_ee_matched_lj_lowLxyA_iso: &baseNoLj_A_ee_matched_lj_lowLxyA_iso
+  obj_cuts:
+    <<: *obj_baseNoLj
+    genAs_toE:
+      - "lxy <= 150 cm"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toE:
+      - "dR(A, LJ) < 0.4"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toE_matched_egmLj"
+
+baseNoLj_A_ee_matched_lj_lowLxyA_iso_disp: &baseNoLj_A_ee_matched_lj_lowLxyA_iso_disp
+  obj_cuts:
+    <<: *obj_baseNoLj
+    genAs_toE:
+      - "lxy <= 150 cm"
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toE:
+      - "dR(A, LJ) < 0.4"
+    egm_ljs:
+      - "egm_lj_iso < 0.2"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toE_matched_egmLj"
+
+
 baseNoLj_A_ee_matched_elj_highPT_lowLxyA: &baseNoLj_A_ee_matched_elj_highPT_lowLxyA
   <<: *baseNoLj
   obj_cuts:
