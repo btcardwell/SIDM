@@ -1067,6 +1067,14 @@ baseNoLj_A_mumu_highPtA: &baseNoLj_A_mumu_highPtA
     - *evt_baseNoLj
     - "genAs_toMu"
 
+baseNoLj_A_mumu: &baseNoLj_A_mumu
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toMu"
+
 baseNoLj_A_mumu_matched_lj: &baseNoLj_A_mumu_matched_lj
   <<: *baseNoLj
   obj_cuts:
@@ -1076,6 +1084,37 @@ baseNoLj_A_mumu_matched_lj: &baseNoLj_A_mumu_matched_lj
       - *lj_base
     genAs_toMu:
       - "dR(A, LJ) < 0.4"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toMu_matched_muLj"
+
+baseNoLj_A_mumu_matched_lj_iso: &baseNoLj_A_mumu_matched_lj_iso
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toMu:
+      - "dR(A, LJ) < 0.4"
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+  evt_cuts:
+    - *evt_baseNoLj
+    - "genAs_toMu_matched_muLj"
+
+baseNoLj_A_mumu_matched_lj_iso_disp: &baseNoLj_A_mumu_matched_lj_iso_disp
+  <<: *baseNoLj
+  obj_cuts:
+    <<: *obj_baseNoLj
+  postLj_obj_cuts:
+    ljs:
+      - *lj_base
+    genAs_toMu:
+      - "dR(A, LJ) < 0.4"
+    mu_ljs:
+      - "mu_lj_iso < 0.1"
+      - "displaced"
   evt_cuts:
     - *evt_baseNoLj
     - "genAs_toMu_matched_muLj"
