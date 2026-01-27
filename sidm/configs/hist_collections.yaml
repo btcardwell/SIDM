@@ -697,17 +697,24 @@ displacement_base: &displacement_base
   - *muon_displacement
   - *dxy_significance
 
-lj_reco_effi_base: &lj_reco_effi_base
-  - "genAs_toE_pt"
-  - "genAs_toE_pt_highRange"
-  - "genAs_toE_lxy"
+genA_toMu_effi_base: &genA_toMu_effi_base
   - "genAs_toMu_pt"
   - "genAs_toMu_pt_highRange"
   - "genAs_toMu_lxy"
-  - "genE_genE_dR_lowRange"
-  - "genE_genE_dR_XLowRange"
-  - "genE_genE_dR_XXLowRange"
   - "genMu_genMu_dR_lowRange"
   - "genMu_genMu_dR_XLowRange"
   - "genMu_genMu_dR_XXLowRange"
+
+genA_toE_effi_base: &genA_toE_effi_base
+   - "genAs_toE_pt"
+  - "genAs_toE_pt_highRange"
+  - "genAs_toE_lxy"
+  - "genE_genE_dR_lowRange"
+  - "genE_genE_dR_XLowRange"
+  - "genE_genE_dR_XXLowRange"
+
+lj_reco_effi_base: &lj_reco_effi_base
+  - *genA_toMu_effi_base
+  - *genA_toE_effi_base
+
 
