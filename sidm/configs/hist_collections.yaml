@@ -588,6 +588,7 @@ muon_displacement: &muon_displacement
   - "leading_mu_lj_pfMu_max_trkNumTrkLayers"
   - "leading_pf_mu_lj_pfMu_max_trkNumTrkLayers"
   - "leading_pf_dsa_mu_lj_pfMu_max_trkNumTrkLayers"
+  - "leading_mu_lj_pf_muon_min_dxy"
   
 electron_displacement: &electron_displacement
   - "egm_lj_electron_dxy_XXXLowRange"
@@ -607,6 +608,7 @@ electron_displacement: &electron_displacement
   - "leading_egm_lj_electron_min_lostHits"
   - "leading_e_lj_electron_min_lostHits"
   - "leading_eg_lj_electron_min_lostHits"
+  - "leading_egm_lj_electron_min_dxy"
   
 lj_displacement: &lj_displacement
   - "mulj_egmlj_invmass"
@@ -656,6 +658,9 @@ dxy_significance: &dxy_significance
   - "mu_lj_pfMuon_dxyErr"
   - "mu_lj_dsaMuon_dxyErr"
   - "egm_lj_electron_dxyErr"
+  - "leading_mu_lj_pf_muon_min_dxy_signi"
+  - "leading_mu_lj_pf_muon_max_dxy_signi"
+  - "leading_egm_lj_electron_min_dxy_signi"
 
 displacement_extra: &displacement_extra
   - "mu_lj_pfMuon_min_dxy"

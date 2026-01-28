@@ -1187,6 +1187,41 @@ hist_defs = {
                    lambda objs, mask: objs["mu_ljs"][(objs["mu_ljs"].pfMu_n > 0) & (objs["mu_ljs"].dsaMu_n == 0)].pfMuons.trkNumPixelHits),
         ],
     ),
+    "leading_egm_lj_electron_min_dxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"Leading $e\gamma$- type LJ  $e$ min $d_{xy}$"),
+                   lambda objs, mask: ak.max(objs["egm_ljs"][mask, 0].electrons.dxy, axis=-1)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["egm_ljs"]) > 0)
+    ),
+    "leading_egm_lj_electron_min_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 100, name=r"Leading $e\gamma$- type LJ  $e$ min $d_{xy}$  significance"),
+                   lambda objs, mask: ak.min(abs(objs["egm_ljs"][mask, 0].electrons.dxy/objs["egm_ljs"][mask, 0].electrons.dxyErr), axis =-1)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["mu_ljs"]) > 0)
+    ),
+    "leading_mu_lj_pf_muon_min_dxy": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.1, name=r"Leading $\mu$- type LJ PF $\mu$ min $d_{xy}$"),
+                   lambda objs, mask: ak.max(objs["mu_ljs"][mask, 0].pfMuons.dxy, axis=-1)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["mu_ljs"]) > 0)
+    ),
+    "leading_mu_lj_pf_muon_min_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 100, name=r"Leading $\mu$- type LJ PF $\mu$ min $d_{xy}$  significance"),
+                   lambda objs, mask: ak.min(abs(objs["mu_ljs"][mask, 0].pfMuons.dxy/objs["mu_ljs"][mask, 0].pfMuons.dxyErr), axis =-1)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["mu_ljs"]) > 0)
+    ),
+    "leading_mu_lj_pf_muon_max_dxy_signi": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 100, name=r"Leading $\mu$- type LJ PF $\mu$ max $d_{xy}$  significance"),
+                   lambda objs, mask: ak.max(abs(objs["mu_ljs"][mask, 0].pfMuons.dxy/objs["mu_ljs"][mask, 0].pfMuons.dxyErr), axis =-1)),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["mu_ljs"]) > 0)
+    ),
     "leading_mu_lj_muon_max_trkNumPixelHits": h.Histogram(
         [
             h.Axis(hist.axis.Regular(40, 0, 40, name=r"Leading $\mu$- type LJ $\mu$ max trkNumPixelHits"),
