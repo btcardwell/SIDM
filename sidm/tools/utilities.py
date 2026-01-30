@@ -6,6 +6,7 @@ import awkward as ak
 import numpy as np
 import matplotlib.pyplot as plt
 import mplhep as hep
+import scipy.optimize as opt
 import hist.intervals
 from sidm import BASE_DIR
 
@@ -336,7 +337,6 @@ def select_numbersPhoton(number, var1, var2):
 
     return selected
 
-
 def returnBitMapTArrayPhoton(bitMap, var1, var2):
     tList = []
     for i in range(len(bitMap)):
@@ -351,3 +351,154 @@ def returnBitMapTArrayPhoton(bitMap, var1, var2):
                 temp.append(False)
         tList.append(temp)
     return ak.Array(tList)
+
+def spin1_model(x, A, alpha):
+    """Physics model: dN/dCosTheta ~ A * (1 + alpha * cos^2(theta))"""
+    return A * (1 + alpha * x**2)
+
+def plot_and_fit_polarization(hist, ax=None, color='black', label_prefix="Data", fit_range=(0, 0.8), density=False):
+    """
+    Extracts data from a CosTheta histogram, fits the Spin-1 model, 
+    and plots Data + Fit + 1-Sigma Band.
+    
+    Args:
+        hist: The Coffea histogram object
+        ax: The matplotlib axis to plot on (creates new if None)
+        color: Color for the markers and fit line
+        label_prefix: String for the legend (e.g., "Gen Muons")
+        fit_range: Tuple (min, max) to restrict the fit (avoiding acceptance effects)
+        density (bool): If True, normalizes the histogram to unit area (probability density).
+                        Errors are scaled correctly to preserve statistical significance.
+    """
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(8, 6))
+
+    hep.histplot(hist, ax=ax, yerr=True, density=density, color=color, 
+                 histtype='errorbar', marker='o', markersize=4, capsize=2, 
+                 label=label_prefix)
+
+    raw_counts = hist.values().flatten()
+    edges = hist.axes[-1].edges
+    centers = (edges[:-1] + edges[1:]) / 2
+
+    min_len = min(len(raw_counts), len(centers))
+    raw_counts = raw_counts[:min_len]
+    centers = centers[:min_len]
+
+    if density:
+        widths = edges[1:] - edges[:-1]
+        widths = widths[:min_len]
+        integral = np.sum(raw_counts * widths)
+        scale_factor = 1.0 / (integral if integral > 0 else 1.0)
+    else:
+        scale_factor = 1.0
+        
+    y_values = raw_counts * scale_factor
+    y_err = np.sqrt(raw_counts) * scale_factor 
+    y_err[y_err == 0] = scale_factor 
+
+    mask = (centers >= fit_range[0]) & (centers <= fit_range[1])
+    x_fit = centers[mask]
+    y_fit = y_values[mask]
+    y_err_fit = y_err[mask]
+    
+    p0 = [np.max(y_fit), 0.5]
+    
+    try:
+        popt, pcov = opt.curve_fit(
+            spin1_model, x_fit, y_fit, sigma=y_err_fit, absolute_sigma=True, p0=p0
+        )
+        A_opt, alpha_opt = popt
+        perr = np.sqrt(np.diag(pcov))
+        
+        x_model = np.linspace(0, 1, 100)
+        y_model = spin1_model(x_model, *popt)
+        
+        label_fit = f"Fit ($\\alpha={alpha_opt:.2f} \\pm {perr[1]:.2f}$)"
+        ax.plot(x_model, y_model, '-', color=color, linewidth=2, label=label_fit)
+        
+        # Confidence Band
+        jac = np.vstack([1 + alpha_opt * x_model**2, A_opt * x_model**2]).T
+        y_sigma = np.sqrt(np.sum((jac @ pcov) * jac, axis=1))
+        
+        ax.fill_between(x_model, y_model - y_sigma, y_model + y_sigma, 
+                        color=color, alpha=0.2)
+        
+        ax.axvline(fit_range[1], color=color, linestyle=':', alpha=0.3)
+
+    except Exception as e:
+        print(f"Fit failed for {label_prefix}: {e}")
+
+    hep.cms.label()
+    return ax
+
+def gaussian_model(x, A, mu, sigma):
+    """Standard Gaussian with a norm, mean, and sigma param"""
+    return A * np.exp(-0.5 * ((x - mu) / sigma)**2)
+
+def plot_and_fit_gaussian(hist, ax=None, color='black', label_prefix="Data", fit_range=(-3, 3), density=False):
+    """
+    Extracts data from a histogram, fits the standard Gaussian model, 
+    and plots Data + Fit.
+    
+    Args:
+        hist: The Coffea histogram object
+        ax: The matplotlib axis to plot on (creates new if None)
+        color: Color for the markers and fit line
+        label_prefix: String for the legend (e.g., "Gen Muons")
+        fit_range: Tuple (min, max) to restrict the fit (avoiding acceptance effects)
+        density (bool): If True, normalizes the histogram to unit area (probability density).
+                        Errors are scaled correctly to preserve statistical significance.
+    """
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(8, 6))
+
+    hep.histplot(hist, ax=ax, yerr=True, density=density, color=color, 
+                 histtype='errorbar', marker='o', markersize=4, capsize=2, 
+                 label=label_prefix)
+
+    counts = hist.values().flatten()
+    edges = hist.axes[-1].edges
+    centers = (edges[:-1] + edges[1:]) / 2
+
+    if density:
+        widths = edges[1:] - edges[:-1]
+        integral = np.sum(counts * widths)
+        scale_factor = 1.0 / (integral if integral > 0 else 1.0)
+    else:
+        scale_factor = 1.0
+
+    y_fit = counts * scale_factor
+    y_err_fit = np.sqrt(counts) * scale_factor
+    y_err_fit[y_err_fit == 0] = scale_factor
+
+    mask = (centers >= fit_range[0]) & (centers <= fit_range[1])
+    x_fit = centers[mask]
+    y_fit = y_fit[mask]
+    y_err_fit = y_err_fit[mask]
+
+    if len(x_fit) > 0 and np.sum(y_fit) > 0:
+        mean_guess = np.average(x_fit, weights=y_fit)
+        sigma_guess = np.sqrt(np.average((x_fit - mean_guess)**2, weights=y_fit))
+        amp_guess = np.max(y_fit)
+    else:
+        mean_guess, sigma_guess, amp_guess = 0, 1, 1
+
+    p0 = [amp_guess, mean_guess, sigma_guess]
+    try:
+        popt, pcov = opt.curve_fit(
+            gaussian_model, x_fit, y_fit, sigma=y_err_fit, absolute_sigma=True, p0=p0
+        )
+        A_opt, mu_opt, sigma_opt = popt
+        
+        x_model = np.linspace(edges[0], edges[-1], 200)
+        y_model = gaussian_model(x_model, *popt)
+        
+        label_fit = rf"Fit: $\mu={mu_opt:.2f}, \sigma={abs(sigma_opt):.2f}$"
+        ax.plot(x_model, y_model, '-', color=color, linewidth=2, label=label_fit)
+        
+    except Exception as e:
+        print(f"Fit failed: {e}")
+
+    hep.cms.label()
+    return ax

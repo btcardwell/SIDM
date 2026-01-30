@@ -35,6 +35,26 @@ gen_level_cuts: &gen_level_cuts
     genEs:
       - "status 1"
 
+# require final-state gen e and mu
+gen_leptons_final: &gen_leptons_final
+  obj_cuts: &obj_gen_leptons_final
+    genMus:
+      - "status 1"
+    genEs:
+      - "status 1"
+  evt_cuts:
+    - "PV filter"
+
+# require born gen e and mu
+gen_leptons_born: &gen_leptons_born
+  obj_cuts: &obj_gen_leptons_born
+    genMus:
+      - "status 23"
+    genEs:
+      - "status 23"
+  evt_cuts:
+    - "PV filter"
+
 # apply trigger
 trigger: &trigger
   evt_cuts:

@@ -51,11 +51,13 @@ obj_cut_defs = {
     "genMus":{
         "pT >= 10 GeV": lambda objs: objs["genMus"].pt >= 10,
         "status 1": lambda objs: objs["genMus"].status == 1,
+        "status 23": lambda objs: objs["genMus"].status == 23,
         "fromGenA": lambda objs: abs(objs["genMus"].distinctParent.pdgId) == 32,
         "parent == A": lambda objs: abs(objs["genMus"].parent.pdgId) == 32,
     },
     "genEs":{
         "status 1": lambda objs: objs["genEs"].status == 1,
+        "status 23": lambda objs: objs["genEs"].status == 23,
         "fromGenA": lambda objs: abs(objs["genEs"].distinctParent.pdgId) == 32,
         "parent == A": lambda objs: abs(objs["genEs"].parent.pdgId) == 32,
     },

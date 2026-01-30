@@ -42,6 +42,10 @@ obj_labels = {
     "genAs_toMu": r"$Z_d\rightarrow \mu\mu$",
     "genAs_toE": r"$Z_d\rightarrow ee$",
     "pvs": "PV",
+    "genMus_fromA": r"Gen $\mu$ (from $Z_d$)",
+    "genEs_fromA":  r"Gen $e$ (from $Z_d$)",
+    "genBSs_toA":  r"Gen BS (to $Z_d$)",
+    "genBS_from_genAs": r"BS (reco from Gen $Z_d$)"
 }
 attr_labels = {
     "pt": r"$p_T$ (GeV)",
@@ -49,6 +53,9 @@ attr_labels = {
     "phi": r"$\phi$",
     "lxy": r"$L_{{xy}}$ (cm) ",
     "dxy": r"$d_0$",
+    "mass": "Mass (GeV)",
+    "gamma": r"Lorentz Factor $\gamma$",
+    "status": "Gen Status (1=Final, 23=Born)",
 }
 default_binnings = {
     "n":  (10, 0, 10),
@@ -56,6 +63,9 @@ default_binnings = {
     "eta": (50, -3, 3),
     "phi": (50, -1*math.pi, math.pi),
     "lxy": (100, 0, 100),
+    "mass": (100, 0, 1000),
+    "gamma": (100, 0, 5000),
+    "status": (60, -30, 30),
 }
 
 
@@ -86,6 +96,69 @@ def obj_eta_phi(obj, nbins_x=None, xmin=None, xmax=None, nbins_y=None, ymin=None
         obj_attr(obj, "phi", nbins_y, ymin, ymax),
     )
 
+def boost_to_frame(daughter, parent, mass=-1):
+    """
+    Boosts 'daughter' particles into the rest frame of 'parent' particles.
+    Returns the boosted 4-vector array.
+    """
+    daughter_p4 = ak.zip(
+        {"pt": daughter.pt, "eta": daughter.eta, "phi": daughter.phi, "mass": daughter.mass \
+         if mass<0 else ak.full_like(daughter.pt, mass)},
+        with_name="PtEtaPhiMLorentzVector"
+    )
+    parent_p4 = ak.zip(
+        {"pt": parent.pt, "eta": parent.eta, "phi": parent.phi, "mass": parent.mass},
+        with_name="PtEtaPhiMLorentzVector"
+    )
+    return daughter_p4.boost(-parent_p4.boostvec)
+
+def cos_theta_in_parent_frame(objs, mask, obj_name, mass=-1):
+    """
+    Calculates the cosine of the angle between the object in the rest frame 
+    of its parent and the parent's flight direction in the Lab frame.
+    """
+    import numpy
+    parts = objs[obj_name][mask]
+    parents = parts.parent
+    boosted_parts = boost_to_frame(parts, parents, mass=mass)
+    parent_p4 = ak.zip(
+        {"pt": parents.pt, "eta": parents.eta, "phi": parents.phi, "mass": parents.mass},
+        with_name="PtEtaPhiMLorentzVector"
+    )
+    deltaangle = boosted_parts.deltaangle(parent_p4)
+    return numpy.cos(deltaangle)
+
+def pt_in_parent_frame(objs, mask, obj_name, mass=-1):
+    """
+    Boosts the object into its parent's rest frame and returns the pT.
+    """
+    parts = objs[obj_name][mask]
+    parents = parts.parent
+    boosted_parts = boost_to_frame(parts, parents, mass=mass)
+    return boosted_parts.pt
+
+def pt_sorted_in_parent_frame(objs, mask, obj_name, idx, mass=-1):
+    """
+    Sorts leptons by Lab pT, boosts them to parent frame, and returns pT of the Nth lepton.
+    """
+    parts = objs[obj_name][mask]
+    sort_indices = ak.argsort(parts.pt, axis=-1, ascending=False)
+    sorted_parts = parts[sort_indices]
+    parents = sorted_parts.parent
+    boosted_parts = boost_to_frame(sorted_parts, parents, mass=mass)
+    return boosted_parts[:, idx].pt
+
+def lab_pt_ratio(objs, mask, lep_name):
+    """
+    Returns the ratio of Subleading pT / Leading pT in the Lab Frame.
+    Value is always between 0 and 1.
+    """
+    parts = objs[lep_name][mask]
+    sort_indices = ak.argsort(parts.pt, axis=-1, ascending=False)
+    sorted_parts = parts[sort_indices]
+    leading_pt = sorted_parts[:, 0].pt
+    subleading_pt = sorted_parts[:, 1].pt
+    return subleading_pt / leading_pt
 
 # define histograms
 hist_defs = {
@@ -2517,4 +2590,150 @@ hist_defs = {
         evt_mask=lambda objs: ((ak.num(matched(objs["genMus"], objs["muons"], 0.4)) > 0)
                                & (ak.num(matched(objs["genAs"], objs["muons"], 0.4)) > 0)),
     ),
+    # Bound State Kinematics
+    "genBS_n": h.Histogram([
+                               h.Axis(hist.axis.Integer(0, 10, name=r"Num BS to $Z_d$"),
+                                      lambda objs, mask: ak.num(objs["genBSs_toA"].pt) 
+                                     ),
+                           ],
+    ),
+    "genBS_pt":              obj_attr("genBSs_toA", "pt", xmax=1000),
+    "genBS_eta":             obj_attr("genBSs_toA", "eta", nbins=50, xmin=-10, xmax=10),
+    "genBS_phi":             obj_attr("genBSs_toA", "phi"),
+    "genBS_mass":            obj_attr("genBSs_toA", "mass", xmax=1200),
+    "genBS_from_genAs_pt":   obj_attr("genBS_from_genAs", "pt", xmax=1000),
+    "genBS_from_genAs_eta":  obj_attr("genBS_from_genAs", "eta", nbins=50, xmin=-10, xmax=10),
+    "genBS_from_genAs_phi":  obj_attr("genBS_from_genAs", "phi"),
+    "genBS_from_genAs_mass": obj_attr("genBS_from_genAs", "mass", xmax=1200),
+    # Dark Photon Kinematics
+    "genA_n": h.Histogram([
+                               h.Axis(hist.axis.Integer(0, 10, name=r"Num $Z_d$"),
+                                      lambda objs, mask: ak.num(objs["genAs"].pt) 
+                                     ),
+                           ],
+    ),
+    "genAs_mass":  obj_attr("genAs", "mass", nbins=100, xmax=10),
+    "genAs_eta":   obj_attr("genAs", "eta", nbins=50, xmin=-5, xmax=5),
+    "genAs_phi":   obj_attr("genAs", "phi"),
+    "genAs_pt":    obj_attr("genAs", "pt", xmax=1000),
+    "genAs_gamma": obj_attr("genAs", "gamma"),
+    "genAs_cosTheta_bsFrame": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, -1, 1, name="genAs_cosTheta", label=r"$\cos\theta^*$ ($Z_d$ in BS Frame)"),
+                   lambda objs, mask: cos_theta_in_parent_frame(objs, mask, "genAs")),
+        ],
+    ),
+    "genAs_cosTheta_centralBS": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, -1, 1, name="genAs_cosTheta", label=r"$\cos\theta^*$ (Central BS)"),
+                   lambda objs, mask: cos_theta_in_parent_frame(objs, mask, "genAs")),
+        ],
+        evt_mask=lambda objs: (ak.num(objs["genBSs_toA"]) > 0) & (abs(objs["genBSs_toA"][:, 0].eta) < 1.0),
+    ),
+    "genMus_fromA_n": h.Histogram([
+                               h.Axis(hist.axis.Integer(0, 10, name=r"Num Gen $\mu$ (from $Z_d$)"),
+                                      lambda objs, mask: ak.num(objs["genMus_fromA"].pt) 
+                                     ),
+                           ],
+    ),
+    "genEs_fromA_n": h.Histogram([
+                               h.Axis(hist.axis.Integer(0, 10, name=r"Num Gen $e$ (from $Z_d$)"),
+                                      lambda objs, mask: ak.num(objs["genEs_fromA"].pt) 
+                                     ),
+                           ],
+    ),
+    "genA_from_genMus_mass":  obj_attr("genA_from_genMus", "mass", nbins=100, xmax=10),
+    "genA_from_genMus_eta":   obj_attr("genA_from_genMus", "eta", nbins=50, xmin=-5, xmax=5),
+    "genA_from_genMus_phi":   obj_attr("genA_from_genMus", "phi"),
+    "genA_from_genMus_pt":    obj_attr("genA_from_genMus", "pt", xmax=1000),
+    "genA_from_genEs_mass":   obj_attr("genA_from_genEs", "mass", nbins=100, xmax=10),
+    "genA_from_genEs_eta":    obj_attr("genA_from_genEs", "eta", nbins=50, xmin=-5, xmax=5),
+    "genA_from_genEs_phi":    obj_attr("genA_from_genEs", "phi"),
+    "genA_from_genEs_pt":     obj_attr("genA_from_genEs", "pt", xmax=1000),
+    # Lepton Kinematics
+    "genMus_status":         obj_attr("genMus", "status"),
+    "genEs_status":          obj_attr("genEs", "status"),
+    "genMus_fromA_status":   obj_attr("genMus_fromA", "status"),
+    "genEs_fromA_status":    obj_attr("genEs_fromA", "status"),
+    "genMus_fromA_eta":      obj_attr("genMus_fromA", "eta"),
+    "genEs_fromA_eta":       obj_attr("genEs_fromA", "eta"),
+    "genMu_AFrame_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 3, name="genMu_AFrame_pt", 
+                                     label=r"Gen $\mu$ $p_T$ in $Z_d$ Frame [GeV]"),
+                   lambda objs, mask: pt_in_parent_frame(objs, mask, "genMus_fromA", mass=0.105658)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus_fromA"]) > 0,
+    ),
+    "genE_AFrame_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 3, name="genE_AFrame_pt", 
+                                     label=r"Gen $e$ $p_T$ in $Z_d$ Frame [GeV]"),
+                   lambda objs, mask: pt_in_parent_frame(objs, mask, "genEs_fromA", mass=0.000511)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs_fromA"]) > 0,
+    ),
+    "genMu0_AFrame_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 3, name="genMu0_AFrame_pt", label=r"Gen $\mu$ $p_T$ ($Z_d$ Frame)"),
+                   lambda objs, mask: pt_sorted_in_parent_frame(objs, mask, "genMus_fromA", 0, mass=0.105658)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus_fromA"]) > 0,
+    ),
+    "genMu1_AFrame_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 3, name="genMu1_AFrame_pt", label=r"Gen $\mu$ $p_T$ ($Z_d$ Frame)"),
+                   lambda objs, mask: pt_sorted_in_parent_frame(objs, mask, "genMus_fromA", 1, mass=0.105658)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus_fromA"]) > 1,
+    ),
+    "genE0_AFrame_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 3, name="genE0_AFrame_pt", label=r"Gen $e$ $p_T$ ($Z_d$ Frame)"),
+                   lambda objs, mask: pt_sorted_in_parent_frame(objs, mask, "genEs_fromA", 0, mass=0.000511)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs_fromA"]) > 0,
+    ),
+    "genE1_AFrame_pt": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 3, name="genE1_AFrame_pt", label=r"Gen $e$ $p_T$ ($Z_d$ Frame)"),
+                   lambda objs, mask: pt_sorted_in_parent_frame(objs, mask, "genEs_fromA", 1, mass=0.000511)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs_fromA"]) > 1,
+    ),
+    "genMu_AFrame_absCosTheta": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(25, 0, 1, name="cosTheta", label=r"Gen $\mu$ $|\cos\theta^*|$ (in $Z_d$ Frame)"),
+                   lambda objs, mask: abs(cos_theta_in_parent_frame(objs, mask, "genMus_fromA", mass=0.105658))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus_fromA"]) >= 2,
+    ),
+    "genE_AFrame_absCosTheta": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(25, 0, 1, name="cosTheta", label=r"Gen $e$ $|\cos\theta^*|$ (in $Z_d$ Frame)"),
+                   lambda objs, mask: abs(cos_theta_in_parent_frame(objs, mask, "genEs_fromA", mass=0.000511))),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs_fromA"]) >= 2,
+    ),
+    "genMu_ptRatio_vs_absCosTheta": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 1, name="cosTheta", label=r"Gen $\mu$ $|\cos\theta^*|$"),
+                   lambda objs, mask: abs(cos_theta_in_parent_frame(objs, mask, "genMus_fromA", mass=0.105658))[:, 0]),
+            
+            h.Axis(hist.axis.Regular(50, 0, 1, name="ptRatio", label=r"Lab Frame Ratio $p_T^{sub} / p_T^{lead}$"),
+                   lambda objs, mask: lab_pt_ratio(objs, mask, "genMus_fromA")),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genMus_fromA"]) >= 2,
+    ),
+    "genE_ptRatio_vs_absCosTheta": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 1, name="cosTheta", label=r"Gen $e$ $|\cos\theta^*|$"),
+                   lambda objs, mask: abs(cos_theta_in_parent_frame(objs, mask, "genEs_fromA", mass=0.000511))[:, 0]),
+            
+            h.Axis(hist.axis.Regular(50, 0, 1, name="ptRatio", label=r"Lab Frame Ratio $p_T^{sub} / p_T^{lead}$"),
+                   lambda objs, mask: lab_pt_ratio(objs, mask, "genEs_fromA")),
+        ],
+        evt_mask=lambda objs: ak.num(objs["genEs_fromA"]) >= 2,
+    ),
+    
 }

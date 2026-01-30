@@ -10,6 +10,9 @@ def pid(part, val):
 def toPid(part, val):
     return part[ak.all(abs(part.children.pdgId) == val, axis=-1)]
 
+def fromPid(part, val):
+    return part[abs(part.parent.pdgId) == val]
+
 def yesMu(lj):
     return lj[lj.muon_n > 0]
 
@@ -34,6 +37,16 @@ def nE(lj, n):
 def nPhoton(lj, n):
     return lj[lj.photon_n == n]
 
+def withMass(part, mass):
+    return ak.zip(
+        {
+            "pt": part.pt,
+            "eta": part.eta,
+            "phi": part.phi,
+            "mass": ak.full_like(part.pt, mass),
+        },
+        with_name="PtEtaPhiMLorentzVector",
+    )
 
 # define objects whose definitions don't depend on LJs
 preLj_objs = {}
@@ -50,6 +63,11 @@ preLj_objs["gens"]       = lambda evts: evts.GenPart
 preLj_objs["genMus"]     = lambda evts: pid(preLj_objs["gens"](evts), 13)
 preLj_objs["genEs"]      = lambda evts: pid(preLj_objs["gens"](evts), 11)
 preLj_objs["genAs"]      = lambda evts: pid(preLj_objs["gens"](evts), 32)
+preLj_objs["genA_from_genMus"] = lambda evts: withMass(fromPid(preLj_objs["genMus"](evts), 32), 0.105658).sum()
+preLj_objs["genA_from_genEs"]  = lambda evts: withMass(fromPid(preLj_objs["genEs"](evts),  32), 0.000511).sum()
+preLj_objs["genBSs"]     = lambda evts: pid(preLj_objs["gens"](evts), 35)
+preLj_objs["genBSs_toA"] = lambda evts: toPid(preLj_objs["genBSs"](evts), 32)
+preLj_objs["genBS_from_genAs"] = lambda evts: preLj_objs["genAs"](evts).sum()
 preLj_objs["genAs_toMu"] = lambda evts: toPid(preLj_objs["genAs"](evts), 13)
 preLj_objs["genAs_toE"]  = lambda evts: toPid(preLj_objs["genAs"](evts), 11)
 preLj_objs["rho_PFIso"]  = lambda evts: evts.fixedGridRhoFastjetAll
@@ -64,6 +82,9 @@ postLj_objs["pfmu_ljs"]     = lambda objs: noDsa(objs["mu_ljs"])
 postLj_objs["dsamu_ljs"]    = lambda objs: noPf(objs["mu_ljs"])
 postLj_objs["electron_ljs"] = lambda objs: noPhoton(objs["egm_ljs"])
 postLj_objs["photon_ljs"]   = lambda objs: noE(objs["egm_ljs"])
+# Adding the following here since I want the cuts on genMus and genEs to be applied
+postLj_objs["genMus_fromA"] = lambda objs: fromPid(objs["genMus"], 32)
+postLj_objs["genEs_fromA"]  = lambda objs: fromPid(objs["genEs"],  32)
 
 # define objects that depend on extra parameters determined in hist or cut definitions
 derived_objs = {}
