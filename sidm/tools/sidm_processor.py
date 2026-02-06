@@ -14,7 +14,7 @@ import vector
 from sidm import BASE_DIR
 from sidm.tools import selection, cutflow, utilities
 from sidm.definitions.hists import hist_defs, counter_defs
-from sidm.definitions.objects import preLj_objs, postLj_objs
+from sidm.definitions.objects import preLj_objs, preLj_objs_MC, postLj_objs, postLj_objs_MC
 import coffea.nanoevents.transforms as tr
 
 def _patched_local2global(stack):
@@ -59,11 +59,17 @@ class SidmProcessor(processor.ProcessorABC):
         self.histograms_cfg = histograms_cfg
         self.unweighted_hist = unweighted_hist
         self.obj_defs = preLj_objs
+        self.postLj_objs = postLj_objs
         self.verbose = verbose
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
         is_data = events.metadata["is_data"]
+        if not is_data:
+            self.objs_defs = self.obj_defs | preLj_objs_MC
+            self.postLj_objs = postLj_objs | postLj_objs_MC
+        else:
+            pass
         # create object collections
         # fixme: only include objs used in cuts or hists
         objs = {}
@@ -127,7 +133,8 @@ class SidmProcessor(processor.ProcessorABC):
                 sel_objs = lj_selection.apply_obj_cuts(sel_objs)
 
                 # add post-lj objects to sel_objs
-                for obj in postLj_objs:
+                for obj in self.postLj_objs:
+                    print (obj)
                     sel_objs[obj] = postLj_objs[obj](sel_objs)
 
                 # apply post-lj obj selection
@@ -271,7 +278,7 @@ class SidmProcessor(processor.ProcessorABC):
 
         extra_muon_fields =  ["trkNumPixelHits","trkNumTrkLayers" ]
         muon_fields = list(set(safe_pf_fields).intersection(safe_dsa_fields)) + extra_muon_fields
-       
+
 
         ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
         ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", safe_pf_fields)
@@ -302,7 +309,7 @@ class SidmProcessor(processor.ProcessorABC):
             ljs["constituents"].metric_table(ljs["constituents"], axis=2), axis=-1), axis=-1)
 
         # LJ isolation
-        ljs["matched_jet"] = ljs.nearest(objs["jets"], threshold=0.4)       
+        ljs["matched_jet"] = ljs.nearest(objs["jets"], threshold=0.4)
         ljs["lepton_fraction"] =  ljs["matched_jet"].chEmEF + ljs["matched_jet"].neEmEF + ljs["matched_jet"].muEF
         ljs["isolation"] = ak.fill_none((ljs["matched_jet"].energy / ljs.energy) * (1 - (ljs["lepton_fraction"])), 0)
         ljs["dR_matched_jet"] = ljs.delta_r(ljs["matched_jet"])
